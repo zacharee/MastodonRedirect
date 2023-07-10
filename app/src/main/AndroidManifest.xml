@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.MastodonRedirect"
+        tools:targetApi="31">
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".RedirectActivity"
+            android:exported="true"
+            android:theme="@style/AppTheme.Transparent"
+            android:excludeFromRecents="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="https" />
+                <data android:scheme="http" />
+
+                <!-- https://instances.social/list/advanced#lang=&allowed=&prohibited=&min-users=&max-users= -->
+                <data android:host="mastodon.social" />
+                <data android:host="mastodon.online" />
+                <data android:host="androiddev.social" />
+                <data android:host="pawoo.net" />
+                <data android:host="daystorm.netz.org" />
+                <data android:host="mstdn.jp" />
+                <data android:host="baraag.net" />
+                <data android:host="mastodon.cloud" />
+                <data android:host="mstdn.social" />
+                <data android:host="mastodon.world" />
+                <data android:host="counter.social" />
+                <data android:host="mas.to" />
+                <data android:host="pravda.me" />
+                <data android:host="gc2.jp" />
+                <data android:host="pixelfed.social" />
+                <data android:host="techhub.social" />
+                <data android:host="universeodon.com" />
+                <data android:host="mastodon.sdf.org" />
+                <data android:host="mastodonapp.uk" />
+                <data android:host="masto.ai" />
+                <data android:host="mastodon.uno" />
+                <data android:host="c.im" />
+                <data android:host="fosstodon.org" />
+                <data android:host="infosec.exchange" />
+                <data android:host="mastodon.top" />
+                <data android:host="brighteon.social" />
+                <data android:host="mstdn.party" />
+                <data android:host="hachyderm.io" />
+                <data android:host="kids.0px.io" />
+                <data android:host="troet.cafe" />
+                <data android:host="m.cmx.im" />
+                <data android:host="mastodon.nl" />
+                <data android:host="ohai.social" />
+                <data android:host="mamot.fr" />
+                <data android:host="sfba.social" />
+                <data android:host="kolektiva.social" />
+                <data android:host="mindly.social" />
+                <data android:host="mstdn.ca" />
+                <data android:host="mastodon.art" />
+                <data android:host="fedibird.com" />
+                <data android:host="social.vivaldi.net" />
+                <data android:host="loforo.com" />
+                <data android:host="tkz.one" />
+                <data android:host="mast.lat" />
+                <data android:host="mastorock.com" />
+                <data android:host="toot.community" />
+                <data android:host="poa.st" />
+                <data android:host="alive.bar" />
+                <data android:host="mastodon.scot" />
+                <data android:host="mastodon.xyz" />
+                <data android:host="mastodon.gamedev.place" />
+                <data android:host="qoto.org" />
+                <data android:host="mastodon.au" />
+                <data android:host="ioc.exchange" />
+                <data android:host="pixelfed.de" />
+                <data android:host="piaille.fr" />
+                <data android:host="aus.social" />
+                <data android:host="ravenation.club" />
+                <data android:host="masto.nu" />
+                <data android:host="wxw.moe" />
+                <data android:host="twingyeo.kr" />
+                <data android:host="mastouille.fr" />
+                <data android:host="spinster.xyz" />
+                <data android:host="newsie.social" />
+                <data android:host="planet.moe" />
+                <data android:host="social.tchncs.de" />
+                <data android:host="mastodon.bida.im" />
+                <data android:host="mastodon.ie" />
+                <data android:host="mastodon.com.tr" />
+                <data android:host="det.social" />
+                <data android:host="nerdculture.de" />
+                <data android:host="nrw.social" />
+                <data android:host="m.rthome.me" />
+                <data android:host="o3o.ca" />
+                <data android:host="adbl.link" />
+                <data android:host="mastodontech.de" />
+                <data android:host="mastodon.nu" />
+                <data android:host="thu.closed.social" />
+                <data android:host="theblower.au" />
+                <data android:host="mathstodon.xyz" />
+                <data android:host="glasgow.social" />
+                <data android:host="mao.mastodonhub.com" />
+                <data android:host="sueden.social" />
+                <data android:host="ieji.de" />
+                <data android:host="toot.wales" />
+                <data android:host="noc.social" />
+                <data android:host="mastodon-japan.net" />
+                <data android:host="me.dm" />
+                <data android:host="norden.social" />
+                <data android:host="eldritch.cafe" />
+                <data android:host="kinky.business" />
+                <data android:host="tech.lgbt" />
+                <data android:host="octodon.social" />
+                <data android:host="meow.social" />
+                <data android:host="mastodon.green" />
+                <data android:host="social.cologne" />
+                <data android:host="bookwyrm.social" />
+                <data android:host="awscommunity.social" />
+                <data android:host="mastodon.iriseden.eu" />
+                <data android:host="indieweb.social" />
+                <data android:host="social.linux.pizza" />
+                <data android:host="mstdn.plus" />
+                <data android:host="muenchen.social" />
+                <data android:host="framapiaf.org" />
+                <data android:host="toot.io" />
+                <data android:host="sself.co" />
+                <data android:host="med-mastodon.com" />
+                <data android:host="ruhr.social" />
+                <data android:host="sigmoid.social" />
+                <data android:host="social.anoxinon.de" />
+                <data android:host="mstdn.tokyocameraclub.com" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>

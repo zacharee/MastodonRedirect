@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Mastodon Redirect</string>
+
+    <string name="selected_app">Selected App</string>
+    <string name="megalodon">Megalodon</string>
+    <string name="fedilab">Fedilab</string>
+</resources>

@@ -10,6 +10,8 @@ activity-compose = "1.7.2"
 compose-bom = "2023.06.01"
 material-components = "1.9.0"
 preferences = "1.2.0"
+hiddenApiBypass = "4.3"
+lifecycleRuntimeCompose = "2.7.0-SNAPSHOT"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -28,6 +30,8 @@ ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 material3 = { group = "androidx.compose.material3", name = "material3" }
 materialComponents = { group = "com.google.android.material", name = "material", version.ref = "material-components" }
 preferences = { group = "androidx.preference", name = "preference", version.ref = "preferences" }
+hiddenApiBypass = { group = "org.lsposed.hiddenapibypass", name = "hiddenapibypass", version.ref = "hiddenApiBypass" }
+lifecycleRuntimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

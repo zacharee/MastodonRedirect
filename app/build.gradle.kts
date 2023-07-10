@@ -6,7 +6,7 @@ plugins {
 
 android {
     namespace = "dev.zwander.mastodonredirect"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "dev.zwander.mastodonredirect"
@@ -51,7 +51,6 @@ android {
 }
 
 dependencies {
-
     implementation(libs.core.ktx)
     implementation(libs.lifecycle.runtime.ktx)
     implementation(libs.activity.compose)
@@ -62,6 +61,8 @@ dependencies {
     implementation(libs.material3)
     implementation(libs.materialComponents)
     implementation(libs.preferences)
+    implementation(libs.hiddenApiBypass)
+    implementation(libs.lifecycleRuntimeCompose)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

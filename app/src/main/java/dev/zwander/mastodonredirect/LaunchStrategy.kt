@@ -12,7 +12,7 @@ val launchStrategies by lazy {
         Fedilab.key to Fedilab,
         SubwayTooter.key to SubwayTooter,
         Moshidon.key to Moshidon,
-    )
+    ).toSortedMap()
 }
 
 sealed class LaunchStrategy(

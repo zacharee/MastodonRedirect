@@ -6,4 +6,11 @@
     <string name="fedilab">Fedilab</string>
     <string name="subway_tooter">Subway Tooter</string>
     <string name="moshidon">Moshidon</string>
+
+    <string name="choose_app">Choose App</string>
+    <string name="choose_app_desc">The following apps are supported by Mastodon Redirect. You can choose which one should be launched when handling supported links.</string>
+
+    <string name="link_handling">Link Handling</string>
+    <string name="link_handling_desc">To use Mastodon Redirect, you\'ll need to enable all supported links in Settings.</string>
+    <string name="enable">Enable</string>
 </resources>

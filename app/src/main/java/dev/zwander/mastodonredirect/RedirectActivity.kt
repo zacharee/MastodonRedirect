@@ -1,6 +1,7 @@
 package dev.zwander.mastodonredirect
 
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
@@ -15,9 +16,16 @@ class RedirectActivity : ComponentActivity(), CoroutineScope by MainScope() {
         val url = intent?.data?.toString()
 
         if (url?.contains("oauth/authorize") == true) {
-            startActivity(Intent(Intent.ACTION_VIEW).apply {
-                data = intent?.data
-            })
+            startActivity(
+                Intent(Intent.ACTION_VIEW).apply {
+                    addCategory(Intent.CATEGORY_BROWSABLE)
+                    data = intent?.data
+                    selector = Intent(Intent.ACTION_VIEW).apply {
+                        addCategory(Intent.CATEGORY_BROWSABLE)
+                        data = Uri.parse("https://")
+                    }
+                }
+            )
         } else {
             prefs.selectedApp.run {
                 createIntents(url).forEach {

@@ -4,7 +4,6 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.annotation.StringRes
 
 val launchStrategies by lazy {
@@ -38,8 +37,6 @@ object Megalodon : LaunchStrategy("MEGALODON", R.string.megalodon) {
 
 object Fedilab : LaunchStrategy("FEDILAB", R.string.fedilab) {
     override fun Context.createIntents(url: String?): List<Intent> {
-        Log.e("MastodonRedirect", "url: $url")
-
         val baseIntent = Intent(Intent.ACTION_VIEW)
         baseIntent.data = url?.let { Uri.parse(url) }
 

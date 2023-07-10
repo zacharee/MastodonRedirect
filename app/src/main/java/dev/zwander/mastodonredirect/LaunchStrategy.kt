@@ -10,6 +10,7 @@ val launchStrategies by lazy {
     mapOf(
         Megalodon.key to Megalodon,
         Fedilab.key to Fedilab,
+        SubwayTooter.key to SubwayTooter,
     )
 }
 
@@ -56,6 +57,21 @@ object Fedilab : LaunchStrategy("FEDILAB", R.string.fedilab) {
                     "app.fedilab.android.activities.MainActivity"
                 )
             }
+        )
+    }
+}
+
+object SubwayTooter : LaunchStrategy("SUBWAY_TOOTER", R.string.subway_tooter) {
+    override fun Context.createIntents(url: String?): List<Intent> {
+        return listOf(
+            Intent(Intent.ACTION_VIEW).apply {
+                `package` = "jp.juggler.subwaytooter"
+                component = ComponentName(
+                    "jp.juggler.subwaytooter",
+                    "jp.juggler.subwaytooter.ActCallback"
+                )
+                data = url?.let { Uri.parse(url) }
+            },
         )
     }
 }

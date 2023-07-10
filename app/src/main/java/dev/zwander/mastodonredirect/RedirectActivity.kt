@@ -14,14 +14,20 @@ class RedirectActivity : ComponentActivity(), CoroutineScope by MainScope() {
 
         val url = intent?.data?.toString()
 
-        prefs.selectedApp.run {
-            createIntents(url).forEach {
-                it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        if (url?.contains("oauth/authorize") == true) {
+            startActivity(Intent(Intent.ACTION_VIEW).apply {
+                data = intent?.data
+            })
+        } else {
+            prefs.selectedApp.run {
+                createIntents(url).forEach {
+                    it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-                try {
-                    startActivity(it)
-                } catch (e: Exception) {
-                    Log.e("MastodonRedirect", "Error launching.", e)
+                    try {
+                        startActivity(it)
+                    } catch (e: Exception) {
+                        Log.e("MastodonRedirect", "Error launching.", e)
+                    }
                 }
             }
         }

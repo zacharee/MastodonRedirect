@@ -44,7 +44,7 @@ If you want to add support for another app, here's the process:
    val launchStrategies by lazy { 
         mapOf(
             Megalodon.key to Megalodon,
-            ...
+            // ...
             YourNewClient.key to YourNewClient,
         ).toSortedMap()
    }

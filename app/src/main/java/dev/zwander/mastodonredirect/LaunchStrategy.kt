@@ -11,6 +11,7 @@ val launchStrategies by lazy {
         Megalodon.key to Megalodon,
         Fedilab.key to Fedilab,
         SubwayTooter.key to SubwayTooter,
+        Moshidon.key to Moshidon,
     )
 }
 
@@ -71,6 +72,21 @@ object SubwayTooter : LaunchStrategy("SUBWAY_TOOTER", R.string.subway_tooter) {
                     "jp.juggler.subwaytooter.ActCallback"
                 )
                 data = url?.let { Uri.parse(url) }
+            },
+        )
+    }
+}
+
+object Moshidon : LaunchStrategy("MOSHIDON", R.string.moshidon) {
+    override fun Context.createIntents(url: String?): List<Intent> {
+        return listOf(
+            Intent(Intent.ACTION_SEND).apply {
+                putExtra(Intent.EXTRA_TEXT, url)
+                `package` = "org.joinmastodon.android.moshinda"
+                component = ComponentName(
+                    "org.joinmastodon.android.moshinda",
+                    "org.joinmastodon.android.ExternalShareActivity"
+                )
             },
         )
     }

@@ -13,6 +13,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -20,7 +21,9 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -43,6 +46,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.core.view.WindowCompat
 import androidx.lifecycle.Lifecycle
 import dev.zwander.mastodonredirect.ui.theme.MastodonRedirectTheme
 import org.lsposed.hiddenapibypass.HiddenApiBypass
@@ -57,14 +61,21 @@ class MainActivity : ComponentActivity() {
             HiddenApiBypass.addHiddenApiExemptions("")
         }
 
+        WindowCompat.setDecorFitsSystemWindows(window, false)
+
         val domain = getSystemService(Context.DOMAIN_VERIFICATION_SERVICE) as DomainVerificationManager
 
         setContent {
+            WindowCompat.getInsetsController(window, window.decorView).apply {
+                isAppearanceLightStatusBars = !isSystemInDarkTheme()
+                isAppearanceLightNavigationBars = isAppearanceLightStatusBars
+            }
+
             MastodonRedirectTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background,
                 ) {
                     val context = LocalContext.current
                     var selectedStrategy by context.rememberPreferenceState(
@@ -88,7 +99,9 @@ class MainActivity : ComponentActivity() {
                     }
 
                     Column(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = Modifier.fillMaxSize()
+                            .imePadding()
+                            .systemBarsPadding(),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
                         AnimatedVisibility(visible = showDomainStateAlert) {

@@ -93,7 +93,7 @@ class FetchInstancesActivity : ComponentActivity() {
 
                 items = instancesRoot.instances.filter {
                     !it.name.isNullOrBlank() && !it.name.startsWith(".") && it.name.contains(".")
-                }
+                }.distinctBy { it.name }
             }
 
             MastodonRedirectTheme {

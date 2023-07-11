@@ -48,7 +48,6 @@ import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
 import dev.zwander.mastodonredirect.ui.theme.MastodonRedirectTheme
 import dev.zwander.mastodonredirect.util.LinkVerifyUtils.rememberLinkVerificationAsState
-import dev.zwander.mastodonredirect.util.LinkVerifyUtils.verifyAllLinks
 import dev.zwander.mastodonredirect.util.ShizukuPermissionUtils.isShizukuInstalled
 import dev.zwander.mastodonredirect.util.ShizukuPermissionUtils.rememberHasPermissionAsState
 import kotlinx.coroutines.Dispatchers
@@ -164,7 +163,7 @@ class MainActivity : ComponentActivity() {
                                                     }
 
                                                     if (granted) {
-                                                        context.verifyAllLinks()
+                                                        (context.applicationContext as App).userService?.verifyLinks(packageName)
                                                         refresh()
                                                     }
                                                 }

@@ -27,7 +27,7 @@ import rikka.shizuku.ShizukuBinderWrapper
 
 @Suppress("DEPRECATION")
 object LinkVerifyUtils {
-    fun Context.verifyAllLinks() {
+    fun verifyAllLinks(packageName: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             val domainVerifier = IDomainVerificationManager.Stub.asInterface(
                 ShizukuBinderWrapper(ServiceManager.getService(Context.DOMAIN_VERIFICATION_SERVICE))

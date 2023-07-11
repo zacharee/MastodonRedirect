@@ -3,6 +3,7 @@ package dev.zwander.mastodonredirect
 import android.app.Application
 import android.content.ComponentName
 import android.content.ServiceConnection
+import android.content.pm.PackageManager
 import android.os.Build
 import android.os.IBinder
 import dev.zwander.mastodonredirect.shizuku.ShizukuService
@@ -31,13 +32,30 @@ class App : Application() {
         }
 
         Shizuku.addBinderReceivedListener {
-            Shizuku.bindUserService(
-                Shizuku.UserServiceArgs(
-                    ComponentName(this, ShizukuService::class.java)
-                ).version(BuildConfig.VERSION_CODE)
-                    .processNameSuffix(":mastodon_redirect"),
-                userServiceConnection,
-            )
+            if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
+                addUserService()
+            } else {
+                Shizuku.addRequestPermissionResultListener(
+                    object : Shizuku.OnRequestPermissionResultListener {
+                        override fun onRequestPermissionResult(requestCode: Int, grantResult: Int) {
+                            if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                                addUserService()
+                                Shizuku.removeRequestPermissionResultListener(this)
+                            }
+                        }
+                    }
+                )
+            }
         }
+    }
+
+    private fun addUserService() {
+        Shizuku.bindUserService(
+            Shizuku.UserServiceArgs(
+                ComponentName(this, ShizukuService::class.java)
+            ).version(BuildConfig.VERSION_CODE)
+                .processNameSuffix(":mastodon_redirect"),
+            userServiceConnection,
+        )
     }
 }

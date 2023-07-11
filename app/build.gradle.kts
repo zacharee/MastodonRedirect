@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.kotlinSerialization)
 }
 
 android {
@@ -63,6 +64,9 @@ dependencies {
     implementation(libs.preferences)
     implementation(libs.hiddenApiBypass)
     implementation(libs.lifecycleRuntimeCompose)
+    implementation(libs.ktor.client.android)
+    implementation(libs.ktor.client.auth)
+    implementation(libs.kotlinx.serialization)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

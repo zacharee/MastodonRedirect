@@ -12,6 +12,8 @@ material-components = "1.9.0"
 preferences = "1.2.0"
 hiddenApiBypass = "4.3"
 lifecycleRuntimeCompose = "2.7.0-SNAPSHOT"
+ktor = "2.3.2"
+kotlinx-serialization = "1.5.1"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -32,10 +34,14 @@ materialComponents = { group = "com.google.android.material", name = "material",
 preferences = { group = "androidx.preference", name = "preference", version.ref = "preferences" }
 hiddenApiBypass = { group = "org.lsposed.hiddenapibypass", name = "hiddenapibypass", version.ref = "hiddenApiBypass" }
 lifecycleRuntimeCompose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycleRuntimeCompose" }
+ktor-client-android = { group = "io.ktor", name = "ktor-client-android", version.ref = "ktor" }
+ktor-client-auth = { group = "io.ktor", name = "ktor-client-auth", version.ref = "ktor" }
+kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 [bundles]
 

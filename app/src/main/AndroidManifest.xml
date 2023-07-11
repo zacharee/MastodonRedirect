@@ -13,7 +13,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MastodonRedirect"
+        android:name=".App"
         tools:targetApi="31">
+        <provider
+            android:name="rikka.shizuku.ShizukuProvider"
+            android:authorities="${applicationId}.shizuku"
+            android:multiprocess="false"
+            android:enabled="true"
+            android:exported="true"
+            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -32,7 +41,7 @@
             android:exported="true"
             android:theme="@style/AppTheme.Transparent"
             android:excludeFromRecents="true">
-            <intent-filter>
+            <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -40,7 +49,6 @@
                 <data android:scheme="https" />
                 <data android:scheme="http" />
 
-                <!-- https://instances.social/list/advanced#lang=&allowed=&prohibited=&min-users=&max-users= -->
                 <data android:host="0-0.cum.cx" />
                 <data android:host="0.0n.ee" />
                 <data android:host="0.1234.as" />

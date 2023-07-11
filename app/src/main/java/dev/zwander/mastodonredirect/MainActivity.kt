@@ -1,14 +1,13 @@
 package dev.zwander.mastodonredirect
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
-import android.content.pm.verify.domain.DomainVerificationManager
-import android.content.pm.verify.domain.DomainVerificationUserState
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
@@ -26,6 +25,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -33,42 +33,58 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
-import androidx.lifecycle.Lifecycle
 import dev.zwander.mastodonredirect.ui.theme.MastodonRedirectTheme
-import org.lsposed.hiddenapibypass.HiddenApiBypass
+import dev.zwander.mastodonredirect.util.LinkVerifyUtils.rememberLinkVerificationAsState
+import dev.zwander.mastodonredirect.util.LinkVerifyUtils.verifyAllLinks
+import dev.zwander.mastodonredirect.util.ShizukuPermissionUtils.isShizukuInstalled
+import dev.zwander.mastodonredirect.util.ShizukuPermissionUtils.rememberHasPermissionAsState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import rikka.shizuku.Shizuku
+import kotlin.coroutines.resume
+import kotlin.coroutines.suspendCoroutine
 
 class MainActivity : ComponentActivity() {
-    @SuppressLint("InlinedApi", "WrongConstant")
+    @SuppressLint("WrongConstant")
     @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-            HiddenApiBypass.addHiddenApiExemptions("")
-        }
-
         WindowCompat.setDecorFitsSystemWindows(window, false)
-
-        val domain = getSystemService(Context.DOMAIN_VERIFICATION_SERVICE) as DomainVerificationManager
 
         setContent {
             WindowCompat.getInsetsController(window, window.decorView).apply {
                 isAppearanceLightStatusBars = !isSystemInDarkTheme()
                 isAppearanceLightNavigationBars = isAppearanceLightStatusBars
+            }
+
+            val context = LocalContext.current
+            val scope = rememberCoroutineScope()
+
+            var selectedStrategy by context.rememberPreferenceState(
+                key = Prefs.SELECTED_APP,
+                value = { prefs.selectedApp },
+                onChanged = { prefs.selectedApp = it },
+            )
+
+            val (linksVerified, refresh) = rememberLinkVerificationAsState()
+            val shizukuPermission by rememberHasPermissionAsState()
+
+            var showingShizukuInstallDialog by remember {
+                mutableStateOf(false)
             }
 
             MastodonRedirectTheme {
@@ -77,34 +93,14 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    val context = LocalContext.current
-                    var selectedStrategy by context.rememberPreferenceState(
-                        key = Prefs.SELECTED_APP,
-                        value = { prefs.selectedApp },
-                        onChanged = { prefs.selectedApp = it },
-                    )
-
-                    var showDomainStateAlert by remember {
-                        mutableStateOf(false)
-                    }
-
-                    val lifecycleState by LocalLifecycleOwner.current.lifecycle.currentStateFlow.collectAsState()
-
-                    LaunchedEffect(key1 = lifecycleState) {
-                        if (lifecycleState == Lifecycle.State.RESUMED) {
-                            showDomainStateAlert = domain.getDomainVerificationUserState(packageName)?.hostToStateMap?.any { (_, state) ->
-                                state == DomainVerificationUserState.DOMAIN_STATE_NONE
-                            } == true
-                        }
-                    }
-
                     Column(
-                        modifier = Modifier.fillMaxSize()
+                        modifier = Modifier
+                            .fillMaxSize()
                             .imePadding()
                             .systemBarsPadding(),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
-                        AnimatedVisibility(visible = showDomainStateAlert) {
+                        AnimatedVisibility(visible = !linksVerified.value) {
                             Column(
                                 modifier = Modifier.fillMaxWidth(),
                                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -122,7 +118,9 @@ class MainActivity : ComponentActivity() {
 
                                 Button(
                                     onClick = {
+                                        @SuppressLint("InlinedApi")
                                         val settingsIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                            // Available on Q, just hidden.
                                             Intent(Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS).apply {
                                                 data = Uri.parse("package:${context.packageName}")
                                             }
@@ -140,6 +138,43 @@ class MainActivity : ComponentActivity() {
                                     }
                                 ) {
                                     Text(text = stringResource(id = R.string.enable))
+                                }
+
+                                Button(
+                                    onClick = {
+                                        Log.e("MastodonRedirect", "$isShizukuInstalled")
+                                        if (isShizukuInstalled) {
+                                            if (shizukuPermission) {
+                                                (context.applicationContext as App).userService?.verifyLinks(packageName)
+                                                refresh()
+                                            } else {
+                                                scope.launch(Dispatchers.IO) {
+                                                    val granted = suspendCoroutine { cont ->
+                                                        val listener = object : Shizuku.OnRequestPermissionResultListener {
+                                                            override fun onRequestPermissionResult(
+                                                                requestCode: Int,
+                                                                grantResult: Int
+                                                            ) {
+                                                                Shizuku.removeRequestPermissionResultListener(this)
+                                                                cont.resume(grantResult == PackageManager.PERMISSION_GRANTED)
+                                                            }
+                                                        }
+                                                        Shizuku.addRequestPermissionResultListener(listener)
+                                                        Shizuku.requestPermission(100)
+                                                    }
+
+                                                    if (granted) {
+                                                        context.verifyAllLinks()
+                                                        refresh()
+                                                    }
+                                                }
+                                            }
+                                        } else {
+                                            showingShizukuInstallDialog = true
+                                        }
+                                    },
+                                ) {
+                                    Text(text = stringResource(id = R.string.enable_using_shizuku))
                                 }
                             }
                         }
@@ -201,6 +236,29 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                     }
+                }
+
+                if (showingShizukuInstallDialog) {
+                    AlertDialog(
+                        onDismissRequest = { showingShizukuInstallDialog = false },
+                        title = { Text(text = stringResource(id = R.string.install_shizuku)) },
+                        text = { Text(text = stringResource(id = R.string.install_shizuku_message)) },
+                        dismissButton = {
+                            TextButton(onClick = { showingShizukuInstallDialog = false }) {
+                                Text(text = stringResource(id = android.R.string.cancel))
+                            }
+                        },
+                        confirmButton = {
+                            TextButton(
+                                onClick = {
+                                    val launchIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://shizuku.rikka.app"))
+                                    startActivity(launchIntent)
+                                }
+                            ) {
+                                Text(text = stringResource(id = R.string.install))
+                            }
+                        },
+                    )
                 }
             }
         }

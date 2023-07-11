@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "dev.zwander.mastodonredirect"
-    compileSdk = 34
+    compileSdk = 33
 
     defaultConfig {
         applicationId = "dev.zwander.mastodonredirect"
@@ -29,6 +29,13 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            buildConfigField("int", "VERSION_CODE", "${defaultConfig.versionCode}")
+            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
+        }
+
+        debug {
+            buildConfigField("int", "VERSION_CODE", "${defaultConfig.versionCode}")
+            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
         }
     }
     compileOptions {
@@ -40,6 +47,8 @@ android {
     }
     buildFeatures {
         compose = true
+        aidl = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.7"
@@ -67,6 +76,9 @@ dependencies {
     implementation(libs.ktor.client.android)
     implementation(libs.ktor.client.auth)
     implementation(libs.kotlinx.serialization)
+
+    implementation(libs.shizuku.api)
+    implementation(libs.shizuku.provider)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.test.ext.junit)

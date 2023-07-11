@@ -57,7 +57,7 @@ object LinkVerifyUtils {
         val context = LocalContext.current
         val lifecycle = LocalLifecycleOwner.current.lifecycle
         val verified = remember {
-            mutableStateOf(false)
+            mutableStateOf(true)
         }
 
         var lifecycleState by remember {

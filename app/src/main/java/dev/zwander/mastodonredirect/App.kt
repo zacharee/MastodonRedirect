@@ -43,7 +43,9 @@ class App : Application() {
             HiddenApiBypass.addHiddenApiExemptions("")
         }
 
-        Bugsnag.start(this)
+        if (prefs.enableCrashReports) {
+            Bugsnag.start(this)
+        }
 
         Shizuku.addBinderReceivedListenerSticky {
             if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {

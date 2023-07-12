@@ -22,6 +22,7 @@ class Prefs private constructor(context: Context) : ContextWrapper(context) {
         }
 
         const val SELECTED_APP = "selected_app"
+        const val ENABLE_CRASH_REPORTS = "enable_crash_reports"
     }
 
     val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
@@ -30,5 +31,11 @@ class Prefs private constructor(context: Context) : ContextWrapper(context) {
         get() = launchStrategies[preferences.getString(SELECTED_APP, Megalodon.key)] ?: Megalodon
         set(value) {
             preferences.edit { putString(SELECTED_APP, value.key) }
+        }
+
+    var enableCrashReports: Boolean
+        get() = preferences.getBoolean(ENABLE_CRASH_REPORTS, false)
+        set(value) {
+            preferences.edit { putBoolean(ENABLE_CRASH_REPORTS, value) }
         }
 }

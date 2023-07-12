@@ -35,6 +35,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,6 +48,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.core.view.WindowCompat
+import com.bugsnag.android.Bugsnag
+import dev.zwander.mastodonredirect.components.TextSwitch
 import dev.zwander.mastodonredirect.ui.theme.MastodonRedirectTheme
 import dev.zwander.mastodonredirect.util.LinkVerifyUtils.rememberLinkVerificationAsState
 import dev.zwander.mastodonredirect.util.ShizukuPermissionUtils.isShizukuInstalled
@@ -79,12 +82,23 @@ class MainActivity : ComponentActivity() {
                 value = { prefs.selectedApp },
                 onChanged = { prefs.selectedApp = it },
             )
+            var enableCrashReports by context.rememberPreferenceState(
+                key = Prefs.ENABLE_CRASH_REPORTS,
+                value = { prefs.enableCrashReports },
+                onChanged = { prefs.enableCrashReports = it },
+            )
 
             val (linksVerified, refresh) = rememberLinkVerificationAsState()
             val shizukuPermission by rememberHasPermissionAsState()
 
             var showingShizukuInstallDialog by remember {
                 mutableStateOf(false)
+            }
+
+            LaunchedEffect(key1 = enableCrashReports) {
+                if (enableCrashReports) {
+                    Bugsnag.start(this@MainActivity)
+                }
             }
 
             MastodonRedirectTheme {
@@ -100,6 +114,13 @@ class MainActivity : ComponentActivity() {
                             .systemBarsPadding(),
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                     ) {
+                        Text(
+                            text = stringResource(id = R.string.app_name),
+                            style = MaterialTheme.typography.headlineMedium,
+                            modifier = Modifier.fillMaxWidth(),
+                            textAlign = TextAlign.Center,
+                        )
+
                         AnimatedVisibility(visible = !linksVerified.value) {
                             Column(
                                 modifier = Modifier.fillMaxWidth(),
@@ -183,6 +204,16 @@ class MainActivity : ComponentActivity() {
                                 }
                             }
                         }
+
+                        TextSwitch(
+                            text = stringResource(id = R.string.enable_crash_reports),
+                            subtitle = stringResource(id = R.string.enable_crash_reports_desc),
+                            checked = enableCrashReports,
+                            onCheckedChange = { enableCrashReports = it },
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(horizontal = 16.dp),
+                        )
 
                         Column(
                             modifier = Modifier.fillMaxWidth(),

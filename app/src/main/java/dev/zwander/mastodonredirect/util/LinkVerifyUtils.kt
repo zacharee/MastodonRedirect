@@ -6,7 +6,6 @@ import android.content.pm.IPackageManager
 import android.content.pm.PackageManager
 import android.content.pm.verify.domain.DomainVerificationManager
 import android.content.pm.verify.domain.DomainVerificationUserState
-import android.content.pm.verify.domain.IDomainVerificationManager
 import android.os.Build
 import android.os.ServiceManager
 import android.os.UserHandle
@@ -23,32 +22,17 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
-import rikka.shizuku.ShizukuBinderWrapper
 
 @Suppress("DEPRECATION")
 object LinkVerifyUtils {
     fun verifyAllLinks(packageName: String) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            val domainVerifier = IDomainVerificationManager.Stub.asInterface(
-                ShizukuBinderWrapper(ServiceManager.getService(Context.DOMAIN_VERIFICATION_SERVICE))
-            )
+        val pm = IPackageManager.Stub.asInterface(ServiceManager.getService("package"))
 
-            domainVerifier.setDomainVerificationLinkHandlingAllowed(
-                packageName,
-                true,
-                UserHandle.USER_ALL
-            )
-        } else {
-            val pm = IPackageManager.Stub.asInterface(
-                ShizukuBinderWrapper(ServiceManager.getService("package"))
-            )
-
-            pm.updateIntentVerificationStatus(
-                packageName,
-                PackageManager.INTENT_FILTER_DOMAIN_VERIFICATION_STATUS_ALWAYS,
-                UserHandle.USER_ALL,
-            )
-        }
+        pm.updateIntentVerificationStatus(
+            packageName,
+            PackageManager.INTENT_FILTER_DOMAIN_VERIFICATION_STATUS_ALWAYS,
+            UserHandle.myUserId(),
+        )
     }
 
     @SuppressLint("WrongConstant", "MissingPermission")

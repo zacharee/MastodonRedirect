@@ -10,10 +10,21 @@ import com.bugsnag.android.Bugsnag
 import dev.zwander.mastodonredirect.shizuku.ShizukuService
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 import rikka.shizuku.Shizuku
+import kotlin.random.Random
 
 class App : Application() {
-    var userService: IShizukuService? = null
-        private set
+    private val queuedCommands = ArrayList<IShizukuService.() -> Unit>()
+    private var userService: IShizukuService? = null
+        set(value) {
+            field = value
+
+            if (value != null) {
+                queuedCommands.forEach {
+                    it(value)
+                }
+                queuedCommands.clear()
+            }
+        }
 
     private val userServiceConnection = object : ServiceConnection {
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
@@ -34,7 +45,7 @@ class App : Application() {
 
         Bugsnag.start(this)
 
-        Shizuku.addBinderReceivedListener {
+        Shizuku.addBinderReceivedListenerSticky {
             if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
                 addUserService()
             } else {
@@ -52,11 +63,19 @@ class App : Application() {
         }
     }
 
+    fun postShizukuCommand(command: IShizukuService.() -> Unit) {
+        if (userService != null) {
+            command(userService!!)
+        } else {
+            queuedCommands.add(command)
+        }
+    }
+
     private fun addUserService() {
         Shizuku.bindUserService(
             Shizuku.UserServiceArgs(
                 ComponentName(this, ShizukuService::class.java)
-            ).version(BuildConfig.VERSION_CODE)
+            ).version(BuildConfig.VERSION_CODE + (if (BuildConfig.DEBUG) Random.nextInt() else 0))
                 .processNameSuffix(":mastodon_redirect"),
             userServiceConnection,
         )

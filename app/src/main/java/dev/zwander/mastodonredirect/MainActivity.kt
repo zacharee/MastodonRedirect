@@ -7,7 +7,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
@@ -15,6 +14,8 @@ import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -58,7 +59,7 @@ import kotlin.coroutines.suspendCoroutine
 
 class MainActivity : ComponentActivity() {
     @SuppressLint("WrongConstant")
-    @OptIn(ExperimentalMaterial3Api::class)
+    @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -115,65 +116,70 @@ class MainActivity : ComponentActivity() {
                                     textAlign = TextAlign.Center,
                                 )
 
-                                Button(
-                                    onClick = {
-                                        @SuppressLint("InlinedApi")
-                                        val settingsIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                            // Available on Q, just hidden.
-                                            Intent(Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS).apply {
-                                                data = Uri.parse("package:${context.packageName}")
-                                            }
-                                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                                            Intent("android.settings.APPLICATION_DETAILS_SETTINGS_OPEN_BY_DEFAULT_PAGE").apply {
-                                                data = Uri.parse("package:${context.packageName}")
-                                            }
-                                        } else {
-                                            Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                                data = Uri.parse("package:${context.packageName}")
-                                            }
-                                        }
-
-                                        startActivity(settingsIntent)
-                                    }
+                                FlowRow(
+                                    modifier = Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.Absolute.SpaceEvenly,
+                                    verticalAlignment = Alignment.CenterVertically,
                                 ) {
-                                    Text(text = stringResource(id = R.string.enable))
-                                }
-
-                                Button(
-                                    onClick = {
-                                        Log.e("MastodonRedirect", "$isShizukuInstalled")
-                                        if (isShizukuInstalled) {
-                                            if (shizukuPermission) {
-                                                (context.applicationContext as App).userService?.verifyLinks(packageName)
-                                                refresh()
+                                    Button(
+                                        onClick = {
+                                            @SuppressLint("InlinedApi")
+                                            val settingsIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                                                // Available on Q, just hidden.
+                                                Intent(Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS).apply {
+                                                    data = Uri.parse("package:${context.packageName}")
+                                                }
+                                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                                                Intent("android.settings.APPLICATION_DETAILS_SETTINGS_OPEN_BY_DEFAULT_PAGE").apply {
+                                                    data = Uri.parse("package:${context.packageName}")
+                                                }
                                             } else {
-                                                scope.launch(Dispatchers.IO) {
-                                                    val granted = suspendCoroutine { cont ->
-                                                        val listener = object : Shizuku.OnRequestPermissionResultListener {
-                                                            override fun onRequestPermissionResult(
-                                                                requestCode: Int,
-                                                                grantResult: Int
-                                                            ) {
-                                                                Shizuku.removeRequestPermissionResultListener(this)
-                                                                cont.resume(grantResult == PackageManager.PERMISSION_GRANTED)
-                                                            }
-                                                        }
-                                                        Shizuku.addRequestPermissionResultListener(listener)
-                                                        Shizuku.requestPermission(100)
-                                                    }
-
-                                                    if (granted) {
-                                                        (context.applicationContext as App).userService?.verifyLinks(packageName)
-                                                        refresh()
-                                                    }
+                                                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
+                                                    data = Uri.parse("package:${context.packageName}")
                                                 }
                                             }
-                                        } else {
-                                            showingShizukuInstallDialog = true
+
+                                            startActivity(settingsIntent)
                                         }
-                                    },
-                                ) {
-                                    Text(text = stringResource(id = R.string.enable_using_shizuku))
+                                    ) {
+                                        Text(text = stringResource(id = R.string.enable))
+                                    }
+
+                                    Button(
+                                        onClick = {
+                                            if (isShizukuInstalled) {
+                                                if (shizukuPermission) {
+                                                    (context.applicationContext as App).postShizukuCommand { verifyLinks(packageName) }
+                                                    refresh()
+                                                } else {
+                                                    scope.launch(Dispatchers.IO) {
+                                                        val granted = suspendCoroutine { cont ->
+                                                            val listener = object : Shizuku.OnRequestPermissionResultListener {
+                                                                override fun onRequestPermissionResult(
+                                                                    requestCode: Int,
+                                                                    grantResult: Int
+                                                                ) {
+                                                                    Shizuku.removeRequestPermissionResultListener(this)
+                                                                    cont.resume(grantResult == PackageManager.PERMISSION_GRANTED)
+                                                                }
+                                                            }
+                                                            Shizuku.addRequestPermissionResultListener(listener)
+                                                            Shizuku.requestPermission(100)
+                                                        }
+
+                                                        if (granted) {
+                                                            (context.applicationContext as App).postShizukuCommand { verifyLinks(packageName) }
+                                                            refresh()
+                                                        }
+                                                    }
+                                                }
+                                            } else {
+                                                showingShizukuInstallDialog = true
+                                            }
+                                        },
+                                    ) {
+                                        Text(text = stringResource(id = R.string.enable_using_shizuku))
+                                    }
                                 }
                             }
                         }

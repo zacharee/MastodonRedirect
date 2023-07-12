@@ -2,17 +2,17 @@
 A simple app for automatically launching fediverse links in your preferred Mastodon client.
 
 ## Supported Domains
-Currently, the top 150 or so Mastodon domains are supported. If the app is missing a domain you want, open an issue or PR to add it.
+Currently, most domains on https://instances.social are supported.
 
 ## Downloads
 Check out the [Releases page](https://github.com/zacharee/MastodonRedirect/releases).
 
 ## Setup
-Initial setup is a little tedious. Android doesn't really support the notion of an app handling hundreds of domains, which means you need to manually enable all of them.
+If any domains aren\'t enabled for handling by Mastodon Redirect, the app will let you know and provide you buttons for enabling them.
 
-Mastodon Redirect will let you know when any aren't enabled and direct you to the Android Settings page where you can enable them.
+The first button probably should never be used. As Mastodon Redirect can handle over 24,000 domains, checking each one would take an incredibly long time.
 
-Unless you factory reset, you should only need to enable domains on first launch and when any new ones are added in updates.
+Instead, Mastodon Redirect can use [Shizuku](https://shizuku.rikka.app) to automatically enable all links at once. The setup for Shizuku is a little complex, but can be done completely on-device on Android 11 and later. It is also only needed once for the initial setup or for enabling domains added in app updates.
 
 ## Usage
 Open Mastodon Redirect and select your preferred client.
@@ -23,6 +23,12 @@ Unfortunately, most Mastodon clients don't have a way for Mastodon Redirect to i
 Mastodon redirect relies on clients having a link sharing target that can parse and open fediverse links. 
 
 Clients such as Tusky and Trunks do have share targets, but they can only be used to create new posts, with the shared link as the content. Other clients have no share targets at all.
+
+Mastodon Redirect currently supports the following clients:
+- [Fedilab (F-DROID or Play Store)](https://github.com/caraesten/Fedilab).
+- [Megalodon](https://github.com/sk22/megalodon).
+- [Moshidon](https://github.com/LucasGGamerM/moshidon).
+- [Subway Tooter](https://github.com/tateisu/SubwayTooter).
 
 ## Contributing
 If you want to add support for another app, here's the process:

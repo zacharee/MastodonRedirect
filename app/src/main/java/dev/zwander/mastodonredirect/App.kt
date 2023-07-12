@@ -6,6 +6,7 @@ import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.IBinder
+import com.bugsnag.android.Bugsnag
 import dev.zwander.mastodonredirect.shizuku.ShizukuService
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 import rikka.shizuku.Shizuku
@@ -30,6 +31,8 @@ class App : Application() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             HiddenApiBypass.addHiddenApiExemptions("")
         }
+
+        Bugsnag.start(this)
 
         Shizuku.addBinderReceivedListener {
             if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {

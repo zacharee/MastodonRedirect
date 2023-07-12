@@ -1,5 +1,7 @@
 [versions]
 agp = "8.2.0-alpha12"
+bugsnagAndroid = "5.30.0"
+bugsnagAndroidGradlePlugin = "8.0.1"
 kotlin = "1.8.21"
 core-ktx = "1.10.1"
 junit = "4.13.2"
@@ -17,6 +19,8 @@ kotlinx-serialization = "1.5.1"
 shizuku = "13.1.4"
 
 [libraries]
+bugsnag-android = { module = "com.bugsnag:bugsnag-android", version.ref = "bugsnagAndroid" }
+bugsnag-android-gradle-plugin = { module = "com.bugsnag:bugsnag-android-gradle-plugin", version.ref = "bugsnagAndroidGradlePlugin" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }

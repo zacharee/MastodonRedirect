@@ -4,6 +4,9 @@ plugins {
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinSerialization)
 }
+apply {
+    plugin("com.bugsnag.android.gradle")
+}
 
 android {
     namespace = "dev.zwander.mastodonredirect"
@@ -76,6 +79,7 @@ dependencies {
     implementation(libs.ktor.client.android)
     implementation(libs.ktor.client.auth)
     implementation(libs.kotlinx.serialization)
+    implementation(libs.bugsnag.android)
 
     implementation(libs.shizuku.api)
     implementation(libs.shizuku.provider)

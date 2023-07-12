@@ -15,6 +15,10 @@
         android:theme="@style/Theme.MastodonRedirect"
         android:name=".App"
         tools:targetApi="31">
+        <meta-data
+            android:name="com.bugsnag.android.API_KEY"
+            android:value="4cef06309dfdf99215d11253bedf8dd9"/>
+
         <provider
             android:name="rikka.shizuku.ShizukuProvider"
             android:authorities="${applicationId}.shizuku"

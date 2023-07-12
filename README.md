@@ -49,3 +49,8 @@ If you want to add support for another app, here's the process:
         ).toSortedMap()
    }
    ```
+
+## Error Reporting
+Mastodon Redirect uses Bugsnag for error reporting.
+
+<a href="https://www.bugsnag.com"><img src="https://assets-global.website-files.com/607f4f6df411bd01527dc7d5/63bc40cd9d502eda8ea74ce7_Bugsnag%20Full%20Color.svg" width="200"></a>

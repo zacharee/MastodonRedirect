@@ -24379,7 +24379,11 @@
                 <data android:host="mastodon.bhop.zone" />
                 <data android:host="mastodon.bi119aTe5hXk.net"
                     tools:ignore="AppLinkUrlError" />
-                <data android:host="mastodon.bi119aTe5hxk.net" />
+                <data android:host="mastodon.bi119aTe5hxk.net"
+                    tools:ignore="AppLinkUrlError" />
+                <data android:host="mastodon.bi119ate5hXk.net"
+                    tools:ignore="AppLinkUrlError" />
+                <data android:host="mastodon.bi119ate5hxk.net" />
                 <data android:host="mastodon.bibinet.de" />
                 <data android:host="mastodon.bibinim.me" />
                 <data android:host="mastodon.biblewp.com" />

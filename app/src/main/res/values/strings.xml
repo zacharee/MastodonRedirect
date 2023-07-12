@@ -21,4 +21,7 @@
 
     <string name="enable_crash_reports">Enable Crash Reports</string>
     <string name="enable_crash_reports_desc">Disabling requires an app restart.</string>
+
+    <string name="http_filter">HTTP Filter</string>
+    <string name="protocol_filter">Protocol Filter</string>
 </resources>

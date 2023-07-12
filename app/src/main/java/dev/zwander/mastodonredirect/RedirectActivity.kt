@@ -13,7 +13,7 @@ class RedirectActivity : ComponentActivity(), CoroutineScope by MainScope() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val url = intent?.data?.toString()
+        val url = intent?.data?.toString()?.replace("web+activity+", "")
 
         if (url?.contains("oauth/authorize") == true) {
             startActivity(

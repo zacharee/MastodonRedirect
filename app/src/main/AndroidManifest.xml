@@ -47,7 +47,18 @@
             android:excludeFromRecents="true"
             android:exported="true"
             android:theme="@style/AppTheme.Transparent">
-            <intent-filter android:autoVerify="true">
+            <intent-filter android:label="@string/protocol_filter">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- https://akihikodaki.github.io/activity-intent/scheme.html -->
+                <data android:scheme="web+activity+http" />
+                <data android:scheme="web+activity+https" />
+            </intent-filter>
+
+            <intent-filter android:autoVerify="true" android:label="@string/http_filter">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />

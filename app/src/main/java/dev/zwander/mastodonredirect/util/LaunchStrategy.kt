@@ -89,6 +89,14 @@ object Moshidon : LaunchStrategy("MOSHIDON", R.string.moshidon) {
                     "org.joinmastodon.android.ExternalShareActivity"
                 )
             },
+            Intent(Intent.ACTION_SEND).apply {
+                putExtra(Intent.EXTRA_TEXT, url)
+                `package` = "org.joinmastodon.android.moshinda.nightly"
+                component = ComponentName(
+                    "org.joinmastodon.android.moshinda.nightly",
+                    "org.joinmastodon.android.ExternalShareActivity"
+                )
+            },
         )
     }
 }

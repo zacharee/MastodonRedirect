@@ -1,4 +1,4 @@
-package dev.zwander.mastodonredirect
+package dev.zwander.mastodonredirect.util
 
 import android.content.Context
 import android.content.SharedPreferences

@@ -52,11 +52,17 @@ import com.bugsnag.android.Bugsnag
 import dev.zwander.mastodonredirect.components.TextSwitch
 import dev.zwander.mastodonredirect.ui.theme.MastodonRedirectTheme
 import dev.zwander.mastodonredirect.util.LinkVerifyUtils.rememberLinkVerificationAsState
+import dev.zwander.mastodonredirect.util.Prefs
 import dev.zwander.mastodonredirect.util.ShizukuPermissionUtils.isShizukuInstalled
+import dev.zwander.mastodonredirect.util.ShizukuPermissionUtils.isShizukuRunning
 import dev.zwander.mastodonredirect.util.ShizukuPermissionUtils.rememberHasPermissionAsState
+import dev.zwander.mastodonredirect.util.launchStrategies
+import dev.zwander.mastodonredirect.util.prefs
+import dev.zwander.mastodonredirect.util.rememberPreferenceState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import rikka.shizuku.Shizuku
+import rikka.shizuku.ShizukuProvider
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -92,6 +98,9 @@ class MainActivity : ComponentActivity() {
             val shizukuPermission by rememberHasPermissionAsState()
 
             var showingShizukuInstallDialog by remember {
+                mutableStateOf(false)
+            }
+            var showingShizukuStartDialog by remember {
                 mutableStateOf(false)
             }
 
@@ -168,7 +177,7 @@ class MainActivity : ComponentActivity() {
 
                                     Button(
                                         onClick = {
-                                            if (isShizukuInstalled) {
+                                            if (isShizukuRunning) {
                                                 if (shizukuPermission) {
                                                     (context.applicationContext as App).postShizukuCommand { verifyLinks(packageName) }
                                                     refresh()
@@ -195,7 +204,10 @@ class MainActivity : ComponentActivity() {
                                                     }
                                                 }
                                             } else {
-                                                showingShizukuInstallDialog = true
+                                                val installed = context.isShizukuInstalled
+
+                                                showingShizukuInstallDialog = !installed
+                                                showingShizukuStartDialog = installed
                                             }
                                         },
                                     ) {
@@ -292,6 +304,29 @@ class MainActivity : ComponentActivity() {
                                 }
                             ) {
                                 Text(text = stringResource(id = R.string.install))
+                            }
+                        },
+                    )
+                }
+
+                if (showingShizukuStartDialog) {
+                    AlertDialog(
+                        onDismissRequest = { showingShizukuStartDialog = false },
+                        title = { Text(text = stringResource(id = R.string.start_shizuku)) },
+                        text = { Text(text = stringResource(id = R.string.start_shizuku_message)) },
+                        dismissButton = {
+                            TextButton(onClick = { showingShizukuStartDialog = false }) {
+                                Text(text = stringResource(id = android.R.string.cancel))
+                            }
+                        },
+                        confirmButton = {
+                            TextButton(
+                                onClick = {
+                                    val launchIntent = context.packageManager.getLaunchIntentForPackage(ShizukuProvider.MANAGER_APPLICATION_ID)
+                                    startActivity(launchIntent)
+                                }
+                            ) {
+                                Text(text = stringResource(id = R.string.start))
                             }
                         },
                     )

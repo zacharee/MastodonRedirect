@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.IBinder
 import com.bugsnag.android.Bugsnag
 import dev.zwander.mastodonredirect.shizuku.ShizukuService
+import dev.zwander.mastodonredirect.util.prefs
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 import rikka.shizuku.Shizuku
 import kotlin.random.Random

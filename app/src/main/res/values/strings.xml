@@ -15,9 +15,14 @@
     <string name="enable">Enable</string>
 
     <string name="enable_using_shizuku">Enable using Shizuku</string>
+
     <string name="install_shizuku">Install Shizuku</string>
-    <string name="install_shizuku_message">Install the Shizuku app and follow the instructions in it to set it up. Then come back here and try again.</string>
+    <string name="install_shizuku_message">Install the Shizuku app and follow the instructions in it to set it up, then come back here and try again.</string>
     <string name="install">Install</string>
+
+    <string name="start_shizuku">Start Shizuku</string>
+    <string name="start_shizuku_message">Shizuku is installed, but it isn\'t running. Open it and follow the instructions to start it, then come back here and try again.</string>
+    <string name="start">Start</string>
 
     <string name="enable_crash_reports">Enable Crash Reports</string>
     <string name="enable_crash_reports_desc">Disabling requires an app restart.</string>

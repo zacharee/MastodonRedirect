@@ -1,4 +1,4 @@
-package dev.zwander.mastodonredirect
+package dev.zwander.mastodonredirect.util
 
 import android.annotation.SuppressLint
 import android.content.Context

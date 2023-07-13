@@ -1,10 +1,11 @@
-package dev.zwander.mastodonredirect
+package dev.zwander.mastodonredirect.util
 
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.annotation.StringRes
+import dev.zwander.mastodonredirect.R
 
 val launchStrategies by lazy {
     mapOf(

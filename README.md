@@ -7,9 +7,8 @@ Currently, most domains on https://instances.social are supported.
 Mastodon Redirect supports most active and alive instances, but excludes dead instances and instances that haven't had any activity recently. This is to keep the list as short as possible and avoid crashes.
 
 ## Downloads
-Check out the [Releases page](https://github.com/zacharee/MastodonRedirect/releases).
-
-Alternatively, you can download from the IzzyOnDroid repo: [![IzzyOnDroid](https://img.shields.io/endpoint?url=https://apt.izzysoft.de/fdroid/api/v1/shield/dev.zwander.mastodonredirect)](https://apt.izzysoft.de/fdroid/index/apk/dev.zwander.mastodonredirect/)
+[![GitHub Release](https://badgen.net/github/release/zacharee/MastodonRedirect/?icon=github&style=for-the-badge)](https://github.com/zacharee/MastodonRedirect/releases)
+[![IzzyOnDroid](https://img.shields.io/endpoint?url=https%3A%2F%2Fapt.izzysoft.de%2Ffdroid%2Fapi%2Fv1%2Fshield%2Fdev.zwander.mastodonredirect&style=for-the-badge&logo=f-droid)](https://apt.izzysoft.de/fdroid/index/apk/dev.zwander.mastodonredirect/)
 
 ## Setup
 If any domains aren\'t enabled for handling by Mastodon Redirect, the app will let you know and provide you buttons for enabling them.

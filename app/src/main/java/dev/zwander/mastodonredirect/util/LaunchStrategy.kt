@@ -5,15 +5,27 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import dev.zwander.mastodonredirect.R
 
-val launchStrategies by lazy {
-    mapOf(
-        Megalodon.key to Megalodon,
-        Fedilab.key to Fedilab,
-        SubwayTooter.key to SubwayTooter,
-        Moshidon.key to Moshidon,
-    ).toSortedMap()
+val launchStrategies = mapOf(
+    Megalodon.key to Megalodon,
+    Fedilab.key to Fedilab,
+    SubwayTooter.key to SubwayTooter,
+    Moshidon.key to Moshidon,
+)
+
+@Composable
+fun rememberSortedLaunchStrategies(): List<LaunchStrategy> {
+    val context = LocalContext.current
+
+    return remember {
+        launchStrategies.values.sortedBy {
+            context.resources.getString(it.labelRes).lowercase()
+        }
+    }
 }
 
 sealed class LaunchStrategy(

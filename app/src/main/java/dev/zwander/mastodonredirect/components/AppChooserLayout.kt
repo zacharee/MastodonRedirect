@@ -27,8 +27,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.zwander.mastodonredirect.R
 import dev.zwander.mastodonredirect.util.Prefs
-import dev.zwander.mastodonredirect.util.launchStrategies
 import dev.zwander.mastodonredirect.util.prefs
+import dev.zwander.mastodonredirect.util.rememberSortedLaunchStrategies
 import dev.zwander.mastodonredirect.util.rememberPreferenceState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -37,6 +37,7 @@ fun ColumnScope.AppChooserLayout(
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
+    val launchStrategies = rememberSortedLaunchStrategies()
 
     var selectedStrategy by context.rememberPreferenceState(
         key = Prefs.SELECTED_APP,
@@ -68,10 +69,10 @@ fun ColumnScope.AppChooserLayout(
         contentPadding = PaddingValues(8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        items(launchStrategies.entries.toList(), { it.key }) { (key, strategy) ->
+        items(launchStrategies.toList(), { it.key }) { strategy ->
             val color by animateColorAsState(
                 targetValue = if (selectedStrategy == strategy) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
-                label = "CardColor-$key",
+                label = "CardColor-${strategy.key}",
             )
 
             ElevatedCard(

@@ -9,6 +9,8 @@ Mastodon Redirect supports most active and alive instances, but excludes dead in
 ## Downloads
 Check out the [Releases page](https://github.com/zacharee/MastodonRedirect/releases).
 
+Alternatively, you can download from the IzzyOnDroid repo: [![IzzyOnDroid](https://img.shields.io/endpoint?url=https://apt.izzysoft.de/fdroid/api/v1/shield/dev.zwander.mastodonredirect)](https://apt.izzysoft.de/fdroid/index/apk/dev.zwander.mastodonredirect/)
+
 ## Setup
 If any domains aren\'t enabled for handling by Mastodon Redirect, the app will let you know and provide you buttons for enabling them.
 

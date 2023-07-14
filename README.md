@@ -30,6 +30,13 @@ Mastodon Redirect currently supports the following clients:
 - [Moshidon](https://github.com/LucasGGamerM/moshidon).
 - [Subway Tooter](https://github.com/tateisu/SubwayTooter).
 
+## Building
+In order to build Mastodon Redirect, you'll need two things:
+1. The latest [Android Studio Canary](https://developer.android.com/studio/preview) build.
+2. A [modified Android SDK](https://github.com/Reginer/aosp-android-jar) with hidden APIs exposed.
+
+Download the modified SDK corresponding to Mastodon Redirect's current `compileSdk` value (found in the module-level [build.gradle.kts](https://github.com/zacharee/MastodonRedirect/tree/main/app/build.gradle.kts)) and follow the instructions provided in the link above to install it.
+
 ## Contributing
 If you want to add support for another app, here's the process:
 

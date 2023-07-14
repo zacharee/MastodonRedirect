@@ -4,13 +4,13 @@ A simple app for automatically launching fediverse links in your preferred Masto
 ## Supported Domains
 Currently, most domains on https://instances.social are supported.
 
+Mastodon Redirect supports most active and alive instances, but excludes dead instances and instances that haven't had any activity recently. This is to keep the list as short as possible and avoid crashes.
+
 ## Downloads
 Check out the [Releases page](https://github.com/zacharee/MastodonRedirect/releases).
 
 ## Setup
 If any domains aren\'t enabled for handling by Mastodon Redirect, the app will let you know and provide you buttons for enabling them.
-
-Mastodon Redirect supports most active and alive instances, but excludes dead instances and instances that haven't had any activity recently. This is to keep the list as short as possible and avoid crashes.
 
 Enabling each supported domain one at a time is possible, but tedious. Instead, Mastodon Redirect can use [Shizuku](https://shizuku.rikka.app) to automatically enable all links at once. The setup for Shizuku is a little complex, but can be done completely on-device on Android 11 and later. It is also only needed once for the initial setup or for enabling domains added in app updates.
 
@@ -27,7 +27,7 @@ Clients such as Tusky and Trunks do have share targets, but they can only be use
 Mastodon Redirect currently supports the following clients:
 - [Fedilab (F-DROID or Play Store)](https://github.com/stom79/Fedilab).
 - [Megalodon](https://github.com/sk22/megalodon).
-- [Moshidon](https://github.com/LucasGGamerM/moshidon).
+- [Moshidon (Stable or Nightly)](https://github.com/LucasGGamerM/moshidon).
 - [Subway Tooter](https://github.com/tateisu/SubwayTooter).
 
 ## Building

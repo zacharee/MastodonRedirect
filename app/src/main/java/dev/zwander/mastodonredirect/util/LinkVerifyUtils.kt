@@ -1,14 +1,18 @@
 package dev.zwander.mastodonredirect.util
 
 import android.annotation.SuppressLint
+import android.content.ActivityNotFoundException
 import android.content.Context
+import android.content.Intent
 import android.content.pm.IPackageManager
 import android.content.pm.PackageManager
 import android.content.pm.verify.domain.DomainVerificationManager
 import android.content.pm.verify.domain.DomainVerificationUserState
+import android.net.Uri
 import android.os.Build
 import android.os.ServiceManager
 import android.os.UserHandle
+import android.provider.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -25,6 +29,25 @@ import androidx.lifecycle.LifecycleOwner
 
 @Suppress("DEPRECATION")
 object LinkVerifyUtils {
+    @SuppressLint("InlinedApi")
+    fun Context.launchManualVerification() {
+        val qDirect = Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS
+        val pDirect = "android.settings.APPLICATION_DETAILS_SETTINGS_OPEN_BY_DEFAULT_PAGE"
+        val appDetails = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+
+        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("package:$packageName"))
+
+        arrayOf(qDirect, pDirect, appDetails).forEach { action ->
+            try {
+                intent.action = action
+                startActivity(intent)
+                return
+            } catch (e: ActivityNotFoundException) {
+                e.printStackTrace()
+            }
+        }
+    }
+
     fun verifyAllLinks(packageName: String) {
         val pm = IPackageManager.Stub.asInterface(ServiceManager.getService("package"))
 

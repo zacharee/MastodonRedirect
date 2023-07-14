@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.AnimatedVisibility
@@ -51,6 +49,7 @@ import androidx.core.view.WindowCompat
 import com.bugsnag.android.Bugsnag
 import dev.zwander.mastodonredirect.components.TextSwitch
 import dev.zwander.mastodonredirect.ui.theme.MastodonRedirectTheme
+import dev.zwander.mastodonredirect.util.LinkVerifyUtils.launchManualVerification
 import dev.zwander.mastodonredirect.util.LinkVerifyUtils.rememberLinkVerificationAsState
 import dev.zwander.mastodonredirect.util.Prefs
 import dev.zwander.mastodonredirect.util.ShizukuPermissionUtils.isShizukuInstalled
@@ -153,23 +152,7 @@ class MainActivity : ComponentActivity() {
                                 ) {
                                     Button(
                                         onClick = {
-                                            @SuppressLint("InlinedApi")
-                                            val settingsIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                                // Available on Q, just hidden.
-                                                Intent(Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS).apply {
-                                                    data = Uri.parse("package:${context.packageName}")
-                                                }
-                                            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                                                Intent("android.settings.APPLICATION_DETAILS_SETTINGS_OPEN_BY_DEFAULT_PAGE").apply {
-                                                    data = Uri.parse("package:${context.packageName}")
-                                                }
-                                            } else {
-                                                Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                                                    data = Uri.parse("package:${context.packageName}")
-                                                }
-                                            }
-
-                                            startActivity(settingsIntent)
+                                            context.launchManualVerification()
                                         }
                                     ) {
                                         Text(text = stringResource(id = R.string.enable))

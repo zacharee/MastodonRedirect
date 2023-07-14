@@ -80,6 +80,7 @@ dependencies {
     implementation(libs.ktor.client.auth)
     implementation(libs.kotlinx.serialization)
     implementation(libs.bugsnag.android)
+    implementation(libs.accompanist.themeadapter.material3)
 
     implementation(libs.shizuku.api)
     implementation(libs.shizuku.provider)

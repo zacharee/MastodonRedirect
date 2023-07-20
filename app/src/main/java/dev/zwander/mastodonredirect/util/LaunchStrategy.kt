@@ -10,7 +10,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import dev.zwander.mastodonredirect.R
 
-val launchStrategies = mapOf(
+const val LAUNCH_ACTION = "dev.zwander.mastodonredirect.intent.action.OPEN_FEDI_LINK"
+
+private val manualLaunchStrategies = mapOf(
     Megalodon.key to Megalodon,
     Fedilab.key to Fedilab,
     SubwayTooter.key to SubwayTooter,
@@ -19,21 +21,67 @@ val launchStrategies = mapOf(
     Tooot.key to Tooot,
 )
 
+fun Context.getAllLaunchStrategies(): Map<String, LaunchStrategy> {
+    return manualLaunchStrategies + discoverStrategies()
+}
+
 @Composable
 fun rememberSortedLaunchStrategies(): List<LaunchStrategy> {
     val context = LocalContext.current
 
     return remember {
-        launchStrategies.values.sortedBy {
-            context.resources.getString(it.labelRes).lowercase()
+        (manualLaunchStrategies.values + context.discoverStrategies().values).sortedBy {
+            with(it) { context.label }.lowercase()
         }
+    }
+}
+
+fun Context.discoverStrategies(): Map<String, LaunchStrategy> {
+    return packageManager.queryIntentActivities(
+        Intent(LAUNCH_ACTION),
+        0
+    ).groupBy { it.resolvePackageName }
+        .map { (pkg, infos) ->
+            pkg to DiscoveredLaunchStrategy(
+                packageName = pkg,
+                components = infos.map { it.componentInfo.componentName },
+                labelRes = infos.first().componentInfo.applicationInfo.labelRes,
+            )
+        }
+        .toMap()
+}
+
+fun Context.getLaunchStrategyForKey(key: String): LaunchStrategy? {
+    return manualLaunchStrategies[key] ?: getLaunchStrategyForPackage(key)
+}
+
+fun Context.getLaunchStrategyForPackage(pkg: String): LaunchStrategy? {
+    return try {
+        val infos = packageManager.queryIntentActivities(
+            Intent(LAUNCH_ACTION).apply {
+                `package` = pkg
+            },
+            0
+        ).ifEmpty { return null }
+
+        DiscoveredLaunchStrategy(
+            packageName = pkg,
+            components = infos.map { it.componentInfo.componentName },
+            labelRes = infos.first().componentInfo.applicationInfo.labelRes,
+        )
+    } catch (e: Exception) {
+        e.printStackTrace()
+        null
     }
 }
 
 sealed class LaunchStrategy(
     val key: String,
-    @StringRes val labelRes: Int,
+    @StringRes open val labelRes: Int,
 ) {
+    open val Context.label: String
+        get() = resources.getString(labelRes)
+
     abstract fun Context.createIntents(url: String): List<Intent>
 }
 
@@ -128,8 +176,28 @@ data object Tooot : LaunchStrategy("TOOOT", R.string.tooot) {
         return listOf(
             Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
                 `package` = "com.xmflsct.app.tooot"
-                component = ComponentName("com.xmflsct.app.tooot", "com.xmflsct.app.tooot.MainActivity")
+                component =
+                    ComponentName("com.xmflsct.app.tooot", "com.xmflsct.app.tooot.MainActivity")
             }
         )
+    }
+}
+
+data class DiscoveredLaunchStrategy(
+    val packageName: String,
+    val components: List<ComponentName>,
+    override val labelRes: Int,
+) : LaunchStrategy(packageName, labelRes) {
+    override val Context.label: String
+        get() = packageManager.getResourcesForApplication(packageName).getString(labelRes)
+
+    override fun Context.createIntents(url: String): List<Intent> {
+        return components.map { cmp ->
+            Intent(LAUNCH_ACTION).apply {
+                `package` = packageName
+                component = cmp
+                data = Uri.parse(url)
+            }
+        }
     }
 }

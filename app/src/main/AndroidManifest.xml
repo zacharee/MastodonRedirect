@@ -6,6 +6,10 @@
 
     <queries>
         <package android:name="moe.shizuku.privileged.api" />
+
+        <intent>
+            <action android:name="dev.zwander.mastodonredirect.intent.action.OPEN_FEDI_LINK" />
+        </intent>
     </queries>
 
     <application

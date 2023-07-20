@@ -44,6 +44,8 @@ Mastodon Redirect currently supports the following clients:
 - [Elk (PWA)](https://github.com/elk-zone/elk).
 - [Tooot](https://github.com/tooot-app/app).
 
+If your favorite client isn't on the list, consider creating an issue on their code repository linking to the section below, ***but please search through the existing issues first, including ones that have been closed***. Pestering developers won't help anyone.
+
 ## Adding Client Support
 If you're the developer of a Mastodon client and want to add support for Mastodon Redirect into your app, here's how.
 

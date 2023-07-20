@@ -33,11 +33,11 @@ sealed class LaunchStrategy(
     val key: String,
     @StringRes val labelRes: Int,
 ) {
-    abstract fun Context.createIntents(url: String?): List<Intent>
+    abstract fun Context.createIntents(url: String): List<Intent>
 }
 
 data object Megalodon : LaunchStrategy("MEGALODON", R.string.megalodon) {
-    override fun Context.createIntents(url: String?): List<Intent> {
+    override fun Context.createIntents(url: String): List<Intent> {
         return listOf(
             Intent(Intent.ACTION_SEND).apply {
                 putExtra(Intent.EXTRA_TEXT, url)
@@ -52,9 +52,9 @@ data object Megalodon : LaunchStrategy("MEGALODON", R.string.megalodon) {
 }
 
 data object Fedilab : LaunchStrategy("FEDILAB", R.string.fedilab) {
-    override fun Context.createIntents(url: String?): List<Intent> {
+    override fun Context.createIntents(url: String): List<Intent> {
         val baseIntent = Intent(Intent.ACTION_VIEW)
-        baseIntent.data = url?.let { Uri.parse(url) }
+        baseIntent.data = Uri.parse(url)
 
         return listOf(
             Intent(baseIntent).apply {
@@ -77,7 +77,7 @@ data object Fedilab : LaunchStrategy("FEDILAB", R.string.fedilab) {
 }
 
 data object SubwayTooter : LaunchStrategy("SUBWAY_TOOTER", R.string.subway_tooter) {
-    override fun Context.createIntents(url: String?): List<Intent> {
+    override fun Context.createIntents(url: String): List<Intent> {
         return listOf(
             Intent(Intent.ACTION_VIEW).apply {
                 `package` = "jp.juggler.subwaytooter"
@@ -85,14 +85,14 @@ data object SubwayTooter : LaunchStrategy("SUBWAY_TOOTER", R.string.subway_toote
                     "jp.juggler.subwaytooter",
                     "jp.juggler.subwaytooter.ActCallback"
                 )
-                data = url?.let { Uri.parse(url) }
+                data = Uri.parse(url)
             },
         )
     }
 }
 
 data object Moshidon : LaunchStrategy("MOSHIDON", R.string.moshidon) {
-    override fun Context.createIntents(url: String?): List<Intent> {
+    override fun Context.createIntents(url: String): List<Intent> {
         return listOf(
             Intent(Intent.ACTION_SEND).apply {
                 putExtra(Intent.EXTRA_TEXT, url)
@@ -115,7 +115,7 @@ data object Moshidon : LaunchStrategy("MOSHIDON", R.string.moshidon) {
 }
 
 data object Elk : LaunchStrategy("ELK", R.string.elk) {
-    override fun Context.createIntents(url: String?): List<Intent> {
+    override fun Context.createIntents(url: String): List<Intent> {
         return listOf(
             Intent(Intent.ACTION_VIEW, Uri.parse("https://elk.zone/$url")),
         )

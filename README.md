@@ -30,6 +30,7 @@ Mastodon Redirect currently supports the following clients:
 - [Megalodon](https://github.com/sk22/megalodon).
 - [Moshidon (Stable or Nightly)](https://github.com/LucasGGamerM/moshidon).
 - [Subway Tooter](https://github.com/tateisu/SubwayTooter).
+- [Elk (PWA)](https://github.com/elk-zone/elk).
 
 ## Building
 In order to build Mastodon Redirect, you'll need two things:

@@ -15,6 +15,7 @@ val launchStrategies = mapOf(
     Fedilab.key to Fedilab,
     SubwayTooter.key to SubwayTooter,
     Moshidon.key to Moshidon,
+    Elk.key to Elk,
 )
 
 @Composable
@@ -35,7 +36,7 @@ sealed class LaunchStrategy(
     abstract fun Context.createIntents(url: String?): List<Intent>
 }
 
-object Megalodon : LaunchStrategy("MEGALODON", R.string.megalodon) {
+data object Megalodon : LaunchStrategy("MEGALODON", R.string.megalodon) {
     override fun Context.createIntents(url: String?): List<Intent> {
         return listOf(
             Intent(Intent.ACTION_SEND).apply {
@@ -50,7 +51,7 @@ object Megalodon : LaunchStrategy("MEGALODON", R.string.megalodon) {
     }
 }
 
-object Fedilab : LaunchStrategy("FEDILAB", R.string.fedilab) {
+data object Fedilab : LaunchStrategy("FEDILAB", R.string.fedilab) {
     override fun Context.createIntents(url: String?): List<Intent> {
         val baseIntent = Intent(Intent.ACTION_VIEW)
         baseIntent.data = url?.let { Uri.parse(url) }
@@ -75,7 +76,7 @@ object Fedilab : LaunchStrategy("FEDILAB", R.string.fedilab) {
     }
 }
 
-object SubwayTooter : LaunchStrategy("SUBWAY_TOOTER", R.string.subway_tooter) {
+data object SubwayTooter : LaunchStrategy("SUBWAY_TOOTER", R.string.subway_tooter) {
     override fun Context.createIntents(url: String?): List<Intent> {
         return listOf(
             Intent(Intent.ACTION_VIEW).apply {
@@ -90,7 +91,7 @@ object SubwayTooter : LaunchStrategy("SUBWAY_TOOTER", R.string.subway_tooter) {
     }
 }
 
-object Moshidon : LaunchStrategy("MOSHIDON", R.string.moshidon) {
+data object Moshidon : LaunchStrategy("MOSHIDON", R.string.moshidon) {
     override fun Context.createIntents(url: String?): List<Intent> {
         return listOf(
             Intent(Intent.ACTION_SEND).apply {
@@ -109,6 +110,14 @@ object Moshidon : LaunchStrategy("MOSHIDON", R.string.moshidon) {
                     "org.joinmastodon.android.ExternalShareActivity"
                 )
             },
+        )
+    }
+}
+
+data object Elk : LaunchStrategy("ELK", R.string.elk) {
+    override fun Context.createIntents(url: String?): List<Intent> {
+        return listOf(
+            Intent(Intent.ACTION_VIEW, Uri.parse("https://elk.zone/$url")),
         )
     }
 }

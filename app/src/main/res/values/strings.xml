@@ -2,10 +2,12 @@
     <string name="app_name">Mastodon Redirect</string>
 
     <string name="selected_app">Selected App</string>
+
     <string name="megalodon">Megalodon</string>
     <string name="fedilab">Fedilab</string>
     <string name="subway_tooter">Subway Tooter</string>
     <string name="moshidon">Moshidon</string>
+    <string name="elk">Elk</string>
 
     <string name="choose_app">Choose App</string>
     <string name="choose_app_desc">The following apps are supported by Mastodon Redirect. You can choose which one should be launched when handling supported links.</string>

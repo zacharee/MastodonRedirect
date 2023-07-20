@@ -16,6 +16,7 @@ val launchStrategies = mapOf(
     SubwayTooter.key to SubwayTooter,
     Moshidon.key to Moshidon,
     Elk.key to Elk,
+    Tooot.key to Tooot,
 )
 
 @Composable
@@ -118,6 +119,17 @@ data object Elk : LaunchStrategy("ELK", R.string.elk) {
     override fun Context.createIntents(url: String): List<Intent> {
         return listOf(
             Intent(Intent.ACTION_VIEW, Uri.parse("https://elk.zone/$url")),
+        )
+    }
+}
+
+data object Tooot : LaunchStrategy("TOOOT", R.string.tooot) {
+    override fun Context.createIntents(url: String): List<Intent> {
+        return listOf(
+            Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+                `package` = "com.xmflsct.app.tooot"
+                component = ComponentName("com.xmflsct.app.tooot", "com.xmflsct.app.tooot.MainActivity")
+            }
         )
     }
 }

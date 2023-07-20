@@ -13,8 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.systemBarsPadding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -80,8 +78,7 @@ class MainActivity : ComponentActivity() {
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
-                                .padding(vertical = 16.dp)
-                                .verticalScroll(rememberScrollState()),
+                                .padding(vertical = 16.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp),
                         ) {
                             Column {
@@ -110,7 +107,8 @@ class MainActivity : ComponentActivity() {
                             Spacer(modifier = Modifier.weight(0.5f))
 
                             AppChooserLayout(
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier.fillMaxWidth()
+                                    .weight(2f),
                             )
 
                             Spacer(modifier = Modifier.weight(0.5f))

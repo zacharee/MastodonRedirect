@@ -63,8 +63,7 @@ fun AppChooserLayout(
         }
 
         LazyColumn(
-            modifier = Modifier
-                .weight(1f),
+            modifier = Modifier,
             contentPadding = PaddingValues(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {

@@ -20,7 +20,7 @@ class RedirectActivity : ComponentActivity(), CoroutineScope by MainScope() {
             launchInBrowser()
         } else {
             prefs.selectedApp.run {
-                if (url == null) {
+                if (url.isNullOrBlank()) {
                     launchInBrowser()
                 } else {
                     createIntents(url).forEach {

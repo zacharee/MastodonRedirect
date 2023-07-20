@@ -55,6 +55,14 @@
             android:excludeFromRecents="true"
             android:exported="true"
             android:theme="@style/AppTheme.Transparent">
+            <intent-filter android:label="@string/share_filter">
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/*" />
+            </intent-filter>
+
             <intent-filter android:label="@string/protocol_filter">
                 <action android:name="android.intent.action.VIEW" />
 

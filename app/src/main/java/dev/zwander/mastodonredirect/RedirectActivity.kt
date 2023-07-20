@@ -14,15 +14,16 @@ class RedirectActivity : ComponentActivity(), CoroutineScope by MainScope() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val url = intent?.data?.toString()?.replace("web+activity+", "")
-
-        if (url?.contains("oauth/authorize") == true) {
-            launchInBrowser()
+        val url = if (intent?.action == Intent.ACTION_SEND) {
+            intent.getStringExtra(Intent.EXTRA_TEXT)
         } else {
-            prefs.selectedApp.run {
-                if (url.isNullOrBlank()) {
-                    launchInBrowser()
-                } else {
+            intent?.data?.toString()?.replace("web+activity+", "")
+        }
+
+        when {
+            url.isNullOrBlank() || url.contains("oauth/authorize") -> launchInBrowser()
+            else -> {
+                prefs.selectedApp.run {
                     createIntents(url).forEach {
                         it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 

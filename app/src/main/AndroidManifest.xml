@@ -55,7 +55,7 @@
             android:excludeFromRecents="true"
             android:exported="true"
             android:theme="@style/AppTheme.Transparent">
-            <intent-filter android:label="@string/share_filter">
+            <intent-filter android:label="@string/open_link">
                 <action android:name="android.intent.action.SEND" />
 
                 <category android:name="android.intent.category.DEFAULT" />

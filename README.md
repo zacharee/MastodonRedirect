@@ -167,7 +167,7 @@ object YourNewClient : LaunchStrategy("UNIQUE_KEY_FOR_CLIENT", R.string.name_of_
     }
 }
 ```
-    Note: if you're adding support for multiple related clients (such as stable + nightly or F-Droid + Google Play variants), take a look at the `Fedilab` and `Moshidon` sealed classes inside `LaunchStrategy.kt` for an example on how to reduce code duplication.
+  Note: if you're adding support for multiple related clients (such as stable + nightly or F-Droid + Google Play variants), take a look at the `Fedilab` and `Moshidon` sealed classes inside `LaunchStrategy.kt` for an example on how to reduce code duplication.
 4. Add the new object to the `launchStrategies` in `LaunchStrategy.kt`:
 ```kotlin
 private val manualLaunchStrategies = mapOf(

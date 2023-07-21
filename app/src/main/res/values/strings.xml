@@ -4,9 +4,11 @@
     <string name="selected_app">Selected App</string>
 
     <string name="megalodon">Megalodon</string>
-    <string name="fedilab">Fedilab</string>
+    <string name="fedilab_play">Fedilab (Google Play)</string>
+    <string name="fedilab_fdroid">Fedilab (F-Droid)</string>
     <string name="subway_tooter">Subway Tooter</string>
     <string name="moshidon">Moshidon</string>
+    <string name="moshidon_nightly">Moshidon (Nightly)</string>
     <string name="elk">Elk</string>
     <string name="tooot">Tooot</string>
 

@@ -14,11 +14,13 @@ const val LAUNCH_ACTION = "dev.zwander.mastodonredirect.intent.action.OPEN_FEDI_
 
 private val manualLaunchStrategies = mapOf(
     Megalodon.key to Megalodon,
-    Fedilab.key to Fedilab,
     SubwayTooter.key to SubwayTooter,
-    Moshidon.key to Moshidon,
     Elk.key to Elk,
     Tooot.key to Tooot,
+    Fedilab.FedilabGoogle.key to Fedilab.FedilabGoogle,
+    Fedilab.FedilabFDroid.key to Fedilab.FedilabFDroid,
+    Moshidon.MoshidonStable.key to Moshidon.MoshidonStable,
+    Moshidon.MoshidonNightly.key to Moshidon.MoshidonNightly,
 )
 
 fun Context.getAllLaunchStrategies(): Map<String, LaunchStrategy> {
@@ -37,6 +39,7 @@ fun rememberSortedLaunchStrategies(): List<LaunchStrategy> {
 }
 
 fun Context.discoverStrategies(): Map<String, LaunchStrategy> {
+    @Suppress("DEPRECATION")
     return packageManager.queryIntentActivities(
         Intent(LAUNCH_ACTION),
         0
@@ -57,6 +60,7 @@ fun Context.getLaunchStrategyForKey(key: String): LaunchStrategy? {
 
 fun Context.getLaunchStrategyForPackage(pkg: String): LaunchStrategy? {
     return try {
+        @Suppress("DEPRECATION")
         val infos = packageManager.queryIntentActivities(
             Intent(LAUNCH_ACTION).apply {
                 `package` = pkg
@@ -100,29 +104,38 @@ data object Megalodon : LaunchStrategy("MEGALODON", R.string.megalodon) {
     }
 }
 
-data object Fedilab : LaunchStrategy("FEDILAB", R.string.fedilab) {
+sealed class Fedilab(
+    key: String,
+    @StringRes labelRes: Int,
+    private val pkg: String,
+    private val componentName: String,
+) : LaunchStrategy(key, labelRes) {
     override fun Context.createIntents(url: String): List<Intent> {
         val baseIntent = Intent(Intent.ACTION_VIEW)
         baseIntent.data = Uri.parse(url)
 
         return listOf(
-            Intent(baseIntent).apply {
-                `package` = "app.fedilab.android"
-                component = ComponentName(
-                    "app.fedilab.android",
-                    "app.fedilab.android.activities.MainActivity"
-                )
-
+            Intent(Intent.ACTION_VIEW).apply {
+                data = Uri.parse(url)
+                `package` = pkg
+                component = ComponentName(pkg, componentName)
             },
-            Intent(baseIntent).apply {
-                `package` = "fr.gouv.etalab.mastodon"
-                component = ComponentName(
-                    "fr.gouv.etalab.mastodon",
-                    "app.fedilab.android.activities.MainActivity"
-                )
-            }
         )
     }
+
+    data object FedilabGoogle : Fedilab(
+        "FEDILAB",
+        R.string.fedilab_play,
+        "app.fedilab.android",
+        "app.fedilab.android.activities.MainActivity",
+    )
+
+    data object FedilabFDroid : Fedilab(
+        "FEDILAB_FDROID",
+        R.string.fedilab_fdroid,
+        "fr.gouv.etalab.mastodon",
+        "app.fedilab.android.activities.MainActivity",
+    )
 }
 
 data object SubwayTooter : LaunchStrategy("SUBWAY_TOOTER", R.string.subway_tooter) {
@@ -140,27 +153,35 @@ data object SubwayTooter : LaunchStrategy("SUBWAY_TOOTER", R.string.subway_toote
     }
 }
 
-data object Moshidon : LaunchStrategy("MOSHIDON", R.string.moshidon) {
+sealed class Moshidon(
+    key: String,
+    @StringRes labelRes: Int,
+    private val pkg: String,
+    private val componentName: String,
+) : LaunchStrategy(key, labelRes) {
     override fun Context.createIntents(url: String): List<Intent> {
         return listOf(
             Intent(Intent.ACTION_SEND).apply {
                 putExtra(Intent.EXTRA_TEXT, url)
-                `package` = "org.joinmastodon.android.moshinda"
-                component = ComponentName(
-                    "org.joinmastodon.android.moshinda",
-                    "org.joinmastodon.android.ExternalShareActivity"
-                )
-            },
-            Intent(Intent.ACTION_SEND).apply {
-                putExtra(Intent.EXTRA_TEXT, url)
-                `package` = "org.joinmastodon.android.moshinda.nightly"
-                component = ComponentName(
-                    "org.joinmastodon.android.moshinda.nightly",
-                    "org.joinmastodon.android.ExternalShareActivity"
-                )
+                `package` = pkg
+                component = ComponentName(pkg, componentName)
             },
         )
     }
+
+    data object MoshidonStable : Moshidon(
+        "MOSHIDON",
+        R.string.moshidon,
+        "org.joinmastodon.android.moshinda",
+        "org.joinmastodon.android.ExternalShareActivity",
+    )
+
+    data object MoshidonNightly : Moshidon(
+        "MOSHIDON_NIGHTLY",
+        R.string.moshidon_nightly,
+        "org.joinmastodon.android.moshinda.nightly",
+        "org.joinmastodon.android.ExternalShareActivity",
+    )
 }
 
 data object Elk : LaunchStrategy("ELK", R.string.elk) {
@@ -186,7 +207,7 @@ data object Tooot : LaunchStrategy("TOOOT", R.string.tooot) {
 data class DiscoveredLaunchStrategy(
     val packageName: String,
     val components: List<ComponentName>,
-    override val labelRes: Int,
+    @StringRes override val labelRes: Int,
 ) : LaunchStrategy(packageName, labelRes) {
     override val Context.label: String
         get() = packageManager.getResourcesForApplication(packageName).getString(labelRes)

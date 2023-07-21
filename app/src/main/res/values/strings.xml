@@ -10,6 +10,7 @@
     <string name="moshidon">Moshidon</string>
     <string name="moshidon_nightly">Moshidon (Nightly)</string>
     <string name="elk">Elk</string>
+    <string name="elk_canary">Elk (Canary)</string>
     <string name="tooot">Tooot</string>
 
     <string name="choose_app">Choose App</string>

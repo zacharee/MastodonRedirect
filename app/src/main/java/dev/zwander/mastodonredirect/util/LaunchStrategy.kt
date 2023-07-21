@@ -15,7 +15,8 @@ const val LAUNCH_ACTION = "dev.zwander.mastodonredirect.intent.action.OPEN_FEDI_
 private val manualLaunchStrategies = mapOf(
     Megalodon.key to Megalodon,
     SubwayTooter.key to SubwayTooter,
-    Elk.key to Elk,
+    Elk.ElkStable.key to Elk.ElkStable,
+    Elk.ElkCanary.key to Elk.ElkCanary,
     Tooot.key to Tooot,
     Fedilab.FedilabGoogle.key to Fedilab.FedilabGoogle,
     Fedilab.FedilabFDroid.key to Fedilab.FedilabFDroid,
@@ -184,12 +185,19 @@ sealed class Moshidon(
     )
 }
 
-data object Elk : LaunchStrategy("ELK", R.string.elk) {
+sealed class Elk(
+    key: String,
+    @StringRes labelRes: Int,
+    private val baseUrl: String,
+) : LaunchStrategy(key, labelRes) {
     override fun Context.createIntents(url: String): List<Intent> {
         return listOf(
-            Intent(Intent.ACTION_VIEW, Uri.parse("https://elk.zone/$url")),
+            Intent(Intent.ACTION_VIEW, Uri.parse("$baseUrl/$url")),
         )
     }
+
+    data object ElkStable : Elk("ELK", R.string.elk, "https://elk.zone")
+    data object ElkCanary : Elk("ELK_CANARY", R.string.elk_canary, "https://main.elk.zone")
 }
 
 data object Tooot : LaunchStrategy("TOOOT", R.string.tooot) {

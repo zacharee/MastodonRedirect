@@ -158,25 +158,23 @@ If you want to add support for another app, here's the process:
 1. Open `strings.xml` and create a new string for the client's name.
 2. Open `LaunchStrategy.kt` and scroll to the bottom.
 3. Create a new object extending `LaunchStrategy`:
-    ```kotlin
-    object YourNewClient : LaunchStrategy("UNIQUE_KEY_FOR_CLIENT", R.string.name_of_string_you_added) {
-        override fun Context.createIntents(url: String?): List<Intent> {
-            // Return a list of Intents for Mastodon Redirect to try launching.
-            // Some apps, such as Fedilab, have different package names depending on
-            // the install source, so may need multiple attempts to launch.
-        }
+```kotlin
+object YourNewClient : LaunchStrategy("UNIQUE_KEY_FOR_CLIENT", R.string.name_of_string_you_added) {
+    override fun Context.createIntents(url: String?): List<Intent> {
+        // Return a list of Intents for Mastodon Redirect to try launching.
+        // Some apps, such as Fedilab, have different package names depending on
+        // the install source, so may need multiple attempts to launch.
     }
-    ```
+}
+```
 4. Add the new object to the `launchStrategies` in `LaunchStrategy.kt`:
-   ```kotlin
-   val launchStrategies by lazy { 
-        mapOf(
-            Megalodon.key to Megalodon,
-            // ...
-            YourNewClient.key to YourNewClient,
-        ).toSortedMap()
-   }
-   ```
+```kotlin
+private val manualLaunchStrategies = mapOf(
+    Megalodon.key to Megalodon,
+    // ...
+    YourNewClient.key to YourNewClient,
+)
+```
 
 ## Error Reporting
 Mastodon Redirect uses Bugsnag for error reporting.

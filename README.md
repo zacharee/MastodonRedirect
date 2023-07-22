@@ -41,7 +41,7 @@ Mastodon Redirect currently supports the following clients:
 - [Megalodon](https://github.com/sk22/megalodon).
 - [Moshidon (Stable or Nightly)](https://github.com/LucasGGamerM/moshidon).
 - [Subway Tooter](https://github.com/tateisu/SubwayTooter).
-- [Elk (PWA)](https://github.com/elk-zone/elk).
+- [Elk (PWA: Stable or Canary)](https://github.com/elk-zone/elk).
 - [Tooot](https://github.com/tooot-app/app).
 
 If your favorite client isn't on the list, consider creating an issue on their code repository linking to the section below, ***but please search through the existing issues first, including ones that have been closed***. Pestering developers won't help anyone.

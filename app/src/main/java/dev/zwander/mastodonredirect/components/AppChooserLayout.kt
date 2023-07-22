@@ -2,6 +2,7 @@ package dev.zwander.mastodonredirect.components
 
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -93,34 +94,80 @@ private fun GroupCard(
     onStrategySelected: (LaunchStrategy) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
-
     OutlinedCard(
         modifier = modifier,
     ) {
-        Column(
+        Box(
             modifier = Modifier.padding(8.dp),
         ) {
-            Text(
-                text = with (strategyGroup) { context.label },
-                modifier = Modifier.align(Alignment.Start),
-                style = MaterialTheme.typography.titleLarge,
-            )
+            if (strategyGroup.children.size > 1) {
+                Column {
+                    GroupTitle(strategyGroup = strategyGroup)
 
-            FlowRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                modifier = Modifier.fillMaxWidth(),
-            ) {
-                strategyGroup.children.forEach { child ->
-                    SingleCard(
-                        strategy = child,
+                    GroupRow(
+                        strategyGroup = strategyGroup,
                         selectedStrategy = selectedStrategy,
                         onStrategySelected = onStrategySelected,
-                        modifier = Modifier.weight(1f),
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+            } else {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    GroupTitle(
+                        strategyGroup = strategyGroup,
+                        modifier = Modifier.weight(1f).align(Alignment.CenterVertically),
+                    )
+
+                    GroupRow(
+                        strategyGroup = strategyGroup,
+                        selectedStrategy = selectedStrategy,
+                        onStrategySelected = onStrategySelected,
+                        modifier = Modifier.weight(1f).align(Alignment.CenterVertically),
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+private fun GroupTitle(
+    strategyGroup: LaunchStrategyGroup,
+    modifier: Modifier = Modifier,
+) {
+    val context = LocalContext.current
+
+    Text(
+        text = with (strategyGroup) { context.label },
+        style = MaterialTheme.typography.titleLarge,
+        modifier = modifier,
+    )
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun GroupRow(
+    strategyGroup: LaunchStrategyGroup,
+    selectedStrategy: LaunchStrategy,
+    onStrategySelected: (LaunchStrategy) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    FlowRow(
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = modifier,
+    ) {
+        strategyGroup.children.forEach { child ->
+            SingleCard(
+                strategy = child,
+                selectedStrategy = selectedStrategy,
+                onStrategySelected = onStrategySelected,
+                modifier = Modifier.weight(1f),
+            )
         }
     }
 }

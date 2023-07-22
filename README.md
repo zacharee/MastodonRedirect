@@ -153,29 +153,9 @@ In order to build Mastodon Redirect, you'll need two things:
 Download the modified SDK corresponding to Mastodon Redirect's current `compileSdk` value (found in the module-level [build.gradle.kts](https://github.com/zacharee/MastodonRedirect/tree/main/app/build.gradle.kts)) and follow the instructions provided in the link above to install it.
 
 ## Contributing
-If you want to add support for another app, here's the process:
+If you want to add support for another app:
 
-1. Open `strings.xml` and create a new string for the client's name.
-2. Open `LaunchStrategy.kt` and scroll to the bottom.
-3. Create a new object extending `LaunchStrategy`:
-    ```kotlin
-    object YourNewClient : LaunchStrategy("UNIQUE_KEY_FOR_CLIENT", R.string.name_of_string_you_added) {
-        override fun Context.createIntents(url: String?): List<Intent> {
-            // Return a list of Intents for Mastodon Redirect to try launching.
-            // Some apps, such as Fedilab, have different package names depending on
-            // the install source, so may need multiple attempts to launch.
-        }
-    }
-    ```
-    Note: if you're adding support for multiple related clients (such as stable + nightly or F-Droid + Google Play variants), take a look at the `Fedilab` and `Moshidon` sealed classes inside `LaunchStrategy.kt` for an example on how to reduce code duplication.  
-4. Add the new object to the `launchStrategies` in `LaunchStrategy.kt`:
-    ```kotlin
-    private val manualLaunchStrategies = mapOf(
-        Megalodon.key to Megalodon,
-        // ...
-        YourNewClient.key to YourNewClient,
-    )
-    ```
+Until development slows down, check out the `LaunchStrategy.kt` file for how to add new apps.
 
 ## Error Reporting
 Mastodon Redirect uses Bugsnag for error reporting.

@@ -10,8 +10,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import dev.zwander.mastodonredirect.R
 
+/**
+ * This file contains the supported launch strategies and related utilities.
+ *
+ * To add your own strategy, create a new data object extending [LaunchStrategyGroup].
+ * Then, create a nested data object extension [LaunchStrategy].
+ * Examples for groups with only one strategy and with multiple are available below.
+ */
+
 const val LAUNCH_ACTION = "dev.zwander.mastodonredirect.intent.action.OPEN_FEDI_LINK"
 
+/**
+ * If you create a new [LaunchStrategyGroup], add it to this list.
+ */
 private val groupedLaunchStrategies = listOf(
     Megalodon,
     SubwayTooter,

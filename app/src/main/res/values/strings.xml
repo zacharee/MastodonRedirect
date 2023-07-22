@@ -4,14 +4,18 @@
     <string name="selected_app">Selected App</string>
 
     <string name="megalodon">Megalodon</string>
-    <string name="fedilab_play">Fedilab (Google Play)</string>
-    <string name="fedilab_fdroid">Fedilab (F-Droid)</string>
+    <string name="fedilab">Fedilab</string>
     <string name="subway_tooter">Subway Tooter</string>
     <string name="moshidon">Moshidon</string>
-    <string name="moshidon_nightly">Moshidon (Nightly)</string>
     <string name="elk">Elk</string>
-    <string name="elk_canary">Elk (Canary)</string>
     <string name="tooot">Tooot</string>
+    <string name="discovered">Discovered</string>
+
+    <string name="stable">Stable</string>
+    <string name="canary">Canary</string>
+    <string name="nightly">Nightly</string>
+    <string name="google_play">Google Play</string>
+    <string name="f_droid">F-Droid</string>
 
     <string name="choose_app">Choose App</string>
     <string name="choose_app_desc">The following apps are supported by Mastodon Redirect. You can choose which one should be launched when handling supported links.</string>

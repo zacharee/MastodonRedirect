@@ -28,7 +28,7 @@ class Prefs private constructor(context: Context) : ContextWrapper(context) {
     val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
     var selectedApp: LaunchStrategy
-        get() = getLaunchStrategyForKey(preferences.getString(SELECTED_APP, Megalodon.key)) ?: Megalodon
+        get() = getLaunchStrategyForKey(preferences.getString(SELECTED_APP, Megalodon.MegalodonStable.key)) ?: Megalodon.MegalodonStable
         set(value) {
             preferences.edit { putString(SELECTED_APP, value.key) }
         }

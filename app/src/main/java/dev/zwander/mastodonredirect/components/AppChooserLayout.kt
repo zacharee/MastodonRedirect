@@ -3,17 +3,20 @@ package dev.zwander.mastodonredirect.components
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -25,12 +28,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.zwander.mastodonredirect.R
+import dev.zwander.mastodonredirect.util.LaunchStrategy
+import dev.zwander.mastodonredirect.util.LaunchStrategyGroup
 import dev.zwander.mastodonredirect.util.Prefs
 import dev.zwander.mastodonredirect.util.prefs
 import dev.zwander.mastodonredirect.util.rememberPreferenceState
 import dev.zwander.mastodonredirect.util.rememberSortedLaunchStrategies
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppChooserLayout(
     modifier: Modifier = Modifier,
@@ -62,44 +66,102 @@ fun AppChooserLayout(
             )
         }
 
-        LazyColumn(
+        LazyVerticalStaggeredGrid(
             modifier = Modifier,
             contentPadding = PaddingValues(8.dp),
-            verticalArrangement = Arrangement.spacedBy(8.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalItemSpacing = 8.dp,
+            columns = AdaptiveMod(minSize = 300.dp, itemCount = launchStrategies.size),
         ) {
-            items(launchStrategies.toList(), { it.key }) { strategy ->
-                val color by animateColorAsState(
-                    targetValue = if (selectedStrategy == strategy) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
-                    label = "CardColor-${strategy.key}",
+            items(launchStrategies, { it.labelRes }) { strategy ->
+                GroupCard(
+                    strategyGroup = strategy,
+                    selectedStrategy = selectedStrategy,
+                    onStrategySelected = { selectedStrategy = it },
+                    modifier = Modifier.fillMaxWidth(),
                 )
+            }
+        }
+    }
+}
 
-                ElevatedCard(
-                    onClick = { selectedStrategy = strategy },
-                    colors = CardDefaults.elevatedCardColors(
-                        containerColor = color,
-                    ),
-                ) {
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .heightIn(min = 56.dp)
-                            .padding(8.dp),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        Text(
-                            text = stringResource(id = strategy.labelRes),
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                            color = if (selectedStrategy == strategy) {
-                                MaterialTheme.colorScheme.onPrimary
-                            } else {
-                                MaterialTheme.colorScheme.onSecondary
-                            },
-                        )
-                    }
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun GroupCard(
+    strategyGroup: LaunchStrategyGroup,
+    selectedStrategy: LaunchStrategy,
+    onStrategySelected: (LaunchStrategy) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val context = LocalContext.current
+
+    OutlinedCard(
+        modifier = modifier,
+    ) {
+        Column(
+            modifier = Modifier.padding(8.dp),
+        ) {
+            Text(
+                text = with (strategyGroup) { context.label },
+                modifier = Modifier.align(Alignment.Start),
+                style = MaterialTheme.typography.titleLarge,
+            )
+
+            FlowRow(
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                strategyGroup.children.forEach { child ->
+                    SingleCard(
+                        strategy = child,
+                        selectedStrategy = selectedStrategy,
+                        onStrategySelected = onStrategySelected,
+                        modifier = Modifier.weight(1f),
+                    )
                 }
             }
         }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SingleCard(
+    strategy: LaunchStrategy,
+    selectedStrategy: LaunchStrategy,
+    onStrategySelected: (LaunchStrategy) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val color by animateColorAsState(
+        targetValue = if (selectedStrategy == strategy) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
+        label = "CardColor-${strategy.key}",
+    )
+
+    ElevatedCard(
+        onClick = { onStrategySelected(strategy) },
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = color,
+        ),
+        modifier = modifier,
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .heightIn(min = 32.dp)
+                .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Text(
+                text = stringResource(id = strategy.labelRes),
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Center,
+                color = if (selectedStrategy == strategy) {
+                    MaterialTheme.colorScheme.onPrimary
+                } else {
+                    MaterialTheme.colorScheme.onSecondary
+                },
+            )
+        }
+    }
+}

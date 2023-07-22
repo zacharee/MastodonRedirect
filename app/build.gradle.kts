@@ -1,9 +1,9 @@
-@Suppress("DSL_SCOPE_VIOLATION") // TODO: Remove once KTIJ-19369 is fixed
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinSerialization)
 }
+
 apply {
     plugin("com.bugsnag.android.gradle")
 }
@@ -16,8 +16,8 @@ android {
         applicationId = "dev.zwander.mastodonredirect"
         minSdk = 24
         targetSdk = 33
-        versionCode = 4
-        versionName = "1.2.0"
+        versionCode = 5
+        versionName = "1.3.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

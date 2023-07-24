@@ -81,6 +81,7 @@ dependencies {
     implementation(libs.kotlinx.serialization)
     implementation(libs.bugsnag.android)
     implementation(libs.accompanist.themeadapter.material3)
+    implementation(libs.kotlin.reflect)
 
     implementation(libs.shizuku.api)
     implementation(libs.shizuku.provider)

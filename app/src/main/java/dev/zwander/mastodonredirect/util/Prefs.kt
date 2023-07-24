@@ -6,6 +6,7 @@ import android.content.ContextWrapper
 import android.content.SharedPreferences
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
+import dev.zwander.mastodonredirect.util.LaunchStrategyUtils.getLaunchStrategyForKey
 
 val Context.prefs: Prefs
     get() = Prefs.getInstance(this)

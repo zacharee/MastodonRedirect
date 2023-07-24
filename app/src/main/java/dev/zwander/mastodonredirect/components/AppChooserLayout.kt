@@ -30,11 +30,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.zwander.mastodonredirect.R
 import dev.zwander.mastodonredirect.util.LaunchStrategy
-import dev.zwander.mastodonredirect.util.LaunchStrategyGroup
+import dev.zwander.mastodonredirect.util.LaunchStrategyRootGroup
+import dev.zwander.mastodonredirect.util.LaunchStrategyUtils.rememberSortedLaunchStrategies
 import dev.zwander.mastodonredirect.util.Prefs
 import dev.zwander.mastodonredirect.util.prefs
 import dev.zwander.mastodonredirect.util.rememberPreferenceState
-import dev.zwander.mastodonredirect.util.rememberSortedLaunchStrategies
 
 @Composable
 fun AppChooserLayout(
@@ -89,7 +89,7 @@ fun AppChooserLayout(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun GroupCard(
-    strategyGroup: LaunchStrategyGroup,
+    strategyGroup: LaunchStrategyRootGroup,
     selectedStrategy: LaunchStrategy,
     onStrategySelected: (LaunchStrategy) -> Unit,
     modifier: Modifier = Modifier,
@@ -136,7 +136,7 @@ private fun GroupCard(
 
 @Composable
 private fun GroupTitle(
-    strategyGroup: LaunchStrategyGroup,
+    strategyGroup: LaunchStrategyRootGroup,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -151,7 +151,7 @@ private fun GroupTitle(
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun GroupRow(
-    strategyGroup: LaunchStrategyGroup,
+    strategyGroup: LaunchStrategyRootGroup,
     selectedStrategy: LaunchStrategy,
     onStrategySelected: (LaunchStrategy) -> Unit,
     modifier: Modifier = Modifier,

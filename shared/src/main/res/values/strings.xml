@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="selected_app">Selected App</string>
+
+    <string name="discovered">Discovered</string>
+
+    <string name="stable">Stable</string>
+    <string name="canary">Canary</string>
+    <string name="nightly">Nightly</string>
+    <string name="google_play">Google Play</string>
+    <string name="f_droid">F-Droid</string>
+
+    <string name="link_handling">Link Handling</string>
+    <string name="link_handling_desc">To use %1$s, you\'ll need to enable all supported links in Settings or use Shizuku to do it automatically. Note: Settings may be unable to open the App Info for %2$s, in which case Shizuku will be required.</string>
+    <string name="enable">Enable</string>
+
+    <string name="enable_using_shizuku">Enable using Shizuku</string>
+
+    <string name="install_shizuku">Install Shizuku</string>
+    <string name="install_shizuku_message">Install the Shizuku app and follow the instructions in it to set it up, then come back here and try again.</string>
+    <string name="install">Install</string>
+
+    <string name="start_shizuku">Start Shizuku</string>
+    <string name="start_shizuku_message">Shizuku is installed, but it isn\'t running. Open it and follow the instructions to start it, then come back here and try again.</string>
+    <string name="start">Start</string>
+
+    <string name="enable_crash_reports">Enable Crash Reports</string>
+    <string name="enable_crash_reports_desc">Disabling requires an app restart.</string>
+
+    <string name="http_filter">HTTP Filter</string>
+    <string name="protocol_filter">Protocol Filter</string>
+    <string name="open_link">Open Link</string>
+
+    <string name="choose_app">Choose App</string>
+    <string name="choose_app_desc">The following apps are supported by %$s. You can choose which one should be launched when handling supported links.</string>
+</resources>

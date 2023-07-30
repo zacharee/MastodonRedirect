@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <queries>
+        <package android:name="moe.shizuku.privileged.api" />
+
+        <intent>
+            <action android:name="dev.zwander.mastodonredirect.intent.action.OPEN_FEDI_LINK" />
+        </intent>
+    </queries>
+
+    <application
+        android:theme="@style/Theme.Redirector">
+        <provider
+            android:name="rikka.shizuku.ShizukuProvider"
+            android:authorities="${applicationId}.shizuku"
+            android:enabled="true"
+            android:exported="true"
+            android:multiprocess="false"
+            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
+
+        <activity-alias
+            android:name=".RedirectActivityBase"
+            android:targetActivity=".RedirectActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:theme="@style/AppTheme.Transparent">
+            <intent-filter android:label="@string/open_link">
+                <action android:name="android.intent.action.SEND" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data android:mimeType="text/*" />
+            </intent-filter>
+
+            <intent-filter android:label="@string/protocol_filter">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <!-- https://akihikodaki.github.io/activity-intent/scheme.html -->
+                <data android:scheme="web+activity+http" />
+                <data android:scheme="web+activity+https" />
+            </intent-filter>
+        </activity-alias>
+    </application>
+</manifest>

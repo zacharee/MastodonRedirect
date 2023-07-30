@@ -17,5 +17,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Mastodon Redirect"
-include(":app")
+include(":mastodonredirect", ":shared")
  

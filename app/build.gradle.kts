@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
@@ -11,6 +13,9 @@ apply {
 android {
     namespace = "dev.zwander.mastodonredirect"
     compileSdk = 33
+
+    val localProperties = Properties()
+    localProperties.load(project.rootProject.file("local.properties").inputStream())
 
     defaultConfig {
         applicationId = "dev.zwander.mastodonredirect"
@@ -34,11 +39,13 @@ android {
             )
             buildConfigField("int", "VERSION_CODE", "${defaultConfig.versionCode}")
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
+            buildConfigField("String", "INSTANCES_SOCIAL_KEY", "\"${localProperties.getOrDefault("instances_social_key", "")}\"")
         }
 
         debug {
             buildConfigField("int", "VERSION_CODE", "${defaultConfig.versionCode}")
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
+            buildConfigField("String", "INSTANCES_SOCIAL_KEY", "\"${localProperties.getOrDefault("instances_social_key", "")}\"")
         }
     }
     compileOptions {

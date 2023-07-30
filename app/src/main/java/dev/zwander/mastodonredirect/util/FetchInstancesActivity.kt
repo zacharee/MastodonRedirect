@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import dev.zwander.mastodonredirect.BuildConfig
 import dev.zwander.mastodonredirect.ui.theme.MastodonRedirectTheme
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -78,8 +79,9 @@ class FetchInstancesActivity : ComponentActivity() {
                         bearer {
                             loadTokens {
                                 // https://instances.social/api/token
+                                // Define `instances_social_key=YOUR_KEY` in local.properties.
                                 BearerTokens(
-                                    "TOKEN_HERE",
+                                    BuildConfig.INSTANCES_SOCIAL_KEY,
                                     "",
                                 )
                             }

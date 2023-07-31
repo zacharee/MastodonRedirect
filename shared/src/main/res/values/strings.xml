@@ -32,5 +32,5 @@
     <string name="open_link">Open Link</string>
 
     <string name="choose_app">Choose App</string>
-    <string name="choose_app_desc">The following apps are supported by %$s. You can choose which one should be launched when handling supported links.</string>
+    <string name="choose_app_desc">The following apps are supported by %s. You can choose which one should be launched when handling supported links.</string>
 </resources>

@@ -17,5 +17,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Mastodon Redirect"
-include(":mastodonredirect", ":shared")
+include(":mastodonredirect", ":lemmyredirect", ":shared")
  

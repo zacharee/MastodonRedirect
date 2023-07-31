@@ -21,9 +21,14 @@ class FetchInstancesActivity : BaseFetchActivity() {
             urlString = "https://data.lemmyverse.net/data/instance.min.json",
         )
 
-        val root = json.decodeFromStream<List<Instance>>(response.body())
+        val kbinResponse = HttpClient().get(
+            urlString = "https://data.lemmyverse.net/data/kbin.min.json",
+        )
 
-        return root.filter {
+        val root = json.decodeFromStream<List<Instance>>(response.body())
+        val kbinRoot = json.decodeFromStream<List<String>>(kbinResponse.body()).map { Instance(it) }
+
+        return (root + kbinRoot).filter {
             !it.base.isNullOrBlank() && !it.base.startsWith(".") && it.base.contains(".")
         }.distinctBy { it.base }.map { FetchedInstance(it.base!!, it.base) }
     }

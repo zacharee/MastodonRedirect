@@ -1,8 +1,28 @@
 # Mastodon/Lemmy Redirect
 A simple pair of apps for automatically launching fediverse links in your preferred Mastodon/Lemmy client.
 
+## Use-Cases:
+Mastodon and Lemmy are both examples of federated social media. This is mostly a good thing, for a whole host of reasons, but it does have one notable disadvantage: deep linking support.
+
+When you tap a Twitter link in your browser and your phone opens the Twitter app instead of the Twitter website to view the post, that's an example of deep linking. The trouble with federated social media is three-fold:
+1. There are a lot of different instances at different addresses running the same or interoperable software.
+2. Android only lets app developers declare supported deep link domains at compile time: users can't add custom domains, and domains can only be added through app updates. Many developers understandably don't want to maintain a list of thousands of domains.
+3. Android really isn't set up for a single app to support more than a few different domains for deep links.
+
+Mastodon/Lemmy Redirect aims to solve the first two issues and somewhat solve the third.
+
+By using the [instances.social](https://instances.social) and [Lemmy Explorer](https://lemmyverse.net/communities) APIs, Mastodon/Lemmy Redirect is able to maintain an up-to-date list of supported domains.
+
+Once you download the app, you can choose your client app and then enable all supported domains, so that when you tap a recognized link, it gets passed to Mastodon/Lemmy Redirect.
+
+Mastodon/Lemmy Redirect then sends the link directly to the chosen client app for it to handle.
+
+Since the point of Mastodon/Lemmy Redirect is only to change where supported links open, the maintenance of supported domains isn't extra busywork that has to be done in addition to other features and fixes; it's literally all the app does.
+
+Client developers do need to do some work for Mastodon/Lemmy Redirect to support them, but it's a one-time thing, and instructions are available below.
+
 ## Supported Domains
-Currently, most domains on https://instances.social are supported.
+Currently, most domains on https://instances.social and https://lemmyverse.net/communities are supported.
 
 Mastodon/Lemmy Redirect supports most active and alive instances, but excludes dead instances and instances that haven't had any activity recently. This is to keep the list as short as possible and avoid crashes.
 

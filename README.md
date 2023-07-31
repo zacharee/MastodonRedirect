@@ -1,12 +1,12 @@
-# Mastodon Redirect
-A simple app for automatically launching fediverse links in your preferred Mastodon client.
+# Mastodon/Lemmy Redirect
+A simple pair of apps for automatically launching fediverse links in your preferred Mastodon/Lemmy client.
 
 ## Supported Domains
 Currently, most domains on https://instances.social are supported.
 
-Mastodon Redirect supports most active and alive instances, but excludes dead instances and instances that haven't had any activity recently. This is to keep the list as short as possible and avoid crashes.
+Mastodon/Lemmy Redirect supports most active and alive instances, but excludes dead instances and instances that haven't had any activity recently. This is to keep the list as short as possible and avoid crashes.
 
-Mastodon Redirect also (sort of) supports the `web+activity+http` and `web+activity+https` URL schemes. The expectation is that the full post or profile URL will follow.
+Mastodon/Lemmy Redirect also (sort of) supports the `web+activity+http` and `web+activity+https` URL schemes. The expectation is that the full post or profile URL will follow.
 
 Examples:
 ```
@@ -22,21 +22,21 @@ web+activity+https://androiddev.social/@wander1236
 [![IzzyOnDroid](https://img.shields.io/endpoint?url=https%3A%2F%2Fapt.izzysoft.de%2Ffdroid%2Fapi%2Fv1%2Fshield%2Fdev.zwander.mastodonredirect&style=for-the-badge&logo=f-droid)](https://apt.izzysoft.de/fdroid/index/apk/dev.zwander.mastodonredirect/)
 
 ## Setup
-If any domains aren\'t enabled for handling by Mastodon Redirect, the app will let you know and provide you buttons for enabling them.
+If any domains aren\'t enabled for handling by Mastodon/Lemmy Redirect, the app will let you know and provide you buttons for enabling them.
 
-Enabling each supported domain one at a time is possible, but tedious. Instead, Mastodon Redirect can use [Shizuku](https://shizuku.rikka.app) to automatically enable all links at once. The setup for Shizuku is a little complex, but can be done completely on-device on Android 11 and later. It is also only needed once for the initial setup or for enabling domains added in app updates.
+Enabling each supported domain one at a time is possible, but tedious. Instead, Mastodon/Lemmy Redirect can use [Shizuku](https://shizuku.rikka.app) to automatically enable all links at once. The setup for Shizuku is a little complex, but can be done completely on-device on Android 11 and later. It is also only needed once for the initial setup or for enabling domains added in app updates.
 
 ## Usage
-Open Mastodon Redirect and select your preferred client.
+Open Mastodon/Lemmy Redirect and select your preferred client.
 
 ## Client Support
-Unfortunately, many Mastodon clients don't have a way for Mastodon Redirect to interface with them.
+Unfortunately, many Mastodon clients don't have a way for Mastodon/Lemmy Redirect to interface with them.
 
-Mastodon redirect relies on clients having a link sharing target that can parse and open fediverse links. 
+Mastodon/Lemmy Redirect relies on clients having a link sharing target that can parse and open fediverse links. 
 
 Clients such as Tusky and Trunks do have share targets, but they can only be used to create new posts, with the shared link as the content. Other clients have no share targets at all.
 
-Mastodon Redirect currently supports the following clients:
+Mastodon/Lemmy Redirect currently supports the following clients:
 - [Fedilab (F-Droid or Play Store)](https://github.com/stom79/Fedilab).
 - [Megalodon](https://github.com/sk22/megalodon).
 - [Moshidon (Stable or Nightly)](https://github.com/LucasGGamerM/moshidon).
@@ -47,19 +47,28 @@ Mastodon Redirect currently supports the following clients:
 If your favorite client isn't on the list, consider creating an issue on their code repository linking to the section below, ***but please search through the existing issues first, including ones that have been closed***. Pestering developers won't help anyone.
 
 ## Adding Client Support
-If you're the developer of a Mastodon client and want to add support for Mastodon Redirect into your app, here's how.
+If you're the developer of a Mastodon client and want to add support for Mastodon/Lemmy Redirect into your app, here's how.
 
 ### Automatic
-You can let Mastodon Redirect automatically discover your app by filtering for a custom Intent and parsing the data as a URL.
+You can let Mastodon/Lemmy Redirect automatically discover your app by filtering for a custom Intent and parsing the data as a URL.
 
-Note: right now, Mastodon Redirect doesn't support auto discovery, but it should be added soon.
+Note: right now, Mastodon/Lemmy Redirect doesn't support auto discovery, but it should be added soon.
 
 #### Create a discoverable target.
 In your `AndroidManifest.xml`, add the following intent filter inside the relevant Activity tag:
 
+Mastodon Redirect:
 ```xml
 <intent-filter>
     <action android:name="dev.zwander.mastodonredirect.intent.action.OPEN_FEDI_LINK"/>
+    <category android:name="android.intent.category.DEFAULT"/>
+</intent-filter>
+```
+
+Lemmy Redirect:
+```xml
+<intent-filter>
+    <action android:name="dev.zwander.lemmyredirect.intent.action.OPEN_FEDI_LINK"/>
     <category android:name="android.intent.category.DEFAULT"/>
 </intent-filter>
 ```
@@ -81,7 +90,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 ### Manual
 The high level process is pretty simple: expose some way for your app to be launched that accepts a URL and tries to parse it as a fediverse link to open as a post or profile. There are a few ways you can do this.
 
-Once you've implemented support, feel free to open an issue or PR to have it added to Mastodon Redirect.
+Once you've implemented support, feel free to open an issue or PR to have it added to Mastodon/Lemmy Redirect.
 
 #### Create a share target.
 Note: this will cause your app to appear in the share menu when a user chooses to share any text, not just links. If your app already has a share target for pasting the shared text into a new post draft, it might make sense to reuse that target with an option to open the shared link instead of only creating a new post.
@@ -146,11 +155,11 @@ override fun onCreate(savedInstanceState: Bundle?) {
 ```
 
 ## Building
-In order to build Mastodon Redirect, you'll need two things:
+In order to build Mastodon/Lemmy Redirect, you'll need two things:
 1. The latest [Android Studio Canary](https://developer.android.com/studio/preview) build.
 2. A [modified Android SDK](https://github.com/Reginer/aosp-android-jar) with hidden APIs exposed.
 
-Download the modified SDK corresponding to Mastodon Redirect's current `compileSdk` value (found in the module-level [build.gradle.kts](https://github.com/zacharee/MastodonRedirect/tree/main/app/build.gradle.kts)) and follow the instructions provided in the link above to install it.
+Download the modified SDK corresponding to Mastodon/Lemmy Redirect's current `compileSdk` value (found in the module-level [build.gradle.kts](https://github.com/zacharee/MastodonRedirect/tree/main/app/build.gradle.kts)) and follow the instructions provided in the link above to install it.
 
 ## Contributing
 If you want to add support for another app:
@@ -158,6 +167,6 @@ If you want to add support for another app:
 Until development slows down, check out the `LaunchStrategy.kt` file for how to add new apps.
 
 ## Error Reporting
-Mastodon Redirect uses Bugsnag for error reporting.
+Mastodon/Lemmy Redirect uses Bugsnag for error reporting.
 
 <a href="https://www.bugsnag.com"><img src="https://assets-global.website-files.com/607f4f6df411bd01527dc7d5/63bc40cd9d502eda8ea74ce7_Bugsnag%20Full%20Color.svg" width="200"></a>

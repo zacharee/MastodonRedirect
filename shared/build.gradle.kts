@@ -6,10 +6,10 @@ plugins {
 
 android {
     namespace = "dev.zwander.shared"
-    compileSdk = 33
+    compileSdk = rootProject.extra["compile.sdk"].toString().toInt()
 
     defaultConfig {
-        minSdk = 24
+        minSdk = rootProject.extra["min.sdk"].toString().toInt()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
@@ -24,12 +24,13 @@ android {
             )
         }
     }
+    val javaVersion = JavaVersion.toVersion(rootProject.extra["java.version"].toString().toInt())
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = javaVersion.majorVersion
     }
     buildFeatures {
         compose = true

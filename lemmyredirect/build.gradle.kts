@@ -10,14 +10,14 @@ apply {
 
 android {
     namespace = "dev.zwander.lemmyredirect"
-    compileSdk = 33
+    compileSdk = rootProject.extra["compile.sdk"].toString().toInt()
 
     defaultConfig {
         applicationId = "dev.zwander.lemmyredirect"
-        minSdk = 24
-        targetSdk = 33
-        versionCode = 5
-        versionName = "1.3.0"
+        minSdk = rootProject.extra["min.sdk"].toString().toInt()
+        targetSdk = rootProject.extra["target.sdk"].toString().toInt()
+        versionCode = rootProject.extra["version.code"].toString().toInt()
+        versionName = rootProject.extra["version.name"].toString()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -41,12 +41,13 @@ android {
             buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
         }
     }
+    val javaVersion = JavaVersion.toVersion(rootProject.extra["java.version"].toString().toInt())
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = javaVersion.majorVersion
     }
     buildFeatures {
         compose = true

@@ -42,7 +42,7 @@ web+activity+https://androiddev.social/@wander1236
 [![IzzyOnDroid](https://img.shields.io/endpoint?url=https%3A%2F%2Fapt.izzysoft.de%2Ffdroid%2Fapi%2Fv1%2Fshield%2Fdev.zwander.mastodonredirect&style=for-the-badge&logo=f-droid)](https://apt.izzysoft.de/fdroid/index/apk/dev.zwander.mastodonredirect/)
 
 ## Setup
-If any domains aren\'t enabled for handling by Mastodon/Lemmy Redirect, the app will let you know and provide you buttons for enabling them.
+If any domains aren't enabled for handling by Mastodon/Lemmy Redirect, the app will let you know and provide you buttons for enabling them.
 
 Enabling each supported domain one at a time is possible, but tedious. Instead, Mastodon/Lemmy Redirect can use [Shizuku](https://shizuku.rikka.app) to automatically enable all links at once. The setup for Shizuku is a little complex, but can be done completely on-device on Android 11 and later. It is also only needed once for the initial setup or for enabling domains added in app updates.
 
@@ -50,19 +50,24 @@ Enabling each supported domain one at a time is possible, but tedious. Instead, 
 Open Mastodon/Lemmy Redirect and select your preferred client.
 
 ## Client Support
-Unfortunately, many Mastodon clients don't have a way for Mastodon/Lemmy Redirect to interface with them.
+Unfortunately, many Mastodon and Lemmy clients don't have a way for Mastodon/Lemmy Redirect to interface with them.
 
 Mastodon/Lemmy Redirect relies on clients having a link sharing target that can parse and open fediverse links. 
 
 Clients such as Tusky and Trunks do have share targets, but they can only be used to create new posts, with the shared link as the content. Other clients have no share targets at all.
 
-Mastodon/Lemmy Redirect currently supports the following clients:
+Mastodon Redirect currently supports the following clients:
 - [Fedilab (F-Droid or Play Store)](https://github.com/stom79/Fedilab).
 - [Megalodon](https://github.com/sk22/megalodon).
 - [Moshidon (Stable or Nightly)](https://github.com/LucasGGamerM/moshidon).
 - [Subway Tooter](https://github.com/tateisu/SubwayTooter).
 - [Elk (PWA: Stable or Canary)](https://github.com/elk-zone/elk).
 - [Tooot](https://github.com/tooot-app/app).
+
+Lemmy Redirect currently supports the following clients:
+- [Jerboa](https://github.com/dessalines/jerboa).
+- [Liftoff](https://github.com/liftoff-app/liftoff).
+- [Summit](https://lemmy.world/c/summit).
 
 If your favorite client isn't on the list, consider creating an issue on their code repository linking to the section below, ***but please search through the existing issues first, including ones that have been closed***. Pestering developers won't help anyone.
 

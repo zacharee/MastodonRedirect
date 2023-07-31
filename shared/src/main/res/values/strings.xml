@@ -4,6 +4,7 @@
 
     <string name="discovered">Discovered</string>
 
+    <string name="main">Main</string>
     <string name="stable">Stable</string>
     <string name="canary">Canary</string>
     <string name="nightly">Nightly</string>

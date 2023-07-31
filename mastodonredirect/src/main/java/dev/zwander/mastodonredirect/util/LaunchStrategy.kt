@@ -79,7 +79,7 @@ data object Tooot : MastodonLaunchStrategyRootGroup(R.string.tooot) {
                     `package` = "com.xmflsct.app.tooot"
                     component =
                         ComponentName("com.xmflsct.app.tooot", "com.xmflsct.app.tooot.MainActivity")
-                }
+                },
             )
         }
     }

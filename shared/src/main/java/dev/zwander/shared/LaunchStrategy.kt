@@ -23,6 +23,7 @@ abstract class BaseLaunchStrategy(
 abstract class LaunchStrategy(
     val key: String,
     @StringRes labelRes: Int,
+    val sequentialLaunch: Boolean = true,
 ) : BaseLaunchStrategy(labelRes) {
     abstract fun Context.createIntents(url: String): List<Intent>
 }
@@ -60,7 +61,7 @@ data class DiscoveredLaunchStrategy(
     val components: List<ComponentName>,
     @StringRes override val labelRes: Int,
     val launchAction: String,
-) : LaunchStrategy(packageName, labelRes) {
+) : LaunchStrategy(packageName, labelRes, sequentialLaunch = false) {
     override val Context.label: String
         get() = packageManager.getResourcesForApplication(packageName).getString(labelRes)
 

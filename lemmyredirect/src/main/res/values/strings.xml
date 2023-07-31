@@ -2,4 +2,6 @@
     <string name="app_name">Lemmy Redirect</string>
 
     <string name="jerboa">Jerboa</string>
+    <string name="summit">Summit</string>
+    <string name="liftoff">Liftoff</string>
 </resources>

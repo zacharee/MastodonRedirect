@@ -6,8 +6,12 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class RedirectActivity : ComponentActivity(), CoroutineScope by MainScope() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,21 +26,39 @@ class RedirectActivity : ComponentActivity(), CoroutineScope by MainScope() {
         when {
             url.isNullOrBlank() || url.contains("oauth/authorize") -> launchInBrowser()
             else -> {
-                app.prefs.selectedApp.run {
-                    createIntents(url).forEach {
-                        it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                launch {
+                    app.prefs.selectedApp.run {
+                        createIntents(url).forEach {
+                            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
-                        try {
-                            startActivity(it)
-                            // Found a working launcher, short circuit out of process.
-                            return@run
-                        } catch (e: Exception) {
-                            Log.e("MastodonRedirect", "Error launching.", e)
+                            try {
+                                startActivity(it)
+
+                                if (!sequentialLaunch) {
+                                    // Found a working launcher, short circuit out of process.
+                                    return@run
+                                }
+                            } catch (e: Exception) {
+                                Log.e("MastodonRedirect", "Error launching.", e)
+
+                                if (sequentialLaunch) {
+                                    launchInBrowser()
+                                    return@run
+                                }
+                            }
+
+                            if (sequentialLaunch) {
+                                withContext(Dispatchers.IO) {
+                                    delay(100)
+                                }
+                            }
+                        }
+
+                        if (!sequentialLaunch) {
+                            // Didn't find any working launchers, open browser.
+                            launchInBrowser()
                         }
                     }
-
-                    // Didn't find any working launchers, open browser.
-                    launchInBrowser()
                 }
             }
         }

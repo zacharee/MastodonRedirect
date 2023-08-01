@@ -97,7 +97,7 @@ private fun GroupCard(
         modifier = modifier,
     ) {
         Box(
-            modifier = Modifier.padding(8.dp),
+            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
         ) {
             if (strategyGroup.children.size > 1) {
                 Column {
@@ -190,6 +190,7 @@ private fun SingleCard(
             containerColor = color,
         ),
         modifier = modifier,
+        shape = MaterialTheme.shapes.small,
     ) {
         Row(
             modifier = Modifier

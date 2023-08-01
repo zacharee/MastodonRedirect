@@ -106,7 +106,7 @@ fun MainContent() {
                         onCheckedChange = { enableCrashReports = it },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(horizontal = 16.dp),
+                            .padding(horizontal = 8.dp),
                     )
                 }
             }

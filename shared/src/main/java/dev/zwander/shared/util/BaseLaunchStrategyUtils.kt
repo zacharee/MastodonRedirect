@@ -31,20 +31,20 @@ abstract class BaseLaunchStrategyUtils(
         val context = LocalContext.current
 
         return remember {
-            groupedLaunchStrategies.sortedBy {
+            val sortedPredefined = groupedLaunchStrategies.sortedBy {
                 with(it) { context.label }.lowercase()
-            } + context.discoverStrategies().values.let { discoveredStrategies ->
-                if (discoveredStrategies.isNotEmpty()) {
-                    listOf(
-                        DiscoveredGroup(
-                            discoveredStrategies.sortedBy {
-                                with(it) { context.label }.lowercase()
-                            }
-                        ),
-                    )
-                } else {
-                    listOf()
-                }
+            }
+
+            val discoveredValues = context.discoverStrategies().values
+
+            if (discoveredValues.isEmpty()) {
+                sortedPredefined
+            } else {
+                sortedPredefined + DiscoveredGroup(
+                    discoveredValues.sortedBy {
+                        with(it) { context.label }.lowercase()
+                    }
+                )
             }
         }
     }

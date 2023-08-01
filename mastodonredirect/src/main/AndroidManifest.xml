@@ -29,7 +29,7 @@
             android:excludeFromRecents="true"
             android:exported="true"
             android:theme="@style/AppTheme.Transparent">
-            <intent-filter android:autoVerify="true" android:label="@string/http_filter">
+            <intent-filter android:label="@string/http_filter">
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />

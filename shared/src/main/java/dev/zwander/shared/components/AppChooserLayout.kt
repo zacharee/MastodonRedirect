@@ -119,14 +119,18 @@ private fun GroupCard(
                 ) {
                     GroupTitle(
                         strategyGroup = strategyGroup,
-                        modifier = Modifier.weight(1f).align(Alignment.CenterVertically),
+                        modifier = Modifier
+                            .weight(1f)
+                            .align(Alignment.CenterVertically),
                     )
 
                     GroupRow(
                         strategyGroup = strategyGroup,
                         selectedStrategy = selectedStrategy,
                         onStrategySelected = onStrategySelected,
-                        modifier = Modifier.weight(1f).align(Alignment.CenterVertically),
+                        modifier = Modifier
+                            .weight(1f)
+                            .align(Alignment.CenterVertically),
                     )
                 }
             }
@@ -189,6 +193,15 @@ private fun SingleCard(
         label = "CardColor-${strategy.key}",
     )
 
+    val textColor by animateColorAsState(
+        targetValue = if (selectedStrategy == strategy) {
+            MaterialTheme.colorScheme.onPrimary
+        } else {
+            MaterialTheme.colorScheme.onSecondaryContainer
+        },
+        label = "CardText-${strategy.key}"
+    )
+
     ElevatedCard(
         onClick = { onStrategySelected(strategy) },
         colors = CardDefaults.elevatedCardColors(
@@ -208,11 +221,7 @@ private fun SingleCard(
                 text = stringResource(id = strategy.labelRes),
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Center,
-                color = if (selectedStrategy == strategy) {
-                    MaterialTheme.colorScheme.onPrimary
-                } else {
-                    MaterialTheme.colorScheme.onSecondaryContainer
-                },
+                color = textColor,
             )
         }
     }

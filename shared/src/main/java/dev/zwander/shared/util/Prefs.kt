@@ -4,32 +4,25 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.ContextWrapper
 import android.content.SharedPreferences
-import androidx.compose.runtime.compositionLocalOf
 import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import dev.zwander.shared.LaunchStrategy
+import dev.zwander.shared.app
+import dev.zwander.shared.model.AppModel
 
-val LocalPrefs = compositionLocalOf<Prefs> { throw IllegalStateException("Prefs local not provided!") }
-
-fun Context.prefs(strategyUtils: BaseLaunchStrategyUtils, defaultStrategy: LaunchStrategy): Prefs {
-    return Prefs.getInstance(this, strategyUtils, defaultStrategy)
-}
+val Context.prefs: Prefs
+    get() = Prefs.getInstance(this)
 
 class Prefs private constructor(
     context: Context,
-    private val strategyUtils: BaseLaunchStrategyUtils,
-    private val defaultStrategy: LaunchStrategy,
+    private val appModel: AppModel,
 ) : ContextWrapper(context) {
     companion object {
         @SuppressLint("StaticFieldLeak")
         private var instance: Prefs? = null
 
-        fun getInstance(context: Context, strategyUtils: BaseLaunchStrategyUtils, defaultStrategy: LaunchStrategy): Prefs {
-            return instance ?: Prefs(
-                context.applicationContext ?: context,
-                strategyUtils,
-                defaultStrategy
-            ).apply {
+        fun getInstance(context: Context): Prefs {
+            return instance ?: Prefs(context.app, context.app).apply {
                 instance = this
             }
         }
@@ -41,8 +34,8 @@ class Prefs private constructor(
     val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
 
     var selectedApp: LaunchStrategy
-        get() = with (strategyUtils) {
-            getLaunchStrategyForKey(preferences.getString(SELECTED_APP, defaultStrategy.key)) ?: defaultStrategy
+        get() = with (appModel.launchStrategyUtils) {
+            getLaunchStrategyForKey(preferences.getString(SELECTED_APP, appModel.defaultLaunchStrategy.key)) ?: appModel.defaultLaunchStrategy
         }
         set(value) {
             preferences.edit { putString(SELECTED_APP, value.key) }

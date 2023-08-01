@@ -8,9 +8,10 @@ import android.content.pm.PackageManager
 import android.os.Build
 import android.os.IBinder
 import com.bugsnag.android.Bugsnag
+import dev.zwander.shared.model.AppModel
 import dev.zwander.shared.shizuku.ShizukuService
 import dev.zwander.shared.util.BaseLaunchStrategyUtils
-import dev.zwander.shared.util.prefs
+import dev.zwander.shared.util.Prefs
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 import rikka.shizuku.Shizuku
 import kotlin.random.Random
@@ -18,22 +19,27 @@ import kotlin.random.Random
 val Context.app: App
     get() = (applicationContext ?: this) as App
 
+val Context.appModel: AppModel
+    get() = app
+
 abstract class App(
-    val launchStrategyUtils: BaseLaunchStrategyUtils,
-    val defaultLaunchStrategy: LaunchStrategy,
-) : Application() {
+    override val launchStrategyUtils: BaseLaunchStrategyUtils,
+    override val defaultLaunchStrategy: LaunchStrategy,
+) : Application(), AppModel {
     private val pInfo by lazy {
         @Suppress("DEPRECATION")
         packageManager.getPackageInfo(packageName, 0)
     }
 
-    val versionName by lazy {
+    override val versionName by lazy {
         pInfo.versionName.toString()
     }
-    val appName by lazy {
+    override val appName by lazy {
         pInfo.applicationInfo.loadLabel(packageManager).toString()
     }
-    val prefs by lazy { prefs(launchStrategyUtils, defaultLaunchStrategy) }
+
+    override val prefs: Prefs
+        get() = Prefs.getInstance(this)
 
     private val queuedCommands = ArrayList<IShizukuService.() -> Unit>()
     private var userService: IShizukuService? = null
@@ -87,7 +93,7 @@ abstract class App(
         }
     }
 
-    fun postShizukuCommand(command: IShizukuService.() -> Unit) {
+    override fun postShizukuCommand(command: IShizukuService.() -> Unit) {
         if (userService != null) {
             command(userService!!)
         } else {

@@ -5,6 +5,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
+import dev.zwander.shared.util.prefs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
@@ -27,7 +28,7 @@ class RedirectActivity : ComponentActivity(), CoroutineScope by MainScope() {
             url.isNullOrBlank() || url.contains("oauth/authorize") -> launchInBrowser()
             else -> {
                 launch {
-                    app.prefs.selectedApp.run {
+                    prefs.selectedApp.run {
                         createIntents(url).forEach {
                             it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 

@@ -3,7 +3,6 @@ package dev.zwander.shared.util
 import android.content.Context
 import android.content.Intent
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import dev.zwander.shared.DiscoveredGroup
@@ -12,11 +11,9 @@ import dev.zwander.shared.LaunchStrategy
 import dev.zwander.shared.LaunchStrategyRootGroup
 import kotlin.reflect.KClass
 
-val LocalLaunchStrategyUtils = compositionLocalOf<BaseLaunchStrategyUtils> { throw IllegalStateException("Utils not provided!") }
-
 abstract class BaseLaunchStrategyUtils(
     val launchAction: String,
-    val baseGroupClass : KClass<out LaunchStrategyRootGroup>,
+    private val baseGroupClass : KClass<out LaunchStrategyRootGroup>,
 ) {
     protected open val groupedLaunchStrategies by lazy {
         baseGroupClass.sealedSubclasses

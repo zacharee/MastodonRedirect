@@ -31,9 +31,7 @@ import androidx.compose.ui.unit.dp
 import dev.zwander.shared.LaunchStrategy
 import dev.zwander.shared.LaunchStrategyRootGroup
 import dev.zwander.shared.R
-import dev.zwander.shared.app
-import dev.zwander.shared.util.LocalLaunchStrategyUtils
-import dev.zwander.shared.util.LocalPrefs
+import dev.zwander.shared.model.LocalAppModel
 import dev.zwander.shared.util.Prefs
 import dev.zwander.shared.util.rememberPreferenceState
 
@@ -41,10 +39,9 @@ import dev.zwander.shared.util.rememberPreferenceState
 fun AppChooserLayout(
     modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
-    val launchStrategyUtils = LocalLaunchStrategyUtils.current
-    val prefs = LocalPrefs.current
-    val launchStrategies = launchStrategyUtils.rememberSortedLaunchStrategies()
+    val appModel = LocalAppModel.current
+    val prefs = appModel.prefs
+    val launchStrategies = appModel.launchStrategyUtils.rememberSortedLaunchStrategies()
 
     var selectedStrategy by rememberPreferenceState(
         key = Prefs.SELECTED_APP,
@@ -64,7 +61,7 @@ fun AppChooserLayout(
             )
 
             Text(
-                text = stringResource(id = R.string.choose_app_desc, context.app.appName),
+                text = stringResource(id = R.string.choose_app_desc, appModel.appName),
                 textAlign = TextAlign.Center,
             )
         }

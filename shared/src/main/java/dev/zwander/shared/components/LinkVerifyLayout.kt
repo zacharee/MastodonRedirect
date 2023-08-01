@@ -26,7 +26,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.zwander.shared.R
-import dev.zwander.shared.app
+import dev.zwander.shared.model.LocalAppModel
 import dev.zwander.shared.util.LinkVerifyUtils.launchManualVerification
 import dev.zwander.shared.util.ShizukuPermissionUtils.isShizukuInstalled
 import dev.zwander.shared.util.ShizukuPermissionUtils.isShizukuRunning
@@ -45,6 +45,7 @@ fun LinkVerifyLayout(
     refresh: () -> Unit,
 ) {
     val context = LocalContext.current
+    val appModel = LocalAppModel.current
     val scope = rememberCoroutineScope()
 
     val shizukuPermission by rememberHasPermissionAsState()
@@ -69,8 +70,8 @@ fun LinkVerifyLayout(
         Text(
             text = stringResource(
                 id = R.string.link_handling_desc,
-                context.app.appName,
-                context.app.appName,
+                appModel.appName,
+                appModel.appName,
             ),
             textAlign = TextAlign.Center,
         )
@@ -92,7 +93,7 @@ fun LinkVerifyLayout(
                 onClick = {
                     if (isShizukuRunning) {
                         if (shizukuPermission) {
-                            context.app.postShizukuCommand { verifyLinks(context.packageName) }
+                            appModel.postShizukuCommand { verifyLinks(context.packageName) }
                             refresh()
                         } else {
                             scope.launch(Dispatchers.IO) {
@@ -111,7 +112,7 @@ fun LinkVerifyLayout(
                                 }
 
                                 if (granted) {
-                                    context.app.postShizukuCommand { verifyLinks(context.packageName) }
+                                    appModel.postShizukuCommand { verifyLinks(context.packageName) }
                                     refresh()
                                 }
                             }

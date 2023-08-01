@@ -4,9 +4,11 @@ import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import java.util.Objects
 
-class AdaptiveMod(private val minSize: Dp, private val itemCount: Int) : StaggeredGridCells {
+/**
+ * A special version of [StaggeredGridCells.Adaptive] that stretches items to fill the axis.
+ */
+data class AdaptiveMod(private val minSize: Dp, private val itemCount: Int) : StaggeredGridCells {
     init {
         require(minSize > 0.dp)
     }
@@ -17,16 +19,6 @@ class AdaptiveMod(private val minSize: Dp, private val itemCount: Int) : Stagger
     ): IntArray {
         val count = maxOf(minOf((availableSize + spacing) / (minSize.roundToPx() + spacing), itemCount), 1)
         return calculateCellsCrossAxisSizeImpl(availableSize, count, spacing)
-    }
-
-    override fun hashCode(): Int {
-        return Objects.hash(minSize, itemCount)
-    }
-
-    override fun equals(other: Any?): Boolean {
-        return other is AdaptiveMod
-                && minSize == other.minSize
-                && itemCount == other.itemCount
     }
 }
 

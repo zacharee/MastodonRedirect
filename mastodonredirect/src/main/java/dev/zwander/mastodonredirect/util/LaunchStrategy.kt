@@ -34,7 +34,8 @@ sealed class MastodonLaunchStrategyRootGroup(
 @Keep
 data object Megalodon : MastodonLaunchStrategyRootGroup(R.string.megalodon) {
     @Keep
-    data object MegalodonStable : MastodonLaunchStrategy("MEGALODON", dev.zwander.shared.R.string.stable) {
+    data object MegalodonStable :
+        MastodonLaunchStrategy("MEGALODON", dev.zwander.shared.R.string.stable) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 Intent(Intent.ACTION_SEND).apply {
@@ -42,7 +43,7 @@ data object Megalodon : MastodonLaunchStrategyRootGroup(R.string.megalodon) {
                     `package` = "org.joinmastodon.android.sk"
                     component = ComponentName(
                         "org.joinmastodon.android.sk",
-                        "org.joinmastodon.android.ExternalShareActivity"
+                        "org.joinmastodon.android.ExternalShareActivity",
                     )
                 },
             )
@@ -53,7 +54,8 @@ data object Megalodon : MastodonLaunchStrategyRootGroup(R.string.megalodon) {
 @Keep
 data object SubwayTooter : MastodonLaunchStrategyRootGroup(R.string.subway_tooter) {
     @Keep
-    data object SubwayTooterStable : MastodonLaunchStrategy("SUBWAY_TOOTER", dev.zwander.shared.R.string.stable) {
+    data object SubwayTooterStable :
+        MastodonLaunchStrategy("SUBWAY_TOOTER", dev.zwander.shared.R.string.stable) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 Intent(Intent.ACTION_VIEW).apply {
@@ -77,8 +79,10 @@ data object Tooot : MastodonLaunchStrategyRootGroup(R.string.tooot) {
             return listOf(
                 Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
                     `package` = "com.xmflsct.app.tooot"
-                    component =
-                        ComponentName("com.xmflsct.app.tooot", "com.xmflsct.app.tooot.MainActivity")
+                    component = ComponentName(
+                        "com.xmflsct.app.tooot",
+                        "com.xmflsct.app.tooot.MainActivity",
+                    )
                 },
             )
         }
@@ -174,8 +178,11 @@ data object Elk : MastodonLaunchStrategyRootGroup(R.string.elk) {
         }
 
         @Keep
-        data object ElkStable : ElkBase("ELK", dev.zwander.shared.R.string.stable, "https://elk.zone")
+        data object ElkStable :
+            ElkBase("ELK", dev.zwander.shared.R.string.stable, "https://elk.zone")
+
         @Keep
-        data object ElkCanary : ElkBase("ELK_CANARY", dev.zwander.shared.R.string.canary, "https://main.elk.zone")
+        data object ElkCanary :
+            ElkBase("ELK_CANARY", dev.zwander.shared.R.string.canary, "https://main.elk.zone")
     }
 }

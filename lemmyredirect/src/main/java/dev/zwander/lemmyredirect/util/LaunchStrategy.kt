@@ -42,7 +42,10 @@ data object Jerboa : LemmyLaunchStrategyRootGroup(R.string.jerboa) {
                     addCategory(Intent.CATEGORY_BROWSABLE)
 
                     `package` = "com.jerboa"
-                    component = ComponentName("com.jerboa", "com.jerboa.MainActivity")
+                    component = ComponentName(
+                        "com.jerboa",
+                        "com.jerboa.MainActivity",
+                    )
                 },
             )
         }
@@ -59,7 +62,10 @@ data object Summit : LemmyLaunchStrategyRootGroup(R.string.summit) {
                 addCategory(Intent.CATEGORY_BROWSABLE)
 
                 `package` = "com.idunnololz.summit"
-                component = ComponentName("com.idunnololz.summit", "com.idunnololz.summit.main.MainActivity")
+                component = ComponentName(
+                    "com.idunnololz.summit",
+                    "com.idunnololz.summit.main.MainActivity",
+                )
             }
 
             return listOf(
@@ -85,7 +91,10 @@ data object Liftoff : LemmyLaunchStrategyRootGroup(R.string.liftoff) {
                     addCategory(Intent.CATEGORY_BROWSABLE)
 
                     `package` = "com.liftoffapp.liftoff"
-                    component = ComponentName("com.liftoffapp.liftoff", "com.liftoffapp.liftoff.MainActivity")
+                    component = ComponentName(
+                        "com.liftoffapp.liftoff",
+                        "com.liftoffapp.liftoff.MainActivity",
+                    )
                 },
             )
         }

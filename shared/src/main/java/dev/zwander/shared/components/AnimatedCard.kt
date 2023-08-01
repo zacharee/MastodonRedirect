@@ -30,10 +30,22 @@ fun AnimatedCard(
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val color by animateColorAsState(colors.containerColor(enabled).value)
-    val contentColor by animateColorAsState(colors.contentColor(enabled).value)
-    val tonalElevation by animateDpAsState(elevation.tonalElevation(enabled, interactionSource).value)
-    val shadowElevation by animateDpAsState(elevation.shadowElevation(enabled, interactionSource).value)
+    val color by animateColorAsState(
+        targetValue = colors.containerColor(enabled).value,
+        label = "AnimatedCard-color",
+    )
+    val contentColor by animateColorAsState(
+        targetValue = colors.contentColor(enabled).value,
+        label = "AnimatedCard-contentColor",
+    )
+    val tonalElevation by animateDpAsState(
+        targetValue = elevation.tonalElevation(enabled, interactionSource).value,
+        label = "AnimatedCard-tonalElevation",
+    )
+    val shadowElevation by animateDpAsState(
+        targetValue = elevation.shadowElevation(enabled, interactionSource).value,
+        label = "AnimatedCard.shadowElevation",
+    )
 
     Surface(
         onClick = onClick,

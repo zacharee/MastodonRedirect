@@ -57,7 +57,9 @@ abstract class BaseFetchActivity : ComponentActivity() {
             }
 
             LaunchedEffect(key1 = null) {
-                items = loadInstances()
+                items = loadInstances().filter {
+                    !it.name.isNullOrBlank() && !it.name.startsWith(".") && it.name.contains(".")
+                }.distinctBy { it.name }
             }
 
             RedirectorTheme {

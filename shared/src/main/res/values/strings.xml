@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="selected_app">Selected App</string>
-
     <string name="discovered">Discovered</string>
 
     <string name="main">Main</string>

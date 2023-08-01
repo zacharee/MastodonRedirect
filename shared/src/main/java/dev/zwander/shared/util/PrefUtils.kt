@@ -41,16 +41,3 @@ fun <T> rememberPreferenceState(
 
     return state
 }
-
-@Composable
-fun rememberBooleanPreferenceState(
-    key: String,
-    enabled: () -> Boolean,
-    onEnabledChanged: (Boolean) -> Unit
-): MutableState<Boolean> {
-    return rememberPreferenceState(
-        key = key,
-        value = enabled,
-        onChanged = onEnabledChanged
-    )
-}

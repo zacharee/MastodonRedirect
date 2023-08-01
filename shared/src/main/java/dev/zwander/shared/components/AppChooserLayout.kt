@@ -73,9 +73,9 @@ fun AppChooserLayout(
             verticalItemSpacing = 8.dp,
             columns = AdaptiveMod(minSize = 300.dp, itemCount = launchStrategies.size),
         ) {
-            items(launchStrategies, { it.labelRes }) { strategy ->
+            items(launchStrategies, { it.labelRes }) { strategyGroup ->
                 GroupCard(
-                    strategyGroup = strategy,
+                    strategyGroup = strategyGroup,
                     selectedStrategy = selectedStrategy,
                     onStrategySelected = { selectedStrategy = it },
                     modifier = Modifier.fillMaxWidth(),
@@ -190,7 +190,7 @@ private fun SingleCard(
         } else {
             MaterialTheme.colorScheme.secondaryContainer
         },
-        label = "CardColor-${strategy.key}",
+        label = "SingleCardColor-${strategy.key}",
     )
 
     val textColor by animateColorAsState(
@@ -199,7 +199,7 @@ private fun SingleCard(
         } else {
             MaterialTheme.colorScheme.onSecondaryContainer
         },
-        label = "CardText-${strategy.key}"
+        label = "SingleCardText-${strategy.key}"
     )
 
     ElevatedCard(

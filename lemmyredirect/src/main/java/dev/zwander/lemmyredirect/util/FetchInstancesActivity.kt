@@ -28,8 +28,6 @@ class FetchInstancesActivity : BaseFetchActivity() {
         val root = json.decodeFromStream<List<Instance>>(response.body())
         val kbinRoot = json.decodeFromStream<List<String>>(kbinResponse.body()).map { Instance(it) }
 
-        return (root + kbinRoot).filter {
-            !it.base.isNullOrBlank() && !it.base.startsWith(".") && it.base.contains(".")
-        }.distinctBy { it.base }.map { FetchedInstance(it.base!!, it.base) }
+        return (root + kbinRoot).map { FetchedInstance(it.base!!, it.base) }
     }
 }

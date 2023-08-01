@@ -44,10 +44,8 @@ class FetchInstancesActivity : BaseFetchActivity() {
             urlString = "https://instances.social/api/1.0/instances/list?include_dead=false&include_down=true&include_closed=true&sort_by=name&count=0&min_active_users=1",
         )
 
-        val instancesRoot = json.decodeFromStream<InstancesRoot>(response.body())
-
-        return instancesRoot.instances.filter {
-            !it.name.isNullOrBlank() && !it.name.startsWith(".") && it.name.contains(".")
-        }.distinctBy { it.name }.map { FetchedInstance(it.id, it.name) }
+        return json.decodeFromStream<InstancesRoot>(response.body()).instances.map {
+            FetchedInstance(it.id, it.name)
+        }
     }
 }

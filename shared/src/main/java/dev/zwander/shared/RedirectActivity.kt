@@ -50,7 +50,7 @@ class RedirectActivity : ComponentActivity(), CoroutineScope by MainScope() {
 
                             if (sequentialLaunch) {
                                 withContext(Dispatchers.IO) {
-                                    delay(100)
+                                    delay(500)
                                 }
                             }
                         }

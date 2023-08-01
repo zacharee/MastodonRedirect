@@ -31,7 +31,7 @@ abstract class BaseLaunchStrategyUtils(
         val context = LocalContext.current
 
         return remember {
-            (groupedLaunchStrategies).sortedBy {
+            groupedLaunchStrategies.sortedBy {
                 with(it) { context.label }.lowercase()
             } + context.discoverStrategies().values.let { discoveredStrategies ->
                 if (discoveredStrategies.isNotEmpty()) {

@@ -8,6 +8,7 @@ import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 import dev.zwander.shared.LaunchStrategy
 import dev.zwander.shared.app
+import dev.zwander.shared.appModel
 import dev.zwander.shared.model.AppModel
 
 val Context.prefs: Prefs
@@ -22,7 +23,7 @@ class Prefs private constructor(
         private var instance: Prefs? = null
 
         fun getInstance(context: Context): Prefs {
-            return instance ?: Prefs(context.app, context.app).apply {
+            return instance ?: Prefs(context.app, context.appModel).apply {
                 instance = this
             }
         }

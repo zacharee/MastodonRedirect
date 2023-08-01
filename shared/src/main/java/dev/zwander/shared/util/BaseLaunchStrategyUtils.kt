@@ -14,10 +14,10 @@ import kotlin.reflect.KClass
 
 val LocalLaunchStrategyUtils = compositionLocalOf<BaseLaunchStrategyUtils> { throw IllegalStateException("Utils not provided!") }
 
-abstract class BaseLaunchStrategyUtils {
-    abstract val launchAction: String
-    abstract val baseGroupClass: KClass<out LaunchStrategyRootGroup>
-
+abstract class BaseLaunchStrategyUtils(
+    val launchAction: String,
+    val baseGroupClass : KClass<out LaunchStrategyRootGroup>,
+) {
     protected open val groupedLaunchStrategies by lazy {
         baseGroupClass.sealedSubclasses
             .mapNotNull { it.objectInstance }.filter { it.autoAdd }

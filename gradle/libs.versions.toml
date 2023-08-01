@@ -1,6 +1,6 @@
 [versions]
 accompanist = "0.31.5-beta"
-agp = "8.2.0-alpha14"
+agp = "8.2.0-alpha15"
 bugsnagAndroid = "5.30.0"
 bugsnagAndroidGradlePlugin = "8.0.1"
 kotlin = "1.9.0"

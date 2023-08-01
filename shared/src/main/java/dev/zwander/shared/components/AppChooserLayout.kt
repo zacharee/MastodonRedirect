@@ -181,7 +181,11 @@ private fun SingleCard(
     modifier: Modifier = Modifier,
 ) {
     val color by animateColorAsState(
-        targetValue = if (selectedStrategy == strategy) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.secondary,
+        targetValue = if (selectedStrategy == strategy) {
+            MaterialTheme.colorScheme.primary
+        } else {
+            MaterialTheme.colorScheme.secondaryContainer
+        },
         label = "CardColor-${strategy.key}",
     )
 
@@ -207,7 +211,7 @@ private fun SingleCard(
                 color = if (selectedStrategy == strategy) {
                     MaterialTheme.colorScheme.onPrimary
                 } else {
-                    MaterialTheme.colorScheme.onSecondary
+                    MaterialTheme.colorScheme.onSecondaryContainer
                 },
             )
         }

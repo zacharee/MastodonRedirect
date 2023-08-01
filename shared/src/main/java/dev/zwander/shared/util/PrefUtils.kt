@@ -7,6 +7,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import dev.zwander.shared.model.LocalAppModel
 
 @Composable
 fun <T> rememberPreferenceState(
@@ -17,7 +18,8 @@ fun <T> rememberPreferenceState(
     val state = remember(key) {
         mutableStateOf(value())
     }
-    val prefs = LocalPrefs.current
+    val appModel = LocalAppModel.current
+    val prefs = appModel.prefs
 
     LaunchedEffect(key1 = state.value) {
         onChanged(state.value)

@@ -95,6 +95,7 @@ private fun GroupCard(
 ) {
     OutlinedCard(
         modifier = modifier,
+        shape = MaterialTheme.shapes.large,
     ) {
         Box(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
@@ -190,7 +191,7 @@ private fun SingleCard(
             containerColor = color,
         ),
         modifier = modifier,
-        shape = MaterialTheme.shapes.small,
+        shape = MaterialTheme.shapes.medium,
     ) {
         Row(
             modifier = Modifier

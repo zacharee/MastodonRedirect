@@ -53,6 +53,7 @@ fun AppChooserLayout(
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.padding(horizontal = 8.dp),
         ) {
             Text(
                 text = stringResource(id = R.string.choose_app),

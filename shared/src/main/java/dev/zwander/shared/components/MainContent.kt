@@ -66,7 +66,9 @@ fun MainContent() {
                         .padding(vertical = 16.dp),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    Column {
+                    Column(
+                        modifier = Modifier.padding(horizontal = 8.dp),
+                    ) {
                         Text(
                             text = appModel.appName,
                             style = MaterialTheme.typography.headlineLarge,

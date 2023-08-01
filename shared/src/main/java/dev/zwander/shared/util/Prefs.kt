@@ -9,21 +9,19 @@ import androidx.preference.PreferenceManager
 import dev.zwander.shared.LaunchStrategy
 import dev.zwander.shared.app
 import dev.zwander.shared.appModel
-import dev.zwander.shared.model.AppModel
 
 val Context.prefs: Prefs
     get() = Prefs.getInstance(this)
 
 class Prefs private constructor(
     context: Context,
-    private val appModel: AppModel,
 ) : ContextWrapper(context) {
     companion object {
         @SuppressLint("StaticFieldLeak")
         private var instance: Prefs? = null
 
         fun getInstance(context: Context): Prefs {
-            return instance ?: Prefs(context.app, context.appModel).apply {
+            return instance ?: Prefs(context.app).apply {
                 instance = this
             }
         }

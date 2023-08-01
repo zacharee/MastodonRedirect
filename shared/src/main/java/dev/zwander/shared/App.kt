@@ -18,13 +18,21 @@ import kotlin.random.Random
 val Context.app: App
     get() = (applicationContext ?: this) as App
 
-abstract class App : Application() {
-    abstract val versionCode: Int
-    abstract val versionName: String
-    abstract val appName: String
-    abstract val launchStrategyUtils: BaseLaunchStrategyUtils
-    abstract val defaultLaunchStrategy: LaunchStrategy
+abstract class App(
+    val launchStrategyUtils: BaseLaunchStrategyUtils,
+    val defaultLaunchStrategy: LaunchStrategy,
+) : Application() {
+    private val pInfo by lazy {
+        @Suppress("DEPRECATION")
+        packageManager.getPackageInfo(packageName, 0)
+    }
 
+    val versionName by lazy {
+        pInfo.versionName.toString()
+    }
+    val appName by lazy {
+        pInfo.applicationInfo.loadLabel(packageManager).toString()
+    }
     val prefs by lazy { prefs(launchStrategyUtils, defaultLaunchStrategy) }
 
     private val queuedCommands = ArrayList<IShizukuService.() -> Unit>()
@@ -88,10 +96,11 @@ abstract class App : Application() {
     }
 
     private fun addUserService() {
+        @Suppress("DEPRECATION")
         Shizuku.bindUserService(
             Shizuku.UserServiceArgs(
                 ComponentName(this, ShizukuService::class.java)
-            ).version(versionCode + (if (BuildConfig.DEBUG) Random.nextInt() else 0))
+            ).version(pInfo.versionCode + (if (BuildConfig.DEBUG) Random.nextInt() else 0))
                 .processNameSuffix(":mastodon_redirect"),
             userServiceConnection,
         )

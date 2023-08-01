@@ -10,15 +10,20 @@ import dev.zwander.shared.DiscoveredGroup
 import dev.zwander.shared.DiscoveredLaunchStrategy
 import dev.zwander.shared.LaunchStrategy
 import dev.zwander.shared.LaunchStrategyRootGroup
+import kotlin.reflect.KClass
 
 val LocalLaunchStrategyUtils = compositionLocalOf<BaseLaunchStrategyUtils> { throw IllegalStateException("Utils not provided!") }
 
 abstract class BaseLaunchStrategyUtils {
     abstract val launchAction: String
+    abstract val baseGroupClass: KClass<out LaunchStrategyRootGroup>
 
-    abstract val groupedLaunchStrategies: List<LaunchStrategyRootGroup>
+    protected open val groupedLaunchStrategies by lazy {
+        baseGroupClass.sealedSubclasses
+            .mapNotNull { it.objectInstance }.filter { it.autoAdd }
+    }
 
-    open val flattenedLaunchStrategies by lazy {
+    protected open val flattenedLaunchStrategies by lazy {
         groupedLaunchStrategies.flatMap { strategy ->
             strategy.children.map { it.key to it }
         }.toMap()

@@ -15,8 +15,8 @@ import dev.zwander.shared.LaunchStrategyRootGroup
 /**
  * This file contains the supported launch strategies.
  *
- * To add your own strategy, create a new data object extending [LaunchStrategyRootGroup].
- * Then, create a nested data object extension [LaunchStrategy].
+ * To add your own strategy, create a new data object extending [LemmyLaunchStrategyRootGroup].
+ * Then, create a nested data object extending [LemmyLaunchStrategy].
  * Examples for groups with only one strategy and with multiple are available below.
  * Newly added strategies will be automatically included in the UI.
  */

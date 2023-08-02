@@ -14,7 +14,6 @@ import dev.zwander.shared.util.BaseLaunchStrategyUtils
 import dev.zwander.shared.util.Prefs
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 import rikka.shizuku.Shizuku
-import kotlin.random.Random
 
 val Context.app: App
     get() = (applicationContext ?: this) as App
@@ -64,6 +63,16 @@ abstract class App(
         }
     }
 
+    @Suppress("DEPRECATION")
+    private val serviceArgs by lazy {
+        Shizuku.UserServiceArgs(ComponentName(packageName, ShizukuService::class.java.canonicalName))
+            .version(pInfo.versionCode + (if (BuildConfig.DEBUG) 9999 else 0))
+            .processNameSuffix("redirect")
+            .debuggable(BuildConfig.DEBUG)
+            .daemon(false)
+            .tag("${packageName}_redirect")
+    }
+
     override fun onCreate() {
         super.onCreate()
 
@@ -102,12 +111,14 @@ abstract class App(
     }
 
     private fun addUserService() {
-        @Suppress("DEPRECATION")
+        Shizuku.unbindUserService(
+            serviceArgs,
+            userServiceConnection,
+            true
+        )
+
         Shizuku.bindUserService(
-            Shizuku.UserServiceArgs(
-                ComponentName(this, ShizukuService::class.java)
-            ).version(pInfo.versionCode + (if (BuildConfig.DEBUG) Random.nextInt() else 0))
-                .processNameSuffix(":mastodon_redirect"),
+            serviceArgs,
             userServiceConnection,
         )
     }

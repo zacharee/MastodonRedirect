@@ -3,6 +3,7 @@ package dev.zwander.shared.components
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
+import android.os.Build
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
@@ -94,8 +95,10 @@ fun LinkVerifyLayout(
                 onClick = {
                     if (isShizukuRunning) {
                         if (shizukuPermission) {
-                            appModel.postShizukuCommand { verifyLinks(context.packageName) }
-                            refresh()
+                            appModel.postShizukuCommand {
+                                verifyLinks(Build.VERSION.SDK_INT, context.packageName)
+                                refresh()
+                            }
                         } else {
                             scope.launch(Dispatchers.IO) {
                                 val granted = suspendCoroutine { cont ->
@@ -113,8 +116,10 @@ fun LinkVerifyLayout(
                                 }
 
                                 if (granted) {
-                                    appModel.postShizukuCommand { verifyLinks(context.packageName) }
-                                    refresh()
+                                    appModel.postShizukuCommand {
+                                        verifyLinks(Build.VERSION.SDK_INT, context.packageName)
+                                        refresh()
+                                    }
                                 }
                             }
                         }

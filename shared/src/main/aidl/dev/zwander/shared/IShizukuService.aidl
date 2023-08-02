@@ -1,6 +1,8 @@
 package dev.zwander.shared;
 
+import dev.zwander.shared.data.VerifyResult;
+
 interface IShizukuService {
     void destroy() = 16777114;
-    void verifyLinks(String packageName) = 1;
+    VerifyResult verifyLinks(int sdk, String packageName) = 1;
 }

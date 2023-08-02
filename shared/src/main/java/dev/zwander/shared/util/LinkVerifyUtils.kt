@@ -13,6 +13,7 @@ import android.os.Build
 import android.os.ServiceManager
 import android.os.UserHandle
 import android.provider.Settings
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
@@ -115,7 +116,11 @@ object LinkVerifyUtils {
                 verified.value = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     val domain = context.getSystemService(Context.DOMAIN_VERIFICATION_SERVICE) as DomainVerificationManager
 
-                    domain.getDomainVerificationUserState(context.packageName)?.hostToStateMap?.all { (_, state) ->
+                    domain.getDomainVerificationUserState(context.packageName)?.hostToStateMap?.all { (host, state) ->
+                        if (state != DomainVerificationUserState.DOMAIN_STATE_VERIFIED) {
+                            Log.e("MastodonRedirect", "$host: $state")
+                        }
+
                         state != DomainVerificationUserState.DOMAIN_STATE_NONE
                     } == true
 

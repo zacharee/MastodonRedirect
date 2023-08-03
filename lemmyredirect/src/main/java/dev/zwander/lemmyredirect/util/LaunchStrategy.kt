@@ -5,7 +5,6 @@ package dev.zwander.lemmyredirect.util
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.annotation.Keep
 import androidx.annotation.StringRes
 import dev.zwander.lemmyredirect.R
@@ -37,16 +36,14 @@ data object Jerboa : LemmyLaunchStrategyRootGroup(R.string.jerboa) {
     data object JerboaStable : LemmyLaunchStrategy("JERBOA", dev.zwander.shared.R.string.main) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
-                Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
-                    addCategory(Intent.CATEGORY_DEFAULT)
-                    addCategory(Intent.CATEGORY_BROWSABLE)
-
-                    `package` = "com.jerboa"
-                    component = ComponentName(
+                LaunchStrategyUtils.createViewIntent(
+                    "com.jerboa",
+                    ComponentName(
                         "com.jerboa",
                         "com.jerboa.MainActivity",
-                    )
-                },
+                    ),
+                    url,
+                ),
             )
         }
     }
@@ -57,17 +54,17 @@ data object Summit : LemmyLaunchStrategyRootGroup(R.string.summit) {
     @Keep
     data object SummitStable : LemmyLaunchStrategy("SUMMIT", dev.zwander.shared.R.string.main) {
         override fun Context.createIntents(url: String): List<Intent> {
-            val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
-                addCategory(Intent.CATEGORY_DEFAULT)
-                addCategory(Intent.CATEGORY_BROWSABLE)
-
-                `package` = "com.idunnololz.summit"
-                component = ComponentName(
+            val intent = LaunchStrategyUtils.createViewIntent(
+                "com.idunnololz.summit",
+                ComponentName(
                     "com.idunnololz.summit",
                     "com.idunnololz.summit.main.MainActivity",
-                )
-            }
+                ),
+                url,
+            )
 
+            // Summit currently doesn't follow deep links on a cold start,
+            // so send the Intent twice.
             return listOf(
                 Intent(intent),
                 Intent(intent),
@@ -82,20 +79,15 @@ data object Liftoff : LemmyLaunchStrategyRootGroup(R.string.liftoff) {
     data object LiftoffStable : LemmyLaunchStrategy("LIFTOFF", dev.zwander.shared.R.string.main) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
-                Intent(
-                    Intent.ACTION_VIEW,
-                    Uri.parse(url.replace("https://", "liftoff://")
-                        .replace("http://", "liftoff://"))
-                ).apply {
-                    addCategory(Intent.CATEGORY_DEFAULT)
-                    addCategory(Intent.CATEGORY_BROWSABLE)
-
-                    `package` = "com.liftoffapp.liftoff"
-                    component = ComponentName(
+                LaunchStrategyUtils.createViewIntent(
+                    "com.liftoffapp.liftoff",
+                    ComponentName(
                         "com.liftoffapp.liftoff",
                         "com.liftoffapp.liftoff.MainActivity",
-                    )
-                },
+                    ),
+                    url.replace("https://", "liftoff://")
+                        .replace("http://", "liftoff://"),
+                ),
             )
         }
     }
@@ -107,17 +99,14 @@ data object Sync : LemmyLaunchStrategyRootGroup(R.string.sync) {
     data object SyncMain : LemmyLaunchStrategy("SYNC", dev.zwander.shared.R.string.main) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
-                Intent(Intent.ACTION_SEND).apply {
-                    addCategory(Intent.CATEGORY_DEFAULT)
-
-                    putExtra(Intent.EXTRA_TEXT, url)
-
-                    `package` = "io.syncapps.lemmy_sync"
-                    component = ComponentName(
+                LaunchStrategyUtils.createShareIntent(
+                    "io.syncapps.lemmy_sync",
+                    ComponentName(
                         "io.syncapps.lemmy_sync",
                         "io.syncapps.lemmy_sync.ui.activities.IntentActivity",
-                    )
-                },
+                    ),
+                    url,
+                ),
             )
         }
     }
@@ -129,16 +118,14 @@ data object Infinity : LemmyLaunchStrategyRootGroup(R.string.infinity) {
     data object InfinityMain : LemmyLaunchStrategy("INFINITY", dev.zwander.shared.R.string.main) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
-                Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
-                    addCategory(Intent.CATEGORY_DEFAULT)
-                    addCategory(Intent.CATEGORY_BROWSABLE)
-
-                    `package` = "eu.toldi.infinityforlemmy"
-                    component = ComponentName(
+                LaunchStrategyUtils.createViewIntent(
+                    "eu.toldi.infinityforlemmy",
+                    ComponentName(
                         "eu.toldi.infinityforlemmy",
                         "eu.toldi.infinityforlemmy.activities.LinkResolverActivity",
-                    )
-                },
+                    ),
+                    url,
+                ),
             )
         }
     }

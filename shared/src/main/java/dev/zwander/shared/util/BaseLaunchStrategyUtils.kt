@@ -1,7 +1,9 @@
 package dev.zwander.shared.util
 
+import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
@@ -89,6 +91,25 @@ abstract class BaseLaunchStrategyUtils(
         } catch (e: Exception) {
             e.printStackTrace()
             null
+        }
+    }
+
+    open fun createViewIntent(pkg: String, component: ComponentName, url: String): Intent {
+        return Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+            addCategory(Intent.CATEGORY_DEFAULT)
+            addCategory(Intent.CATEGORY_BROWSABLE)
+
+            `package` = pkg
+            this.component = component
+        }
+    }
+
+    open fun createShareIntent(pkg: String, component: ComponentName, url: String): Intent {
+        return Intent(Intent.ACTION_SEND).apply {
+            putExtra(Intent.EXTRA_TEXT, url)
+
+            `package` = pkg
+            this.component = component
         }
     }
 }

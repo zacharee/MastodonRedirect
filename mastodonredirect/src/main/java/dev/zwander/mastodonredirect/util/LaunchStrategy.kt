@@ -38,14 +38,14 @@ data object Megalodon : MastodonLaunchStrategyRootGroup(R.string.megalodon) {
         MastodonLaunchStrategy("MEGALODON", dev.zwander.shared.R.string.stable) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
-                Intent(Intent.ACTION_SEND).apply {
-                    putExtra(Intent.EXTRA_TEXT, url)
-                    `package` = "org.joinmastodon.android.sk"
-                    component = ComponentName(
+                LaunchStrategyUtils.createShareIntent(
+                    "org.joinmastodon.android.sk",
+                    ComponentName(
                         "org.joinmastodon.android.sk",
                         "org.joinmastodon.android.ExternalShareActivity",
-                    )
-                },
+                    ),
+                    url,
+                ),
             )
         }
     }
@@ -58,14 +58,14 @@ data object SubwayTooter : MastodonLaunchStrategyRootGroup(R.string.subway_toote
         MastodonLaunchStrategy("SUBWAY_TOOTER", dev.zwander.shared.R.string.stable) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
-                Intent(Intent.ACTION_VIEW).apply {
-                    `package` = "jp.juggler.subwaytooter"
-                    component = ComponentName(
+                LaunchStrategyUtils.createViewIntent(
+                    "jp.juggler.subwaytooter",
+                    ComponentName(
                         "jp.juggler.subwaytooter",
                         "jp.juggler.subwaytooter.ActCallback"
-                    )
-                    data = Uri.parse(url)
-                },
+                    ),
+                    url,
+                ),
             )
         }
     }
@@ -77,13 +77,14 @@ data object Tooot : MastodonLaunchStrategyRootGroup(R.string.tooot) {
     data object ToootStable : MastodonLaunchStrategy("TOOOT", dev.zwander.shared.R.string.stable) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
-                Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
-                    `package` = "com.xmflsct.app.tooot"
-                    component = ComponentName(
+                LaunchStrategyUtils.createViewIntent(
+                    "com.xmflsct.app.tooot",
+                    ComponentName(
                         "com.xmflsct.app.tooot",
                         "com.xmflsct.app.tooot.MainActivity",
-                    )
-                },
+                    ),
+                    url,
+                ),
             )
         }
     }
@@ -98,15 +99,15 @@ data object Fedilab : MastodonLaunchStrategyRootGroup(R.string.fedilab) {
         private val componentName: String,
     ) : MastodonLaunchStrategy(key, labelRes) {
         override fun Context.createIntents(url: String): List<Intent> {
-            val baseIntent = Intent(Intent.ACTION_VIEW)
-            baseIntent.data = Uri.parse(url)
-
             return listOf(
-                Intent(Intent.ACTION_VIEW).apply {
-                    data = Uri.parse(url)
-                    `package` = pkg
-                    component = ComponentName(pkg, componentName)
-                },
+                LaunchStrategyUtils.createViewIntent(
+                    pkg,
+                    ComponentName(
+                        pkg,
+                        componentName,
+                    ),
+                    url,
+                ),
             )
         }
 
@@ -138,11 +139,14 @@ data object Moshidon : MastodonLaunchStrategyRootGroup(R.string.moshidon) {
     ) : MastodonLaunchStrategy(key, labelRes) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
-                Intent(Intent.ACTION_SEND).apply {
-                    putExtra(Intent.EXTRA_TEXT, url)
-                    `package` = pkg
-                    component = ComponentName(pkg, componentName)
-                },
+                LaunchStrategyUtils.createShareIntent(
+                    pkg,
+                    ComponentName(
+                        pkg,
+                        componentName,
+                    ),
+                    url,
+                ),
             )
         }
 

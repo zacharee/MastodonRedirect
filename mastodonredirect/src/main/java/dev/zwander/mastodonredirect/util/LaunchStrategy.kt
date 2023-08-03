@@ -190,3 +190,22 @@ data object Elk : MastodonLaunchStrategyRootGroup(R.string.elk) {
             ElkBase("ELK_CANARY", dev.zwander.shared.R.string.canary, "https://main.elk.zone")
     }
 }
+
+@Keep
+data object Mastodon : MastodonLaunchStrategyRootGroup(R.string.mastodon) {
+    @Keep
+    data object MastodonMain : MastodonLaunchStrategy("MASTODON", dev.zwander.shared.R.string.main) {
+        override fun Context.createIntents(url: String): List<Intent> {
+            return listOf(
+                LaunchStrategyUtils.createViewIntent(
+                    "org.joinmastodon.android",
+                    ComponentName(
+                        "org.joinmastodon.android",
+                        "org.joinmastodon.android.MainActivity",
+                    ),
+                    url,
+                ),
+            )
+        }
+    }
+}

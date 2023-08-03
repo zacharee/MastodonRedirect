@@ -65,11 +65,13 @@ Mastodon Redirect currently supports the following clients:
 - [Tooot](https://github.com/tooot-app/app).
 
 Lemmy Redirect currently supports the following clients:
+- [Infinity](https://codeberg.org/Bazsalanszky/Infinity-For-Lemmy).
 - [Jerboa](https://github.com/dessalines/jerboa).
 - [Liftoff](https://github.com/liftoff-app/liftoff).
 - [Summit](https://lemmy.world/c/summit).
+- [Sync](https://github.com/laurencedawson/sync-for-lemmy).
 
-If your favorite client isn't on the list, consider creating an issue on their code repository linking to the section below, ***but please search through the existing issues first, including ones that have been closed***. Pestering developers won't help anyone.
+If your favorite client isn't on the list, consider creating an issue on their code repository or issue tracker linking to the section below, ***but please search through the existing issues first, including ones that have been closed***. Pestering developers won't help anyone.
 
 ## Adding Client Support
 If you're the developer of a Mastodon client and want to add support for Mastodon/Lemmy Redirect into your app, here's how.

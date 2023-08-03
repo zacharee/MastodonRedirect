@@ -100,3 +100,46 @@ data object Liftoff : LemmyLaunchStrategyRootGroup(R.string.liftoff) {
         }
     }
 }
+
+@Keep
+data object Sync : LemmyLaunchStrategyRootGroup(R.string.sync) {
+    @Keep
+    data object SyncMain : LemmyLaunchStrategy("SYNC", dev.zwander.shared.R.string.main) {
+        override fun Context.createIntents(url: String): List<Intent> {
+            return listOf(
+                Intent(Intent.ACTION_SEND).apply {
+                    addCategory(Intent.CATEGORY_DEFAULT)
+
+                    putExtra(Intent.EXTRA_TEXT, url)
+
+                    `package` = "io.syncapps.lemmy_sync"
+                    component = ComponentName(
+                        "io.syncapps.lemmy_sync",
+                        "io.syncapps.lemmy_sync.ui.activities.IntentActivity",
+                    )
+                },
+            )
+        }
+    }
+}
+
+@Keep
+data object Infinity : LemmyLaunchStrategyRootGroup(R.string.infinity) {
+    @Keep
+    data object InfinityMain : LemmyLaunchStrategy("INFINITY", dev.zwander.shared.R.string.main) {
+        override fun Context.createIntents(url: String): List<Intent> {
+            return listOf(
+                Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+                    addCategory(Intent.CATEGORY_DEFAULT)
+                    addCategory(Intent.CATEGORY_BROWSABLE)
+
+                    `package` = "eu.toldi.infinityforlemmy"
+                    component = ComponentName(
+                        "eu.toldi.infinityforlemmy",
+                        "eu.toldi.infinityforlemmy.activities.LinkResolverActivity",
+                    )
+                },
+            )
+        }
+    }
+}

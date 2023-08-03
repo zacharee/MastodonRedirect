@@ -35,7 +35,7 @@ sealed class MastodonLaunchStrategyRootGroup(
 data object Megalodon : MastodonLaunchStrategyRootGroup(R.string.megalodon) {
     @Keep
     data object MegalodonStable :
-        MastodonLaunchStrategy("MEGALODON", dev.zwander.shared.R.string.stable) {
+        MastodonLaunchStrategy("MEGALODON", dev.zwander.shared.R.string.main) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createShareIntent(
@@ -55,7 +55,7 @@ data object Megalodon : MastodonLaunchStrategyRootGroup(R.string.megalodon) {
 data object SubwayTooter : MastodonLaunchStrategyRootGroup(R.string.subway_tooter) {
     @Keep
     data object SubwayTooterStable :
-        MastodonLaunchStrategy("SUBWAY_TOOTER", dev.zwander.shared.R.string.stable) {
+        MastodonLaunchStrategy("SUBWAY_TOOTER", dev.zwander.shared.R.string.main) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(
@@ -74,7 +74,7 @@ data object SubwayTooter : MastodonLaunchStrategyRootGroup(R.string.subway_toote
 @Keep
 data object Tooot : MastodonLaunchStrategyRootGroup(R.string.tooot) {
     @Keep
-    data object ToootStable : MastodonLaunchStrategy("TOOOT", dev.zwander.shared.R.string.stable) {
+    data object ToootStable : MastodonLaunchStrategy("TOOOT", dev.zwander.shared.R.string.main) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(

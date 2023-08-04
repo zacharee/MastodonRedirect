@@ -14,23 +14,21 @@ class ShizukuService : IShizukuService.Stub {
     @Keep
     constructor(@Suppress("UNUSED_PARAMETER") context: Context) : super()
 
-    override fun verifyLinks(sdk: Int, packageName: String): VerifyResult? {
+    override fun verifyLinks(sdk: Int, packageName: String): List<VerifyResult> {
         try {
             return if (sdk >= Build.VERSION_CODES.S) {
-                val output = ArrayList<String>()
+                val resetOutput = ArrayList<String>()
+                val setOutput = ArrayList<String>()
 
-                val process = Runtime.getRuntime().exec("cmd package set-app-links --package $packageName 2 all")
-                process.inputStream.bufferedReader().forEachLine { output.add(it) }
-                process.errorStream.bufferedReader().forEachLine { output.add(it) }
+                val resetResult = runCommand("cmd package reset-app-links $packageName", resetOutput)
+                val setResult = runCommand("cmd package set-app-links --package $packageName 2 all", setOutput)
 
-                val result = process.waitFor()
-
-                VerifyResult(
-                    output = output,
-                    result = result,
+                listOf(
+                    VerifyResult(resetOutput, resetResult),
+                    VerifyResult(setOutput, setResult),
                 )
             } else {
-                null
+                listOf()
             }
         } finally {
             LinkVerifyUtils.verifyAllLinks(packageName)
@@ -39,5 +37,13 @@ class ShizukuService : IShizukuService.Stub {
 
     override fun destroy() {
         exitProcess(0)
+    }
+
+    private fun runCommand(command: String, output: MutableList<String>): Int {
+        val process = Runtime.getRuntime().exec(command)
+        process.inputStream.bufferedReader().forEachLine { output.add(it) }
+        process.errorStream.bufferedReader().forEachLine { output.add(it) }
+
+        return process.waitFor()
     }
 }

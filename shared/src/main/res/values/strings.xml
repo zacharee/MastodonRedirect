@@ -10,8 +10,10 @@
     <string name="f_droid">F-Droid</string>
 
     <string name="link_handling">Link Handling</string>
-    <string name="link_handling_desc">To use %1$s, you\'ll need to enable all supported links in Settings or use Shizuku to do it automatically. Note: Settings may be unable to open the App Info for %2$s, in which case Shizuku will be required.</string>
+    <string name="link_handling_desc">To use %1$s, you\'ll need to enable all supported links in Settings or use Shizuku to do it automatically. Note: Settings may be unable to open the App Info for %2$s, in which case Shizuku will be required. It\'s also possible that one domain will remain unverified after using Shizuku, in which case a clean reinstall is necessary.</string>
     <string name="enable">Enable</string>
+
+    <string name="unverified_domains">Unverified Domains</string>
 
     <string name="enable_using_shizuku">Enable using Shizuku</string>
 

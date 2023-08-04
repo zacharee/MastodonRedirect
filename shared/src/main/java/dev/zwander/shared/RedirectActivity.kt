@@ -40,7 +40,7 @@ class RedirectActivity : ComponentActivity(), CoroutineScope by MainScope() {
                                     return@run
                                 }
                             } catch (e: Exception) {
-                                Log.e("MastodonRedirect", "Error launching.", e)
+                                Log.e(packageName, "Error launching.", e)
 
                                 if (sequentialLaunch) {
                                     launchInBrowser()
@@ -76,6 +76,7 @@ class RedirectActivity : ComponentActivity(), CoroutineScope by MainScope() {
         startActivity(
             Intent(Intent.ACTION_VIEW).apply {
                 addCategory(Intent.CATEGORY_BROWSABLE)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                 data = intent?.data
                 selector = Intent(Intent.ACTION_VIEW).apply {
                     addCategory(Intent.CATEGORY_BROWSABLE)

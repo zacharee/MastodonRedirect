@@ -41,7 +41,7 @@ fun MainContent() {
         value = { prefs.enableCrashReports },
     ) { prefs.enableCrashReports = it }
 
-    val (linksVerified, refresh) = LinkVerifyUtils.rememberLinkVerificationAsState()
+    val (linksVerified, missingDomains, refresh) = LinkVerifyUtils.rememberLinkVerificationAsState()
 
     LaunchedEffect(key1 = enableCrashReports) {
         if (enableCrashReports) {
@@ -87,6 +87,7 @@ fun MainContent() {
                     AnimatedVisibility(visible = !linksVerified.value) {
                         LinkVerifyLayout(
                             refresh = refresh,
+                            missingDomains = missingDomains,
                             modifier = Modifier.fillMaxWidth(),
                         )
                     }

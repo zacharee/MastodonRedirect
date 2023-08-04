@@ -8,8 +8,12 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
@@ -44,6 +48,7 @@ import kotlin.coroutines.suspendCoroutine
 @Composable
 fun LinkVerifyLayout(
     modifier: Modifier = Modifier,
+    missingDomains: List<String>,
     refresh: () -> Unit,
 ) {
     val context = LocalContext.current
@@ -56,6 +61,9 @@ fun LinkVerifyLayout(
         mutableStateOf(false)
     }
     var showingShizukuStartDialog by remember {
+        mutableStateOf(false)
+    }
+    var showingUnverifiedDomains by remember {
         mutableStateOf(false)
     }
 
@@ -77,6 +85,8 @@ fun LinkVerifyLayout(
             ),
             textAlign = TextAlign.Center,
         )
+
+        Spacer(modifier = Modifier.size(8.dp))
 
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
@@ -133,6 +143,16 @@ fun LinkVerifyLayout(
             ) {
                 Text(text = stringResource(id = R.string.enable_using_shizuku))
             }
+
+            if (missingDomains.isNotEmpty()) {
+                Button(
+                    onClick = {
+                        showingUnverifiedDomains = true
+                    },
+                ) {
+                    Text(text = stringResource(id = R.string.unverified_domains))
+                }
+            }
         }
     }
 
@@ -178,6 +198,29 @@ fun LinkVerifyLayout(
                     }
                 ) {
                     Text(text = stringResource(id = R.string.start))
+                }
+            },
+        )
+    }
+
+    if (showingUnverifiedDomains) {
+        AlertDialog(
+            onDismissRequest = { showingUnverifiedDomains = false },
+            title = { Text(text = stringResource(id = R.string.unverified_domains)) },
+            text = {
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    items(missingDomains, { it }) {
+                        Text(text = it)
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = { showingUnverifiedDomains = false }
+                ) {
+                    Text(text = stringResource(id = android.R.string.ok))
                 }
             },
         )

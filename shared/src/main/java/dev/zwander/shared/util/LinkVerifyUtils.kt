@@ -13,16 +13,17 @@ import android.os.Build
 import android.os.ServiceManager
 import android.os.UserHandle
 import android.provider.Settings
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -62,11 +63,14 @@ object LinkVerifyUtils {
 
     @SuppressLint("WrongConstant", "MissingPermission")
     @Composable
-    fun rememberLinkVerificationAsState(): Pair<State<Boolean>, () -> Unit> {
+    fun rememberLinkVerificationAsState(): Triple<State<Boolean>, SnapshotStateList<String>, () -> Unit> {
         val context = LocalContext.current
         val lifecycle = LocalLifecycleOwner.current.lifecycle
         val verified = remember {
             mutableStateOf(true)
+        }
+        val missingDomains = remember {
+            mutableStateListOf<String>()
         }
 
         var lifecycleState by remember {
@@ -114,11 +118,13 @@ object LinkVerifyUtils {
         LaunchedEffect(key1 = lifecycleState, key2 = refreshCounter) {
             if (lifecycleState >= Lifecycle.State.RESUMED) {
                 verified.value = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                    missingDomains.clear()
+
                     val domain = context.getSystemService(Context.DOMAIN_VERIFICATION_SERVICE) as DomainVerificationManager
 
                     domain.getDomainVerificationUserState(context.packageName)?.hostToStateMap?.all { (host, state) ->
-                        if (state != DomainVerificationUserState.DOMAIN_STATE_VERIFIED) {
-                            Log.e("MastodonRedirect", "$host: $state")
+                        if (state == DomainVerificationUserState.DOMAIN_STATE_NONE) {
+                            missingDomains.add(host)
                         }
 
                         state != DomainVerificationUserState.DOMAIN_STATE_NONE
@@ -133,7 +139,7 @@ object LinkVerifyUtils {
             }
         }
 
-        return verified to {
+        return Triple(verified,missingDomains) {
             refreshCounter++
         }
     }

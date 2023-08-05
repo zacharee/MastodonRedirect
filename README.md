@@ -61,11 +61,12 @@ Mastodon/Lemmy Redirect relies on clients having a link sharing target that can 
 Clients such as Tusky and Trunks do have share targets, but they can only be used to create new posts, with the shared link as the content. Other clients have no share targets at all.
 
 Mastodon Redirect currently supports the following clients:
+- [Elk (PWA: Stable or Canary)](https://github.com/elk-zone/elk).
 - [Fedilab (F-Droid or Play Store)](https://github.com/stom79/Fedilab).
+- [Mastodon](https://github.com/mastodon/mastodon-android).
 - [Megalodon](https://github.com/sk22/megalodon).
 - [Moshidon (Stable or Nightly)](https://github.com/LucasGGamerM/moshidon).
 - [Subway Tooter](https://github.com/tateisu/SubwayTooter).
-- [Elk (PWA: Stable or Canary)](https://github.com/elk-zone/elk).
 - [Tooot](https://github.com/tooot-app/app).
 
 Lemmy Redirect currently supports the following clients:

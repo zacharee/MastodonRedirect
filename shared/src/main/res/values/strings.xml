@@ -37,4 +37,9 @@
 
     <string name="choose_app">Choose App</string>
     <string name="choose_app_desc">The following apps are supported by %s. You can choose which one should be launched when handling supported links.</string>
+
+    <string name="options">Options</string>
+    <string name="patreon">Patreon</string>
+    <string name="supporters">Supporters</string>
+    <string name="github">GitHub</string>
 </resources>

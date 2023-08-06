@@ -1,10 +1,10 @@
 package dev.zwander.shared
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
+import dev.zwander.shared.util.openLinkInBrowser
 import dev.zwander.shared.util.prefs
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -73,16 +73,6 @@ class RedirectActivity : ComponentActivity(), CoroutineScope by MainScope() {
     }
 
     private fun launchInBrowser() {
-        startActivity(
-            Intent(Intent.ACTION_VIEW).apply {
-                addCategory(Intent.CATEGORY_BROWSABLE)
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                data = intent?.data
-                selector = Intent(Intent.ACTION_VIEW).apply {
-                    addCategory(Intent.CATEGORY_BROWSABLE)
-                    data = Uri.parse("https://")
-                }
-            }
-        )
+        openLinkInBrowser(intent?.data)
     }
 }

@@ -1,6 +1,5 @@
 package dev.zwander.shared.components
 
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -46,6 +45,7 @@ import dev.zwander.shared.util.RedirectorTheme
 import dev.zwander.shared.util.ShizukuPermissionUtils.isShizukuInstalled
 import dev.zwander.shared.util.ShizukuPermissionUtils.isShizukuRunning
 import dev.zwander.shared.util.ShizukuPermissionUtils.rememberHasPermissionAsState
+import dev.zwander.shared.util.openLinkInBrowser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import rikka.shizuku.Shizuku
@@ -181,16 +181,7 @@ fun LinkVerifyLayout(
 
             TextButton(
                 onClick = {
-                    val launchIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/1fexd/LinkSheet"))
-                    launchIntent.addCategory(Intent.CATEGORY_DEFAULT)
-                    launchIntent.addCategory(Intent.CATEGORY_BROWSABLE)
-                    launchIntent.selector = Intent(Intent.ACTION_VIEW, Uri.parse("https://"))
-
-                    try {
-                        context.startActivity(launchIntent)
-                    } catch (e: ActivityNotFoundException) {
-                        e.printStackTrace()
-                    }
+                    context.openLinkInBrowser(Uri.parse("https://github.com/1fexd/LinkSheet"))
                 },
             ) {
                 Text(text = stringResource(id = R.string.install_linksheet))

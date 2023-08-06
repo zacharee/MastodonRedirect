@@ -66,5 +66,7 @@ dependencies {
     api(libs.shizuku.api)
     api(libs.shizuku.provider)
 
+    api(libs.patreonSupportersRetrieval)
+
     debugApi(libs.ui.tooling)
 }

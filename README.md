@@ -21,6 +21,10 @@ Since the point of Mastodon/Lemmy Redirect is only to change where supported lin
 
 Client developers do need to do some work for Mastodon/Lemmy Redirect to support them, but it's a one-time thing, and instructions are available below.
 
+## Downloads
+[![GitHub Release](https://img.shields.io/github/v/release/zacharee/MastodonRedirect?style=for-the-badge&logo=github&label=GitHub)](https://github.com/zacharee/MastodonRedirect/releases)
+[![IzzyOnDroid](https://img.shields.io/endpoint?url=https%3A%2F%2Fapt.izzysoft.de%2Ffdroid%2Fapi%2Fv1%2Fshield%2Fdev.zwander.mastodonredirect&style=for-the-badge&logo=f-droid)](https://apt.izzysoft.de/fdroid/index/apk/dev.zwander.mastodonredirect/)
+
 ## Supported Domains
 Currently, most domains on https://instances.social and https://lemmyverse.net/communities are supported.
 
@@ -36,10 +40,6 @@ web+activity+https://androiddev.social/@wander1236/110699242324667418
 // Profile
 web+activity+https://androiddev.social/@wander1236
 ```
-
-## Downloads
-[![GitHub Release](https://img.shields.io/github/v/release/zacharee/MastodonRedirect?style=for-the-badge&logo=github&label=GitHub)](https://github.com/zacharee/MastodonRedirect/releases)
-[![IzzyOnDroid](https://img.shields.io/endpoint?url=https%3A%2F%2Fapt.izzysoft.de%2Ffdroid%2Fapi%2Fv1%2Fshield%2Fdev.zwander.mastodonredirect&style=for-the-badge&logo=f-droid)](https://apt.izzysoft.de/fdroid/index/apk/dev.zwander.mastodonredirect/)
 
 ## Setup
 If any domains aren't enabled for handling by Mastodon/Lemmy Redirect, the app will let you know and provide you buttons for enabling them.

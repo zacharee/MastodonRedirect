@@ -21,16 +21,27 @@ class ShizukuService : IShizukuService.Stub {
     override fun verifyLinks(sdk: Int, packageName: String): List<VerifyResult> {
         try {
             return if (sdk >= Build.VERSION_CODES.S) {
-                val resetOutput = ArrayList<String>()
                 val setOutput = ArrayList<String>()
 
-                val resetResult =
-                    runCommand("cmd package reset-app-links $packageName", resetOutput)
-                val setResult =
-                    runCommand("cmd package set-app-links-user-selection --user ${UserHandle.USER_ALL} --package $packageName true all", setOutput)
+                // Use set-app-links-user-selection instead of
+                // set-app-links to avoid having to use `autoVerify="true"`
+                // in manifest, which can cause excessive battery drain
+                // if something like LinkSheet is used instead of verifying
+                // links with Shizuku.
+                // Also, this needs to be a command, since there's a special
+                // internal version of the API only accessible to the shell
+                // command that bypasses normal permission checks.
+                // DomainManager#setDomainVerificationUserSelection requires
+                // UPDATE_DOMAIN_VERIFICATION_USER_SELECTION, which the shell
+                // user doesn't hold.
+                val setResult = runCommand(
+                    "cmd package set-app-links-user-selection" +
+                            " --user ${UserHandle.USER_ALL}" +
+                            " --package $packageName true all",
+                    setOutput,
+                )
 
                 listOf(
-                    VerifyResult(resetOutput, resetResult),
                     VerifyResult(setOutput, setResult),
                 )
             } else {

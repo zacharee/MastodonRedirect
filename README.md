@@ -46,10 +46,6 @@ If any domains aren't enabled for handling by Mastodon/Lemmy Redirect, the app w
 
 Enabling each supported domain one at a time is possible, but tedious. Instead, Mastodon/Lemmy Redirect can use [Shizuku](https://shizuku.rikka.app) to automatically enable all links at once. The setup for Shizuku is a little complex, but can be done completely on-device on Android 11 and later. It is also only needed once for the initial setup or for enabling domains added in app updates.
 
-### Note about Shizuku Method
-There's a bug in Android where using the Shizuku method will leave one or more domains unverified. Even using Google's officially-recommended development command to verify all domains won't work.  
-If tapping "Enable with Shizuku" isn't working, try uninstalling Mastodon/Lemmy Redirect and then reinstalling. If it worked, you won't see the notification about unverified domains at all on first launch, and all domains should be verified.
-
 ## Usage
 Open Mastodon/Lemmy Redirect and select your preferred client.
 

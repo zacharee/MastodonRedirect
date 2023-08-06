@@ -126,14 +126,14 @@ object LinkVerifyUtils {
                     domain.getDomainVerificationUserState(context.packageName)
                         ?.hostToStateMap
                         ?.toSortedMap()
-                        ?.filter { (host, state) ->
-                            if (state == DomainVerificationUserState.DOMAIN_STATE_NONE) {
-                                missingDomains.add(host)
-                            }
-
+                        ?.filter { (_, state) ->
                             state == DomainVerificationUserState.DOMAIN_STATE_NONE
                         }
-                        ?.isEmpty() == true
+                        ?.let {
+                            missingDomains.addAll(it.keys)
+                        }
+
+                    missingDomains.isEmpty()
                 } else {
                     context.packageManager.getIntentVerificationStatusAsUser(
                         context.packageName,

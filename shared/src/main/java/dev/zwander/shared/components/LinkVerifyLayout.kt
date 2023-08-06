@@ -260,7 +260,12 @@ fun LinkVerifyLayout(
     if (showingUnverifiedDomains) {
         AlertDialog(
             onDismissRequest = { showingUnverifiedDomains = false },
-            title = { Text(text = stringResource(id = R.string.unverified_domains)) },
+            title = {
+                Text(text = stringResource(
+                    id = R.string.unverified_domains_format,
+                    missingDomains.size.toString(),
+                ))
+            },
             text = {
                 LazyColumn(
                     modifier = Modifier.fillMaxWidth(),

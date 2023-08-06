@@ -120,15 +120,20 @@ object LinkVerifyUtils {
                 verified.value = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     missingDomains.clear()
 
-                    val domain = context.getSystemService(Context.DOMAIN_VERIFICATION_SERVICE) as DomainVerificationManager
+                    val domain =
+                        context.getSystemService(Context.DOMAIN_VERIFICATION_SERVICE) as DomainVerificationManager
 
-                    domain.getDomainVerificationUserState(context.packageName)?.hostToStateMap?.all { (host, state) ->
-                        if (state == DomainVerificationUserState.DOMAIN_STATE_NONE) {
-                            missingDomains.add(host)
+                    domain.getDomainVerificationUserState(context.packageName)
+                        ?.hostToStateMap
+                        ?.toSortedMap()
+                        ?.filter { (host, state) ->
+                            if (state == DomainVerificationUserState.DOMAIN_STATE_NONE) {
+                                missingDomains.add(host)
+                            }
+
+                            state == DomainVerificationUserState.DOMAIN_STATE_NONE
                         }
-
-                        state != DomainVerificationUserState.DOMAIN_STATE_NONE
-                    } == true
+                        ?.isEmpty() == true
                 } else {
                     context.packageManager.getIntentVerificationStatusAsUser(
                         context.packageName,
@@ -138,7 +143,7 @@ object LinkVerifyUtils {
             }
         }
 
-        return Triple(verified,missingDomains) {
+        return Triple(verified, missingDomains) {
             refreshCounter++
         }
     }

@@ -66,7 +66,7 @@ abstract class App(
     @Suppress("DEPRECATION")
     private val serviceArgs by lazy {
         Shizuku.UserServiceArgs(ComponentName(packageName, ShizukuService::class.java.canonicalName))
-            .version(pInfo.versionCode + (if (BuildConfig.DEBUG) 9999 else 0))
+            .version(pInfo.versionCode + (if (BuildConfig.DEBUG) 10003 else 0))
             .processNameSuffix("redirect")
             .debuggable(BuildConfig.DEBUG)
             .daemon(false)

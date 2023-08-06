@@ -129,7 +129,6 @@ object LinkVerifyUtils {
 
                         state != DomainVerificationUserState.DOMAIN_STATE_NONE
                     } == true
-
                 } else {
                     context.packageManager.getIntentVerificationStatusAsUser(
                         context.packageName,

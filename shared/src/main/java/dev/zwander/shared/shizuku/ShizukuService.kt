@@ -1,7 +1,9 @@
 package dev.zwander.shared.shizuku
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.os.UserHandle
 import androidx.annotation.Keep
 import dev.zwander.shared.IShizukuService
 import dev.zwander.shared.data.VerifyResult
@@ -11,17 +13,21 @@ import kotlin.system.exitProcess
 class ShizukuService : IShizukuService.Stub {
     @Keep
     constructor() : super()
+
     @Keep
     constructor(@Suppress("UNUSED_PARAMETER") context: Context) : super()
 
+    @SuppressLint("PrivateApi")
     override fun verifyLinks(sdk: Int, packageName: String): List<VerifyResult> {
         try {
             return if (sdk >= Build.VERSION_CODES.S) {
                 val resetOutput = ArrayList<String>()
                 val setOutput = ArrayList<String>()
 
-                val resetResult = runCommand("cmd package reset-app-links $packageName", resetOutput)
-                val setResult = runCommand("cmd package set-app-links --package $packageName 2 all", setOutput)
+                val resetResult =
+                    runCommand("cmd package reset-app-links $packageName", resetOutput)
+                val setResult =
+                    runCommand("cmd package set-app-links-user-selection --user ${UserHandle.USER_ALL} --package $packageName true all", setOutput)
 
                 listOf(
                     VerifyResult(resetOutput, resetResult),

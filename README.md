@@ -187,7 +187,7 @@ In order to build Mastodon/Lemmy Redirect, you'll need two things:
 1. The latest [Android Studio Canary](https://developer.android.com/studio/preview) build.
 2. A [modified Android SDK](https://github.com/Reginer/aosp-android-jar) with hidden APIs exposed.
 
-Download the modified SDK corresponding to Mastodon/Lemmy Redirect's current `compileSdk` value (found in the module-level [build.gradle.kts](https://github.com/zacharee/MastodonRedirect/tree/main/app/build.gradle.kts)) and follow the instructions provided in the link above to install it.
+Download the modified SDK corresponding to Mastodon/Lemmy Redirect's current `compile.sdk` value (found in [gradle.properties](https://github.com/zacharee/MastodonRedirect/tree/main/gradle.properties)) and follow the instructions provided in the link above to install it.
 
 ## Contributing
 If you want to add support for another app:

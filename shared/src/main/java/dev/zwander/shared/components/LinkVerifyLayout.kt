@@ -189,6 +189,7 @@ fun LinkVerifyLayout(
                     onClick = {
                         val launchIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://shizuku.rikka.app"))
                         context.startActivity(launchIntent)
+                        showingShizukuInstallDialog = false
                     }
                 ) {
                     Text(text = stringResource(id = R.string.install))
@@ -213,6 +214,7 @@ fun LinkVerifyLayout(
                         val launchIntent = context.packageManager.getLaunchIntentForPackage(
                             ShizukuProvider.MANAGER_APPLICATION_ID)
                         context.startActivity(launchIntent)
+                        showingShizukuStartDialog = false
                     }
                 ) {
                     Text(text = stringResource(id = R.string.start))

@@ -1,5 +1,6 @@
 package dev.zwander.shared.components
 
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -142,6 +143,23 @@ fun LinkVerifyLayout(
                 },
             ) {
                 Text(text = stringResource(id = R.string.enable_using_shizuku))
+            }
+
+            Button(
+                onClick = {
+                    val launchIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/1fexd/LinkSheet"))
+                    launchIntent.addCategory(Intent.CATEGORY_DEFAULT)
+                    launchIntent.addCategory(Intent.CATEGORY_BROWSABLE)
+                    launchIntent.selector = Intent(Intent.ACTION_VIEW, Uri.parse("https://"))
+
+                    try {
+                        context.startActivity(launchIntent)
+                    } catch (e: ActivityNotFoundException) {
+                        e.printStackTrace()
+                    }
+                },
+            ) {
+                Text(text = stringResource(id = R.string.install_linksheet))
             }
 
             if (missingDomains.isNotEmpty()) {

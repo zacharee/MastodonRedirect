@@ -59,7 +59,7 @@ abstract class BaseFetchActivity : ComponentActivity() {
             LaunchedEffect(key1 = null) {
                 items = loadInstances().filter {
                     !it.name.isNullOrBlank() && !it.name.startsWith(".") && it.name.contains(".")
-                }.distinctBy { it.name }
+                }.distinctBy { it.name }.sortedBy { it.name }
             }
 
             RedirectorTheme {

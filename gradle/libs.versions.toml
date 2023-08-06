@@ -1,7 +1,7 @@
 [versions]
 accompanist = "0.31.5-beta"
 agp = "8.2.0-alpha15"
-bugsnagAndroid = "5.30.0"
+bugsnagAndroid = "5.31.0"
 bugsnagAndroidGradlePlugin = "8.0.1"
 kotlin = "1.9.0"
 core-ktx = "1.10.1"
@@ -12,9 +12,10 @@ material-components = "1.9.0"
 preferences = "1.2.1"
 hiddenApiBypass = "4.3"
 lifecycleRuntimeCompose = "2.6.1"
-ktor = "2.3.2"
+ktor = "2.3.3"
 kotlinx-serialization = "1.5.1"
 shizuku = "13.1.4"
+uiTooling = "1.4.3"
 
 [libraries]
 accompanist-themeadapter-material3 = { module = "com.google.accompanist:accompanist-themeadapter-material3", version.ref = "accompanist" }
@@ -38,6 +39,7 @@ ktor-client-auth = { group = "io.ktor", name = "ktor-client-auth", version.ref =
 kotlinx-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 shizuku-api = { group = "dev.rikka.shizuku", name = "api", version.ref = "shizuku" }
 shizuku-provider = { group = "dev.rikka.shizuku", name = "provider", version.ref = "shizuku" }
+ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling", version.ref = "uiTooling" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

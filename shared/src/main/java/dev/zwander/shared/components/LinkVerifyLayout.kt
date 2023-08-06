@@ -16,11 +16,12 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,10 +32,17 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.zwander.shared.IShizukuService
+import dev.zwander.shared.LaunchStrategy
 import dev.zwander.shared.R
+import dev.zwander.shared.model.AppModel
 import dev.zwander.shared.model.LocalAppModel
+import dev.zwander.shared.util.BaseLaunchStrategyUtils
 import dev.zwander.shared.util.LinkVerifyUtils.launchManualVerification
+import dev.zwander.shared.util.Prefs
+import dev.zwander.shared.util.RedirectorTheme
 import dev.zwander.shared.util.ShizukuPermissionUtils.isShizukuInstalled
 import dev.zwander.shared.util.ShizukuPermissionUtils.isShizukuRunning
 import dev.zwander.shared.util.ShizukuPermissionUtils.rememberHasPermissionAsState
@@ -44,6 +52,33 @@ import rikka.shizuku.Shizuku
 import rikka.shizuku.ShizukuProvider
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+
+@Preview
+@Composable
+fun LinkVerifyPreview() {
+    RedirectorTheme {
+        Surface {
+            CompositionLocalProvider(
+                LocalAppModel provides object : AppModel {
+                    override val launchStrategyUtils: BaseLaunchStrategyUtils
+                        get() = error("Not implemented")
+                    override val defaultLaunchStrategy: LaunchStrategy
+                        get() = error("Not implemented")
+                    override val versionName: String
+                        get() = error("Not implemented")
+                    override val appName: String
+                        get() = "Test Redirect"
+                    override val prefs: Prefs
+                        get() = error("Not implemented")
+
+                    override fun postShizukuCommand(command: IShizukuService.() -> Unit) {}
+                }
+            ) {
+                LinkVerifyLayout(missingDomains = listOf("test")) {}
+            }
+        }
+    }
+}
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -92,17 +127,16 @@ fun LinkVerifyLayout(
         FlowRow(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.Absolute.SpaceEvenly,
-            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            Button(
+            TextButton(
                 onClick = {
                     context.launchManualVerification()
                 }
             ) {
-                Text(text = stringResource(id = R.string.enable))
+                Text(text = stringResource(id = R.string.settings))
             }
 
-            Button(
+            TextButton(
                 onClick = {
                     if (isShizukuRunning) {
                         if (shizukuPermission) {
@@ -145,7 +179,7 @@ fun LinkVerifyLayout(
                 Text(text = stringResource(id = R.string.enable_using_shizuku))
             }
 
-            Button(
+            TextButton(
                 onClick = {
                     val launchIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/1fexd/LinkSheet"))
                     launchIntent.addCategory(Intent.CATEGORY_DEFAULT)
@@ -163,7 +197,7 @@ fun LinkVerifyLayout(
             }
 
             if (missingDomains.isNotEmpty()) {
-                Button(
+                TextButton(
                     onClick = {
                         showingUnverifiedDomains = true
                     },

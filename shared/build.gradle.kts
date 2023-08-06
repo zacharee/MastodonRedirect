@@ -65,4 +65,6 @@ dependencies {
 
     api(libs.shizuku.api)
     api(libs.shizuku.provider)
+
+    debugApi(libs.ui.tooling)
 }

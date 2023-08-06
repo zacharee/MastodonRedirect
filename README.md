@@ -22,7 +22,7 @@ Since the point of Mastodon/Lemmy Redirect is only to change where supported lin
 Client developers do need to do some work for Mastodon/Lemmy Redirect to support them, but it's a one-time thing, and instructions are available below.
 
 ## Downloads
-[![GitHub Release](https://img.shields.io/github/v/release/zacharee/MastodonRedirect?style=for-the-badge&logo=github&label=GitHub&color=orange)](https://github.com/zacharee/MastodonRedirect/releases)
+[![GitHub Release](https://img.shields.io/github/v/release/zacharee/MastodonRedirect?style=for-the-badge&logo=github&label=GitHub&color=orange)](https://github.com/zacharee/MastodonRedirect/releases)  
 [![IzzyOnDroid](https://img.shields.io/endpoint?url=https%3A%2F%2Fapt.izzysoft.de%2Ffdroid%2Fapi%2Fv1%2Fshield%2Fdev.zwander.mastodonredirect&style=for-the-badge&logo=f-droid&label=IzzyOnDroid%20-%20Mastodon%20Redirect)](https://apt.izzysoft.de/fdroid/index/apk/dev.zwander.mastodonredirect/)
 [![IzzyOnDroid](https://img.shields.io/endpoint?url=https%3A%2F%2Fapt.izzysoft.de%2Ffdroid%2Fapi%2Fv1%2Fshield%2Fdev.zwander.lemmyredirect&style=for-the-badge&logo=f-droid&label=IzzyOnDroid%20-%20Lemmy%20Redirect)](https://apt.izzysoft.de/fdroid/index/apk/dev.zwander.lemmyredirect/)
 

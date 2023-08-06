@@ -26,9 +26,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
-import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.LifecycleEventObserver
 
 @Suppress("DEPRECATION")
 object LinkVerifyUtils {
@@ -74,34 +73,12 @@ object LinkVerifyUtils {
         }
 
         var lifecycleState by remember {
-            mutableStateOf(Lifecycle.State.DESTROYED)
+            mutableStateOf(lifecycle.currentState)
         }
 
         DisposableEffect(null) {
-            val observer = object : DefaultLifecycleObserver {
-                override fun onCreate(owner: LifecycleOwner) {
-                    lifecycleState = Lifecycle.State.CREATED
-                }
-
-                override fun onDestroy(owner: LifecycleOwner) {
-                    lifecycleState = Lifecycle.State.DESTROYED
-                }
-
-                override fun onPause(owner: LifecycleOwner) {
-                    lifecycleState = Lifecycle.State.CREATED
-                }
-
-                override fun onResume(owner: LifecycleOwner) {
-                    lifecycleState = Lifecycle.State.RESUMED
-                }
-
-                override fun onStart(owner: LifecycleOwner) {
-                    lifecycleState = Lifecycle.State.STARTED
-                }
-
-                override fun onStop(owner: LifecycleOwner) {
-                    lifecycleState = Lifecycle.State.INITIALIZED
-                }
+            val observer = LifecycleEventObserver { _, event ->
+                lifecycleState = event.targetState
             }
 
             lifecycle.addObserver(observer)

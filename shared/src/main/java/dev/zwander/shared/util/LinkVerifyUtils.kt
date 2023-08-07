@@ -36,6 +36,7 @@ object LinkVerifyUtils {
         val appDetails = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse("package:$packageName"))
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         arrayOf(qDirect, pDirect, appDetails).forEach { action ->
             try {

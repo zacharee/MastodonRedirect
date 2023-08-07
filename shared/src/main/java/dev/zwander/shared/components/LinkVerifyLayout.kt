@@ -4,18 +4,24 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -29,6 +35,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,6 +46,7 @@ import dev.zwander.shared.R
 import dev.zwander.shared.model.AppModel
 import dev.zwander.shared.model.LocalAppModel
 import dev.zwander.shared.util.BaseLaunchStrategyUtils
+import dev.zwander.shared.util.Expander
 import dev.zwander.shared.util.LinkVerifyUtils.launchManualVerification
 import dev.zwander.shared.util.Prefs
 import dev.zwander.shared.util.RedirectorTheme
@@ -53,7 +61,7 @@ import rikka.shizuku.ShizukuProvider
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 fun LinkVerifyPreview() {
     RedirectorTheme {
@@ -102,98 +110,147 @@ fun LinkVerifyLayout(
     var showingUnverifiedDomains by remember {
         mutableStateOf(false)
     }
+    var expanded by remember {
+        mutableStateOf(false)
+    }
 
-    Column(
+    OutlinedCard(
         modifier = modifier.padding(horizontal = 8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        shape = MaterialTheme.shapes.large,
     ) {
-        Text(
-            text = stringResource(id = R.string.link_handling),
-            style = MaterialTheme.typography.headlineSmall,
-            textAlign = TextAlign.Center,
-        )
-
-        Text(
-            text = stringResource(
-                id = R.string.link_handling_desc,
-                appModel.appName,
-                appModel.appName,
-            ),
-            textAlign = TextAlign.Center,
-        )
-
-        Spacer(modifier = Modifier.size(8.dp))
-
-        FlowRow(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Absolute.SpaceEvenly,
+        Column(
+            modifier = Modifier
+                .then(if (!expanded) {
+                    Modifier.clickable {
+                        expanded = true
+                    }
+                } else {
+                    Modifier
+                })
+                .padding(8.dp)
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            TextButton(
-                onClick = {
-                    context.launchManualVerification()
-                }
+            Row(
+                modifier = Modifier.wrapContentWidth(),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text(text = stringResource(id = R.string.settings))
+                Icon(
+                    painter = painterResource(id = R.drawable.baseline_error_24),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.error,
+                    modifier = Modifier.size(32.dp),
+                )
+
+                Spacer(modifier = Modifier.size(8.dp))
+
+                Text(
+                    text = stringResource(id = R.string.link_handling),
+                    style = MaterialTheme.typography.headlineSmall,
+                    textAlign = TextAlign.Center,
+                    lineHeight = MaterialTheme.typography.headlineSmall.fontSize,
+                    modifier = Modifier.weight(1f),
+                )
+
+                Spacer(modifier = Modifier.size(8.dp))
+
+                Expander(
+                    expanded = expanded,
+                    onExpand = { expanded = it },
+                    modifier = Modifier.size(32.dp),
+                )
             }
 
-            TextButton(
-                onClick = {
-                    if (isShizukuRunning) {
-                        if (shizukuPermission) {
-                            appModel.postShizukuCommand {
-                                verifyLinks(Build.VERSION.SDK_INT, context.packageName)
-                                refresh()
+            AnimatedVisibility(visible = expanded) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Spacer(modifier = Modifier.size(8.dp))
+
+                    Text(
+                        text = stringResource(
+                            id = R.string.link_handling_desc,
+                            appModel.appName,
+                            appModel.appName,
+                        ),
+                        textAlign = TextAlign.Center,
+                    )
+
+                    Spacer(modifier = Modifier.size(8.dp))
+
+                    if (missingDomains.isNotEmpty()) {
+                        TextButton(
+                            onClick = {
+                                showingUnverifiedDomains = true
+                            },
+                        ) {
+                            Text(text = stringResource(id = R.string.unverified_domains))
+                        }
+                    }
+
+                    FlowRow(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.Absolute.SpaceEvenly,
+                    ) {
+                        TextButton(
+                            onClick = {
+                                context.launchManualVerification()
                             }
-                        } else {
-                            scope.launch(Dispatchers.IO) {
-                                val granted = suspendCoroutine { cont ->
-                                    val listener = object : Shizuku.OnRequestPermissionResultListener {
-                                        override fun onRequestPermissionResult(
-                                            requestCode: Int,
-                                            grantResult: Int
-                                        ) {
-                                            Shizuku.removeRequestPermissionResultListener(this)
-                                            cont.resume(grantResult == PackageManager.PERMISSION_GRANTED)
+                        ) {
+                            Text(text = stringResource(id = R.string.settings))
+                        }
+
+                        TextButton(
+                            onClick = {
+                                if (isShizukuRunning) {
+                                    if (shizukuPermission) {
+                                        appModel.postShizukuCommand {
+                                            verifyLinks(Build.VERSION.SDK_INT, context.packageName)
+                                            refresh()
+                                        }
+                                    } else {
+                                        scope.launch(Dispatchers.IO) {
+                                            val granted = suspendCoroutine { cont ->
+                                                val listener = object : Shizuku.OnRequestPermissionResultListener {
+                                                    override fun onRequestPermissionResult(
+                                                        requestCode: Int,
+                                                        grantResult: Int
+                                                    ) {
+                                                        Shizuku.removeRequestPermissionResultListener(this)
+                                                        cont.resume(grantResult == PackageManager.PERMISSION_GRANTED)
+                                                    }
+                                                }
+                                                Shizuku.addRequestPermissionResultListener(listener)
+                                                Shizuku.requestPermission(100)
+                                            }
+
+                                            if (granted) {
+                                                appModel.postShizukuCommand {
+                                                    verifyLinks(Build.VERSION.SDK_INT, context.packageName)
+                                                    refresh()
+                                                }
+                                            }
                                         }
                                     }
-                                    Shizuku.addRequestPermissionResultListener(listener)
-                                    Shizuku.requestPermission(100)
-                                }
+                                } else {
+                                    val installed = context.isShizukuInstalled
 
-                                if (granted) {
-                                    appModel.postShizukuCommand {
-                                        verifyLinks(Build.VERSION.SDK_INT, context.packageName)
-                                        refresh()
-                                    }
+                                    showingShizukuInstallDialog = !installed
+                                    showingShizukuStartDialog = installed
                                 }
-                            }
+                            },
+                        ) {
+                            Text(text = stringResource(id = R.string.enable_using_shizuku))
                         }
-                    } else {
-                        val installed = context.isShizukuInstalled
 
-                        showingShizukuInstallDialog = !installed
-                        showingShizukuStartDialog = installed
+                        TextButton(
+                            onClick = {
+                                context.openLinkInBrowser(Uri.parse("https://github.com/1fexd/LinkSheet"))
+                            },
+                        ) {
+                            Text(text = stringResource(id = R.string.install_linksheet))
+                        }
                     }
-                },
-            ) {
-                Text(text = stringResource(id = R.string.enable_using_shizuku))
-            }
-
-            TextButton(
-                onClick = {
-                    context.openLinkInBrowser(Uri.parse("https://github.com/1fexd/LinkSheet"))
-                },
-            ) {
-                Text(text = stringResource(id = R.string.install_linksheet))
-            }
-
-            if (missingDomains.isNotEmpty()) {
-                TextButton(
-                    onClick = {
-                        showingUnverifiedDomains = true
-                    },
-                ) {
-                    Text(text = stringResource(id = R.string.unverified_domains))
                 }
             }
         }

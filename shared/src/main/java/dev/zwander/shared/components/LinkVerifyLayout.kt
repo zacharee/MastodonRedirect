@@ -5,6 +5,7 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
@@ -58,6 +60,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import rikka.shizuku.Shizuku
 import rikka.shizuku.ShizukuProvider
+import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
@@ -79,7 +82,7 @@ fun LinkVerifyPreview() {
                     override val prefs: Prefs
                         get() = error("Not implemented")
 
-                    override fun postShizukuCommand(command: IShizukuService.() -> Unit) {}
+                    override fun postShizukuCommand(context: CoroutineContext, command: IShizukuService.() -> Unit) {}
                 }
             ) {
                 LinkVerifyLayout(missingDomains = listOf("test")) {}
@@ -112,6 +115,20 @@ fun LinkVerifyLayout(
     }
     var expanded by remember {
         mutableStateOf(false)
+    }
+    var loading by remember {
+        mutableStateOf(false)
+    }
+
+    val verifyLinks: () -> Unit = remember {
+        {
+            appModel.postShizukuCommand(Dispatchers.IO) {
+                loading = true
+                verifyLinks(Build.VERSION.SDK_INT, context.packageName)
+                loading = false
+                refresh()
+            }
+        }
     }
 
     OutlinedCard(
@@ -154,11 +171,22 @@ fun LinkVerifyLayout(
 
                 Spacer(modifier = Modifier.size(8.dp))
 
-                Expander(
-                    expanded = expanded,
-                    onExpand = { expanded = it },
-                    modifier = Modifier.size(32.dp),
-                )
+                Crossfade(
+                    targetState = loading,
+                    label = "Expander-Load-Crossfade",
+                ) { ldg ->
+                    if (ldg) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(32.dp),
+                        )
+                    } else {
+                        Expander(
+                            expanded = expanded,
+                            onExpand = { expanded = it },
+                            modifier = Modifier.size(32.dp),
+                        )
+                    }
+                }
             }
 
             AnimatedVisibility(visible = expanded) {
@@ -204,10 +232,7 @@ fun LinkVerifyLayout(
                             onClick = {
                                 if (isShizukuRunning) {
                                     if (shizukuPermission) {
-                                        appModel.postShizukuCommand {
-                                            verifyLinks(Build.VERSION.SDK_INT, context.packageName)
-                                            refresh()
-                                        }
+                                        verifyLinks()
                                     } else {
                                         scope.launch(Dispatchers.IO) {
                                             val granted = suspendCoroutine { cont ->
@@ -225,10 +250,7 @@ fun LinkVerifyLayout(
                                             }
 
                                             if (granted) {
-                                                appModel.postShizukuCommand {
-                                                    verifyLinks(Build.VERSION.SDK_INT, context.packageName)
-                                                    refresh()
-                                                }
+                                                verifyLinks()
                                             }
                                         }
                                     }

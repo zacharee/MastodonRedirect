@@ -5,6 +5,8 @@ import dev.zwander.shared.IShizukuService
 import dev.zwander.shared.LaunchStrategy
 import dev.zwander.shared.util.BaseLaunchStrategyUtils
 import dev.zwander.shared.util.Prefs
+import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 val LocalAppModel = compositionLocalOf<AppModel> { throw IllegalStateException("No app model provided!") }
 
@@ -17,5 +19,5 @@ interface AppModel {
 
     val prefs: Prefs
 
-    fun postShizukuCommand(command: IShizukuService.() -> Unit)
+    fun postShizukuCommand(context: CoroutineContext = EmptyCoroutineContext, command: IShizukuService.() -> Unit)
 }

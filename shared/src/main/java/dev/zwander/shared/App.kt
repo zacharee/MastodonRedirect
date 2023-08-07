@@ -12,8 +12,12 @@ import dev.zwander.shared.model.AppModel
 import dev.zwander.shared.shizuku.ShizukuService
 import dev.zwander.shared.util.BaseLaunchStrategyUtils
 import dev.zwander.shared.util.Prefs
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
 import org.lsposed.hiddenapibypass.HiddenApiBypass
 import rikka.shizuku.Shizuku
+import kotlin.coroutines.CoroutineContext
 
 val Context.app: App
     get() = (applicationContext ?: this) as App
@@ -24,7 +28,7 @@ val Context.appModel: AppModel
 abstract class App(
     override val launchStrategyUtils: BaseLaunchStrategyUtils,
     override val defaultLaunchStrategy: LaunchStrategy,
-) : Application(), AppModel {
+) : Application(), AppModel, CoroutineScope by MainScope() {
     private val pInfo by lazy {
         @Suppress("DEPRECATION")
         packageManager.getPackageInfo(packageName, 0)
@@ -40,14 +44,16 @@ abstract class App(
     override val prefs: Prefs
         get() = Prefs.getInstance(this)
 
-    private val queuedCommands = ArrayList<IShizukuService.() -> Unit>()
+    private val queuedCommands = ArrayList<Pair<CoroutineContext, IShizukuService.() -> Unit>>()
     private var userService: IShizukuService? = null
         set(value) {
             field = value
 
             if (value != null) {
-                queuedCommands.forEach {
-                    it(value)
+                queuedCommands.forEach { (context, command) ->
+                    launch(context) {
+                        value.command()
+                    }
                 }
                 queuedCommands.clear()
             }
@@ -102,11 +108,13 @@ abstract class App(
         }
     }
 
-    override fun postShizukuCommand(command: IShizukuService.() -> Unit) {
+    override fun postShizukuCommand(context: CoroutineContext, command: IShizukuService.() -> Unit) {
         if (userService != null) {
-            command(userService!!)
+            launch(context) {
+                command(userService!!)
+            }
         } else {
-            queuedCommands.add(command)
+            queuedCommands.add(context to command)
         }
     }
 

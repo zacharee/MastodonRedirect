@@ -19,11 +19,9 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
@@ -62,18 +60,20 @@ object LinkVerifyUtils {
 
     @SuppressLint("WrongConstant", "MissingPermission")
     @Composable
-    fun rememberLinkVerificationAsState(): Triple<State<Boolean>, SnapshotStateList<String>, () -> Unit> {
+    fun rememberLinkVerificationAsState(): State<LinkVerificationStatus> {
         val context = LocalContext.current
         val lifecycle = LocalLifecycleOwner.current.lifecycle
-        val verified = remember {
-            mutableStateOf(true)
-        }
-        val missingDomains = remember {
-            mutableStateListOf<String>()
-        }
 
         var lifecycleState by remember {
             mutableStateOf(lifecycle.currentState)
+        }
+
+        var refreshCounter by remember {
+            mutableIntStateOf(0)
+        }
+
+        val verificationStatus = remember {
+            mutableStateOf(LinkVerificationStatus { refreshCounter++ })
         }
 
         DisposableEffect(null) {
@@ -88,15 +88,11 @@ object LinkVerifyUtils {
             }
         }
 
-        var refreshCounter by remember {
-            mutableIntStateOf(0)
-        }
-
         LaunchedEffect(key1 = lifecycleState, key2 = refreshCounter) {
             if (lifecycleState >= Lifecycle.State.RESUMED) {
-                verified.value = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    missingDomains.clear()
+                val newMissingDomains = mutableListOf<String>()
 
+                val newVerified = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     val domain =
                         context.getSystemService(Context.DOMAIN_VERIFICATION_SERVICE) as DomainVerificationManager
 
@@ -107,21 +103,30 @@ object LinkVerifyUtils {
                             state == DomainVerificationUserState.DOMAIN_STATE_NONE
                         }
                         ?.let {
-                            missingDomains.addAll(it.keys)
+                            newMissingDomains.addAll(it.keys)
                         }
 
-                    missingDomains.isEmpty()
+                    newMissingDomains.isEmpty()
                 } else {
                     context.packageManager.getIntentVerificationStatusAsUser(
                         context.packageName,
                         UserHandle.myUserId(),
                     ) == PackageManager.INTENT_FILTER_DOMAIN_VERIFICATION_STATUS_ALWAYS
                 }
+
+                verificationStatus.value = verificationStatus.value.copy(
+                    verified = newVerified,
+                    missingDomains = newMissingDomains,
+                )
             }
         }
 
-        return Triple(verified, missingDomains) {
-            refreshCounter++
-        }
+        return verificationStatus
     }
 }
+
+data class LinkVerificationStatus(
+    val verified: Boolean = true,
+    val missingDomains: List<String> = listOf(),
+    val refresh: () -> Unit,
+)

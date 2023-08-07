@@ -7,6 +7,7 @@ import android.net.Uri
 
 fun Context.openLinkInBrowser(uri: Uri?) {
     val launchIntent = Intent(Intent.ACTION_VIEW, uri)
+    launchIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     launchIntent.addCategory(Intent.CATEGORY_DEFAULT)
     launchIntent.addCategory(Intent.CATEGORY_BROWSABLE)
     launchIntent.selector = Intent(Intent.ACTION_VIEW, Uri.parse("https://"))

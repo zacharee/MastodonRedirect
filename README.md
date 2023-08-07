@@ -50,6 +50,8 @@ If any domains aren't enabled for handling by Mastodon/Lemmy Redirect, the app w
 
 Enabling each supported domain one at a time is possible, but tedious. Instead, Mastodon/Lemmy Redirect can use [Shizuku](https://shizuku.rikka.app) to automatically enable all links at once. The setup for Shizuku is a little complex, but can be done completely on-device on Android 11 and later. It is also only needed once for the initial setup or for enabling domains added in app updates.
 
+Alternatively, you can use [LinkSheet](https://github.com/1fexd/LinkSheet) to have supported domains open in Mastodon/Lemmy Redirect. LinkSheet needs to be set as your default browser and then acts as a much more comprehensive and usable version of Android's built-in link handling options.
+
 ## Usage
 Open Mastodon/Lemmy Redirect and select your preferred client.
 

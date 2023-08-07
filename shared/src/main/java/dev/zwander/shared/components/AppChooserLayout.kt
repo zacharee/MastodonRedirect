@@ -50,6 +50,7 @@ fun AppChooserLayout(
 
     Column(
         modifier = modifier,
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,

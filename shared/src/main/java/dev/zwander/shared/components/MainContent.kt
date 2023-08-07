@@ -41,8 +41,7 @@ fun MainContent() {
             ) {
                 Column(
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(vertical = 8.dp),
+                        .fillMaxSize(),
                     verticalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
                     Column(

@@ -20,10 +20,11 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -131,9 +132,12 @@ fun LinkVerifyLayout(
         }
     }
 
-    OutlinedCard(
+    ElevatedCard(
         modifier = modifier.padding(horizontal = 8.dp),
         shape = MaterialTheme.shapes.large,
+        colors = CardDefaults.elevatedCardColors(
+            containerColor = MaterialTheme.colorScheme.errorContainer,
+        ),
     ) {
         Column(
             modifier = Modifier
@@ -184,6 +188,9 @@ fun LinkVerifyLayout(
                             expanded = expanded,
                             onExpand = { expanded = it },
                             modifier = Modifier.size(32.dp),
+                            colors = CardDefaults.elevatedCardColors(
+                                containerColor = MaterialTheme.colorScheme.error,
+                            ),
                         )
                     }
                 }

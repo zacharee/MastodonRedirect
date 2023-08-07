@@ -5,6 +5,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
@@ -22,7 +23,8 @@ import dev.zwander.shared.R
 fun Expander(
     expanded: Boolean,
     onExpand: (Boolean) -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    colors: CardColors = CardDefaults.elevatedCardColors(),
 ) {
     @Composable
     fun contents() {
@@ -53,9 +55,7 @@ fun Expander(
     ElevatedCard(
         modifier = Modifier,
         shape = MaterialTheme.shapes.medium,
-        colors = CardDefaults.elevatedCardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer,
-        ),
+        colors = colors,
     ) {
         contents()
     }

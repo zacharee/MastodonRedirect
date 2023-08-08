@@ -220,11 +220,11 @@ fun LinkVerifyLayout(
                         TextButton(
                             onClick = {
                                 scope.launch(Dispatchers.IO) {
-                                    val result = context.runShizukuCommand {
+                                    val result = context.runShizukuCommand(Dispatchers.IO) {
                                         loading = true
                                         verifyLinks(Build.VERSION.SDK_INT, context.packageName)
-                                        loading = false
                                         refresh()
+                                        loading = false
                                     }
 
                                     showingShizukuInstallDialog = result == ShizukuCommandResult.NOT_INSTALLED

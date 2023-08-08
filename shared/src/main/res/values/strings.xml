@@ -42,4 +42,6 @@
     <string name="patreon">Patreon</string>
     <string name="supporters">Supporters</string>
     <string name="github">GitHub</string>
+
+    <string name="reset_link_verification">Reset Link Verification</string>
 </resources>

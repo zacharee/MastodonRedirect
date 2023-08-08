@@ -1,12 +1,16 @@
 package dev.zwander.shared.components
 
 import android.net.Uri
+import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,19 +25,26 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.bugsnag.android.Bugsnag
+import dev.zwander.shared.BuildConfig
 import dev.zwander.shared.R
 import dev.zwander.shared.model.LocalAppModel
 import dev.zwander.shared.util.Prefs
+import dev.zwander.shared.util.ShizukuUtils.runShizukuCommand
 import dev.zwander.shared.util.openLinkInBrowser
 import dev.zwander.shared.util.rememberPreferenceState
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import tk.zwander.patreonsupportersretrieval.view.SupporterView
 
 private data class FooterButton(
@@ -89,7 +100,7 @@ fun FooterLayout(
         LocalMinimumInteractiveComponentEnforcement provides false,
     ) {
         FlowRow(
-            modifier = modifier,
+            modifier = modifier.padding(bottom = 8.dp),
             horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
             buttons.forEach { button ->
@@ -147,6 +158,7 @@ private fun OptionsDialog(
 ) {
     val context = LocalContext.current
     val prefs = LocalAppModel.current.prefs
+    val scope = rememberCoroutineScope()
 
     var enableCrashReports by rememberPreferenceState(
         key = Prefs.ENABLE_CRASH_REPORTS,
@@ -178,6 +190,34 @@ private fun OptionsDialog(
                         modifier = Modifier
                             .fillMaxWidth(),
                     )
+                }
+
+                if (BuildConfig.DEBUG) {
+                    item {
+                        AnimatedCard(
+                            onClick = {
+                                scope.launch(Dispatchers.IO) {
+                                    context.runShizukuCommand {
+                                        unverifyLinks(Build.VERSION.SDK_INT, context.packageName)
+                                    }
+                                }
+                            },
+                            modifier = Modifier.fillMaxWidth(),
+                        ) {
+                            Row(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .heightIn(min = 48.dp),
+                                verticalAlignment = Alignment.CenterVertically,
+                            ) {
+                                Text(
+                                    text = stringResource(id = R.string.reset_link_verification),
+                                    textAlign = TextAlign.Center,
+                                    modifier = Modifier.fillMaxWidth(),
+                                )
+                            }
+                        }
+                    }
                 }
             }
         },

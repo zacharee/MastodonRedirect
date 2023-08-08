@@ -26,6 +26,8 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @Suppress("DEPRECATION")
 object LinkVerifyUtils {
@@ -55,6 +57,16 @@ object LinkVerifyUtils {
         pm.updateIntentVerificationStatus(
             packageName,
             PackageManager.INTENT_FILTER_DOMAIN_VERIFICATION_STATUS_ALWAYS,
+            UserHandle.myUserId(),
+        )
+    }
+
+    fun unverifyAllLinks(packageName: String) {
+        val pm = IPackageManager.Stub.asInterface(ServiceManager.getService("package"))
+
+        pm.updateIntentVerificationStatus(
+            packageName,
+            PackageManager.INTENT_FILTER_DOMAIN_VERIFICATION_STATUS_ALWAYS_ASK,
             UserHandle.myUserId(),
         )
     }
@@ -91,34 +103,36 @@ object LinkVerifyUtils {
 
         LaunchedEffect(key1 = lifecycleState, key2 = refreshCounter) {
             if (lifecycleState >= Lifecycle.State.RESUMED) {
-                val newMissingDomains = mutableListOf<String>()
+                launch(Dispatchers.IO) {
+                    val newMissingDomains = mutableListOf<String>()
 
-                val newVerified = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    val domain =
-                        context.getSystemService(Context.DOMAIN_VERIFICATION_SERVICE) as DomainVerificationManager
+                    val newVerified = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                        val domain =
+                            context.getSystemService(Context.DOMAIN_VERIFICATION_SERVICE) as DomainVerificationManager
 
-                    domain.getDomainVerificationUserState(context.packageName)
-                        ?.hostToStateMap
-                        ?.toSortedMap()
-                        ?.filter { (_, state) ->
-                            state == DomainVerificationUserState.DOMAIN_STATE_NONE
-                        }
-                        ?.let {
-                            newMissingDomains.addAll(it.keys)
-                        }
+                        domain.getDomainVerificationUserState(context.packageName)
+                            ?.hostToStateMap
+                            ?.toSortedMap()
+                            ?.filter { (_, state) ->
+                                state == DomainVerificationUserState.DOMAIN_STATE_NONE
+                            }
+                            ?.let {
+                                newMissingDomains.addAll(it.keys)
+                            }
 
-                    newMissingDomains.isEmpty()
-                } else {
-                    context.packageManager.getIntentVerificationStatusAsUser(
-                        context.packageName,
-                        UserHandle.myUserId(),
-                    ) == PackageManager.INTENT_FILTER_DOMAIN_VERIFICATION_STATUS_ALWAYS
+                        newMissingDomains.isEmpty()
+                    } else {
+                        context.packageManager.getIntentVerificationStatusAsUser(
+                            context.packageName,
+                            UserHandle.myUserId(),
+                        ) == PackageManager.INTENT_FILTER_DOMAIN_VERIFICATION_STATUS_ALWAYS
+                    }
+
+                    verificationStatus.value = verificationStatus.value.copy(
+                        verified = newVerified,
+                        missingDomains = newMissingDomains,
+                    )
                 }
-
-                verificationStatus.value = verificationStatus.value.copy(
-                    verified = newVerified,
-                    missingDomains = newMissingDomains,
-                )
             }
         }
 

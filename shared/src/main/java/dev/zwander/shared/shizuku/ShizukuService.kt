@@ -52,6 +52,29 @@ class ShizukuService : IShizukuService.Stub {
         }
     }
 
+    override fun unverifyLinks(sdk: Int, packageName: String): List<VerifyResult> {
+        try {
+            return if (sdk >= Build.VERSION_CODES.S) {
+                val setOutput = ArrayList<String>()
+
+                val setResult = runCommand(
+                    "cmd package set-app-links-user-selection" +
+                            " --user ${UserHandle.USER_ALL}" +
+                            " --package $packageName false all",
+                    setOutput,
+                )
+
+                listOf(
+                    VerifyResult(setOutput, setResult),
+                )
+            } else {
+                listOf()
+            }
+        } finally {
+            LinkVerifyUtils.unverifyAllLinks(packageName)
+        }
+    }
+
     override fun destroy() {
         exitProcess(0)
     }

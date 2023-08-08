@@ -1,7 +1,7 @@
 # Mastodon/Lemmy Redirect
 A simple pair of apps for automatically launching fediverse links in your preferred Mastodon/Lemmy client.
 
-## Use-Cases:
+## Use-Cases
 Mastodon and Lemmy are both examples of federated social media. This is mostly a good thing, for a whole host of reasons, but it does have one notable disadvantage: deep linking support.
 
 When you tap a Twitter link in your browser and your phone opens the Twitter app instead of the Twitter website to view the post, that's an example of deep linking. The trouble with federated social media is three-fold:

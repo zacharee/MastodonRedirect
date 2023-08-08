@@ -1,7 +1,6 @@
 package dev.zwander.shared.components
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import androidx.compose.animation.AnimatedVisibility
@@ -53,17 +52,13 @@ import dev.zwander.shared.util.Expander
 import dev.zwander.shared.util.LinkVerifyUtils.launchManualVerification
 import dev.zwander.shared.util.Prefs
 import dev.zwander.shared.util.RedirectorTheme
-import dev.zwander.shared.util.ShizukuPermissionUtils.isShizukuInstalled
-import dev.zwander.shared.util.ShizukuPermissionUtils.isShizukuRunning
-import dev.zwander.shared.util.ShizukuPermissionUtils.rememberHasPermissionAsState
+import dev.zwander.shared.util.ShizukuCommandResult
+import dev.zwander.shared.util.ShizukuUtils.runShizukuCommand
 import dev.zwander.shared.util.openLinkInBrowser
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import rikka.shizuku.Shizuku
 import rikka.shizuku.ShizukuProvider
 import kotlin.coroutines.CoroutineContext
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 @Preview(showSystemUi = true)
 @Composable
@@ -103,8 +98,6 @@ fun LinkVerifyLayout(
     val appModel = LocalAppModel.current
     val scope = rememberCoroutineScope()
 
-    val shizukuPermission by rememberHasPermissionAsState()
-
     var showingShizukuInstallDialog by remember {
         mutableStateOf(false)
     }
@@ -119,17 +112,6 @@ fun LinkVerifyLayout(
     }
     var loading by remember {
         mutableStateOf(false)
-    }
-
-    val verifyLinks: () -> Unit = remember {
-        {
-            appModel.postShizukuCommand(Dispatchers.IO) {
-                loading = true
-                verifyLinks(Build.VERSION.SDK_INT, context.packageName)
-                loading = false
-                refresh()
-            }
-        }
     }
 
     ElevatedCard(
@@ -237,35 +219,16 @@ fun LinkVerifyLayout(
 
                         TextButton(
                             onClick = {
-                                if (isShizukuRunning) {
-                                    if (shizukuPermission) {
-                                        verifyLinks()
-                                    } else {
-                                        scope.launch(Dispatchers.IO) {
-                                            val granted = suspendCoroutine { cont ->
-                                                val listener = object : Shizuku.OnRequestPermissionResultListener {
-                                                    override fun onRequestPermissionResult(
-                                                        requestCode: Int,
-                                                        grantResult: Int
-                                                    ) {
-                                                        Shizuku.removeRequestPermissionResultListener(this)
-                                                        cont.resume(grantResult == PackageManager.PERMISSION_GRANTED)
-                                                    }
-                                                }
-                                                Shizuku.addRequestPermissionResultListener(listener)
-                                                Shizuku.requestPermission(100)
-                                            }
-
-                                            if (granted) {
-                                                verifyLinks()
-                                            }
-                                        }
+                                scope.launch(Dispatchers.IO) {
+                                    val result = context.runShizukuCommand {
+                                        loading = true
+                                        verifyLinks(Build.VERSION.SDK_INT, context.packageName)
+                                        loading = false
+                                        refresh()
                                     }
-                                } else {
-                                    val installed = context.isShizukuInstalled
 
-                                    showingShizukuInstallDialog = !installed
-                                    showingShizukuStartDialog = installed
+                                    showingShizukuInstallDialog = result == ShizukuCommandResult.NOT_INSTALLED
+                                    showingShizukuStartDialog = result == ShizukuCommandResult.INSTALLED_NOT_RUNNING
                                 }
                             },
                         ) {

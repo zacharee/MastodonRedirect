@@ -19,8 +19,10 @@ import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -164,6 +166,7 @@ fun LinkVerifyLayout(
                     if (ldg) {
                         CircularProgressIndicator(
                             modifier = Modifier.size(32.dp),
+                            color = MaterialTheme.colorScheme.error,
                         )
                     } else {
                         Expander(
@@ -179,6 +182,13 @@ fun LinkVerifyLayout(
             }
 
             AnimatedVisibility(visible = expanded) {
+                val buttonColors = ButtonDefaults.elevatedButtonColors(
+                    containerColor = MaterialTheme.colorScheme.error,
+                    contentColor = MaterialTheme.colorScheme.onError,
+                    disabledContainerColor = MaterialTheme.colorScheme.onError,
+                    disabledContentColor = MaterialTheme.colorScheme.error,
+                )
+
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
@@ -196,10 +206,11 @@ fun LinkVerifyLayout(
                     Spacer(modifier = Modifier.size(8.dp))
 
                     if (missingDomains.isNotEmpty()) {
-                        TextButton(
+                        ElevatedButton(
                             onClick = {
                                 showingUnverifiedDomains = true
                             },
+                            colors = buttonColors,
                         ) {
                             Text(text = stringResource(id = R.string.unverified_domains))
                         }
@@ -209,15 +220,16 @@ fun LinkVerifyLayout(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Absolute.SpaceEvenly,
                     ) {
-                        TextButton(
+                        ElevatedButton(
                             onClick = {
                                 context.launchManualVerification()
-                            }
+                            },
+                            colors = buttonColors,
                         ) {
                             Text(text = stringResource(id = R.string.settings))
                         }
 
-                        TextButton(
+                        ElevatedButton(
                             onClick = {
                                 scope.launch(Dispatchers.IO) {
                                     val result = context.runShizukuCommand(Dispatchers.IO) {
@@ -232,14 +244,16 @@ fun LinkVerifyLayout(
                                 }
                             },
                             enabled = !loading,
+                            colors = buttonColors,
                         ) {
                             Text(text = stringResource(id = R.string.enable_using_shizuku))
                         }
 
-                        TextButton(
+                        ElevatedButton(
                             onClick = {
                                 context.openLinkInBrowser(Uri.parse("https://github.com/1fexd/LinkSheet"))
                             },
+                            colors = buttonColors,
                         ) {
                             Text(text = stringResource(id = R.string.install_linksheet))
                         }

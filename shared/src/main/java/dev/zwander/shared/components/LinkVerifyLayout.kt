@@ -22,7 +22,6 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -182,11 +181,9 @@ fun LinkVerifyLayout(
             }
 
             AnimatedVisibility(visible = expanded) {
-                val buttonColors = ButtonDefaults.elevatedButtonColors(
-                    containerColor = MaterialTheme.colorScheme.error,
-                    contentColor = MaterialTheme.colorScheme.onError,
-                    disabledContainerColor = MaterialTheme.colorScheme.onError,
-                    disabledContentColor = MaterialTheme.colorScheme.error,
+                val buttonColors = ButtonDefaults.textButtonColors(
+                    contentColor = MaterialTheme.colorScheme.error,
+                    disabledContentColor = MaterialTheme.colorScheme.onErrorContainer,
                 )
 
                 Column(
@@ -206,7 +203,7 @@ fun LinkVerifyLayout(
                     Spacer(modifier = Modifier.size(8.dp))
 
                     if (missingDomains.isNotEmpty()) {
-                        ElevatedButton(
+                        TextButton(
                             onClick = {
                                 showingUnverifiedDomains = true
                             },
@@ -220,7 +217,7 @@ fun LinkVerifyLayout(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.Absolute.SpaceEvenly,
                     ) {
-                        ElevatedButton(
+                        TextButton(
                             onClick = {
                                 context.launchManualVerification()
                             },
@@ -229,7 +226,7 @@ fun LinkVerifyLayout(
                             Text(text = stringResource(id = R.string.settings))
                         }
 
-                        ElevatedButton(
+                        TextButton(
                             onClick = {
                                 scope.launch(Dispatchers.IO) {
                                     val result = context.runShizukuCommand(Dispatchers.IO) {
@@ -249,7 +246,7 @@ fun LinkVerifyLayout(
                             Text(text = stringResource(id = R.string.enable_using_shizuku))
                         }
 
-                        ElevatedButton(
+                        TextButton(
                             onClick = {
                                 context.openLinkInBrowser(Uri.parse("https://github.com/1fexd/LinkSheet"))
                             },

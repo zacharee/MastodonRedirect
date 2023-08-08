@@ -231,6 +231,7 @@ fun LinkVerifyLayout(
                                     showingShizukuStartDialog = result == ShizukuCommandResult.INSTALLED_NOT_RUNNING
                                 }
                             },
+                            enabled = !loading,
                         ) {
                             Text(text = stringResource(id = R.string.enable_using_shizuku))
                         }

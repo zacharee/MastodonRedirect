@@ -39,6 +39,7 @@ import com.bugsnag.android.Bugsnag
 import dev.zwander.shared.BuildConfig
 import dev.zwander.shared.R
 import dev.zwander.shared.model.LocalAppModel
+import dev.zwander.shared.util.LinkVerificationModel
 import dev.zwander.shared.util.Prefs
 import dev.zwander.shared.util.ShizukuUtils.runShizukuCommand
 import dev.zwander.shared.util.openLinkInBrowser
@@ -197,8 +198,9 @@ private fun OptionsDialog(
                         AnimatedCard(
                             onClick = {
                                 scope.launch(Dispatchers.IO) {
-                                    context.runShizukuCommand {
+                                    context.runShizukuCommand(Dispatchers.IO) {
                                         unverifyLinks(Build.VERSION.SDK_INT, context.packageName)
+                                        LinkVerificationModel.refresh()
                                     }
                                 }
                             },

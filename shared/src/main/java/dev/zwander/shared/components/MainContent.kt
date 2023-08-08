@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import dev.zwander.shared.model.LocalAppModel
+import dev.zwander.shared.util.LinkVerificationModel
 import dev.zwander.shared.util.LinkVerifyUtils
 import dev.zwander.shared.util.RedirectorTheme
 
@@ -64,7 +65,7 @@ fun MainContent() {
 
                     AnimatedVisibility(visible = !verificationStatus.verified) {
                         LinkVerifyLayout(
-                            refresh = verificationStatus.refresh,
+                            refresh = LinkVerificationModel::refresh,
                             missingDomains = verificationStatus.missingDomains,
                             modifier = Modifier.fillMaxWidth(),
                         )

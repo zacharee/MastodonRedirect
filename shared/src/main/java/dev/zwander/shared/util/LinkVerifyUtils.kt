@@ -13,12 +13,13 @@ import android.os.Build
 import android.os.ServiceManager
 import android.os.UserHandle
 import android.provider.Settings
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -27,7 +28,20 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+
+object LinkVerificationModel {
+    private val _refreshFlow = MutableStateFlow(0)
+
+    val refreshFlow: StateFlow<Int>
+        get() = _refreshFlow
+
+    fun refresh() {
+        _refreshFlow.value += 1
+    }
+}
 
 @Suppress("DEPRECATION")
 object LinkVerifyUtils {
@@ -80,13 +94,11 @@ object LinkVerifyUtils {
         var lifecycleState by remember {
             mutableStateOf(lifecycle.currentState)
         }
-
-        var refreshCounter by remember {
-            mutableIntStateOf(0)
-        }
+        
+        val refresh by LinkVerificationModel.refreshFlow.collectAsState()
 
         val verificationStatus = remember {
-            mutableStateOf(LinkVerificationStatus { refreshCounter++ })
+            mutableStateOf(LinkVerificationStatus())
         }
 
         DisposableEffect(null) {
@@ -101,7 +113,9 @@ object LinkVerifyUtils {
             }
         }
 
-        LaunchedEffect(key1 = lifecycleState, key2 = refreshCounter) {
+        LaunchedEffect(key1 = lifecycleState, key2 = refresh) {
+            Log.e("MastodonRedirect", "$refresh, $lifecycleState")
+
             if (lifecycleState >= Lifecycle.State.RESUMED) {
                 launch(Dispatchers.IO) {
                     val newMissingDomains = mutableListOf<String>()
@@ -143,5 +157,4 @@ object LinkVerifyUtils {
 data class LinkVerificationStatus(
     val verified: Boolean = true,
     val missingDomains: List<String> = listOf(),
-    val refresh: () -> Unit,
 )

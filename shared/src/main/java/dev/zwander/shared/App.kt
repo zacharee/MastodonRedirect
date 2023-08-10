@@ -30,7 +30,6 @@ abstract class App(
     override val defaultLaunchStrategy: LaunchStrategy,
 ) : Application(), AppModel, CoroutineScope by MainScope() {
     private val pInfo by lazy {
-        @Suppress("DEPRECATION")
         packageManager.getPackageInfo(packageName, 0)
     }
 
@@ -71,7 +70,7 @@ abstract class App(
 
     @Suppress("DEPRECATION")
     private val serviceArgs by lazy {
-        Shizuku.UserServiceArgs(ComponentName(packageName, ShizukuService::class.java.canonicalName))
+        Shizuku.UserServiceArgs(ComponentName(packageName, ShizukuService::class.java.canonicalName!!))
             .version(pInfo.versionCode + (if (BuildConfig.DEBUG) 10003 else 0))
             .processNameSuffix("redirect")
             .debuggable(BuildConfig.DEBUG)

@@ -3,7 +3,6 @@ package dev.zwander.shared.shizuku
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import android.os.UserHandle
 import androidx.annotation.Keep
 import dev.zwander.shared.IShizukuService
 import dev.zwander.shared.data.VerifyResult
@@ -36,7 +35,7 @@ class ShizukuService : IShizukuService.Stub {
                 // user doesn't hold.
                 val setResult = runCommand(
                     "cmd package set-app-links-user-selection" +
-                            " --user ${UserHandle.USER_ALL}" +
+                            " --user -1" + // USER_ALL
                             " --package $packageName true all",
                     setOutput,
                 )
@@ -59,7 +58,7 @@ class ShizukuService : IShizukuService.Stub {
 
                 val setResult = runCommand(
                     "cmd package set-app-links-user-selection" +
-                            " --user ${UserHandle.USER_ALL}" +
+                            " --user -1" + // USER_ALL
                             " --package $packageName false all",
                     setOutput,
                 )

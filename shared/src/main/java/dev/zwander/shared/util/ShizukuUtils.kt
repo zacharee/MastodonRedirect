@@ -46,7 +46,6 @@ object ShizukuUtils {
 
     val Context.isShizukuInstalled: Boolean
         get() = try {
-            @Suppress("DEPRECATION")
             packageManager.getPackageInfo(ShizukuProvider.MANAGER_APPLICATION_ID, 0)
             true
         } catch (e: Throwable) {

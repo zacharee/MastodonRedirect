@@ -4,14 +4,10 @@ import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
-import android.content.pm.IPackageManager
-import android.content.pm.PackageManager
 import android.content.pm.verify.domain.DomainVerificationManager
 import android.content.pm.verify.domain.DomainVerificationUserState
 import android.net.Uri
 import android.os.Build
-import android.os.ServiceManager
-import android.os.UserHandle
 import android.provider.Settings
 import android.util.Log
 import androidx.compose.runtime.Composable
@@ -27,6 +23,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import dev.zwander.shared.util.hiddenapi.PackageManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -43,7 +40,6 @@ object LinkVerificationModel {
     }
 }
 
-@Suppress("DEPRECATION")
 object LinkVerifyUtils {
     @SuppressLint("InlinedApi")
     fun Context.launchManualVerification() {
@@ -66,22 +62,16 @@ object LinkVerifyUtils {
     }
 
     fun verifyAllLinks(packageName: String) {
-        val pm = IPackageManager.Stub.asInterface(ServiceManager.getService("package"))
-
-        pm.updateIntentVerificationStatus(
+        PackageManager.setLinkVerificationState(
             packageName,
-            PackageManager.INTENT_FILTER_DOMAIN_VERIFICATION_STATUS_ALWAYS,
-            UserHandle.myUserId(),
+            PackageManager.VerificationStatus.ALWAYS,
         )
     }
 
     fun unverifyAllLinks(packageName: String) {
-        val pm = IPackageManager.Stub.asInterface(ServiceManager.getService("package"))
-
-        pm.updateIntentVerificationStatus(
+        PackageManager.setLinkVerificationState(
             packageName,
-            PackageManager.INTENT_FILTER_DOMAIN_VERIFICATION_STATUS_ALWAYS_ASK,
-            UserHandle.myUserId(),
+            PackageManager.VerificationStatus.ALWAYS_ASK,
         )
     }
 
@@ -136,10 +126,9 @@ object LinkVerifyUtils {
 
                         newMissingDomains.isEmpty()
                     } else {
-                        context.packageManager.getIntentVerificationStatusAsUser(
+                        PackageManager.getIntentVerificationStatus(
                             context.packageName,
-                            UserHandle.myUserId(),
-                        ) == PackageManager.INTENT_FILTER_DOMAIN_VERIFICATION_STATUS_ALWAYS
+                        ) == PackageManager.VerificationStatus.ALWAYS
                     }
 
                     verificationStatus.value = verificationStatus.value.copy(

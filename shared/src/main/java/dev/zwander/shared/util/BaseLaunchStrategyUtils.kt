@@ -51,41 +51,43 @@ abstract class BaseLaunchStrategyUtils(
         }
     }
 
-    open fun Context.getLaunchStrategyForKey(key: String): LaunchStrategy? {
+    open fun Context.getLaunchStrategyForKey(key: String?): LaunchStrategy? {
         return flattenedLaunchStrategies[key] ?: getLaunchStrategyForPackage(key)
     }
 
     open fun Context.discoverStrategies(): Map<String, LaunchStrategy> {
-        @Suppress("DEPRECATION")
         return packageManager.queryIntentActivities(
             Intent(launchAction),
-            0
+            0,
         ).groupBy { it.resolvePackageName }
             .map { (pkg, infos) ->
                 pkg to DiscoveredLaunchStrategy(
                     packageName = pkg,
-                    components = infos.map { it.componentInfo.componentName },
-                    labelRes = infos.first().componentInfo.applicationInfo.labelRes,
+                    components = infos.map { it.activityInfo.componentNameCompat },
+                    labelRes = infos.first().activityInfo.applicationInfo.labelRes,
                     launchAction = launchAction,
                 )
             }
             .toMap()
     }
 
-    open fun Context.getLaunchStrategyForPackage(pkg: String): LaunchStrategy? {
+    open fun Context.getLaunchStrategyForPackage(pkg: String?): LaunchStrategy? {
+        if (pkg == null) {
+            return null
+        }
+
         return try {
-            @Suppress("DEPRECATION")
             val infos = packageManager.queryIntentActivities(
                 Intent(launchAction).apply {
                     `package` = pkg
                 },
-                0
+                0,
             ).ifEmpty { return null }
 
             DiscoveredLaunchStrategy(
                 packageName = pkg,
-                components = infos.map { it.componentInfo.componentName },
-                labelRes = infos.first().componentInfo.applicationInfo.labelRes,
+                components = infos.map { it.activityInfo.componentNameCompat },
+                labelRes = infos.first().activityInfo.applicationInfo.labelRes,
                 launchAction = launchAction,
             )
         } catch (e: Exception) {

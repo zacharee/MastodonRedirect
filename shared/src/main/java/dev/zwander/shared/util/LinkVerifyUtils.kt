@@ -11,18 +11,15 @@ import android.os.Build
 import android.provider.Settings
 import android.util.Log
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
 import dev.zwander.shared.util.hiddenapi.PackageManager
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -81,26 +78,12 @@ object LinkVerifyUtils {
         val context = LocalContext.current
         val lifecycle = LocalLifecycleOwner.current.lifecycle
 
-        var lifecycleState by remember {
-            mutableStateOf(lifecycle.currentState)
-        }
+        val lifecycleState by lifecycle.currentStateFlow.collectAsState()
         
         val refresh by LinkVerificationModel.refreshFlow.collectAsState()
 
         val verificationStatus = remember {
             mutableStateOf(LinkVerificationStatus())
-        }
-
-        DisposableEffect(null) {
-            val observer = LifecycleEventObserver { _, event ->
-                lifecycleState = event.targetState
-            }
-
-            lifecycle.addObserver(observer)
-
-            onDispose {
-                lifecycle.removeObserver(observer)
-            }
         }
 
         LaunchedEffect(key1 = lifecycleState, key2 = refresh) {

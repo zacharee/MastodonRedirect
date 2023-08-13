@@ -41,7 +41,7 @@ class FetchInstancesActivity : BaseFetchActivity() {
                 }
             }
         }.get(
-            urlString = "https://instances.social/api/1.0/instances/list?include_dead=false&include_down=true&include_closed=true&sort_by=name&count=0&min_active_users=1",
+            urlString = "https://instances.social/api/1.0/instances/list?include_dead=false&include_down=true&include_closed=true&sort_by=name&count=0&min_active_users=0",
         )
 
         return json.decodeFromStream<InstancesRoot>(response.body()).instances.map {

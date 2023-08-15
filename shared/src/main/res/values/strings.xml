@@ -19,7 +19,7 @@
 
     <string name="enable_using_shizuku">Enable with Shizuku</string>
     <string name="install_linksheet">Install LinkSheet</string>
-    <string name="open_linksheet">Open LinkSheet</string>
+    <string name="enable_with_linksheet">Enable with LinkSheet</string>
 
     <string name="install_shizuku">Install Shizuku</string>
     <string name="install_shizuku_message">Install the Shizuku app and follow the instructions in it to set it up, then come back here and try again.</string>

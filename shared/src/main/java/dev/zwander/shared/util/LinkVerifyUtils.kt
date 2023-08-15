@@ -2,15 +2,12 @@ package dev.zwander.shared.util
 
 import android.annotation.SuppressLint
 import android.content.ActivityNotFoundException
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.content.ServiceConnection
 import android.content.pm.verify.domain.DomainVerificationManager
 import android.content.pm.verify.domain.DomainVerificationUserState
 import android.net.Uri
 import android.os.Build
-import android.os.IBinder
 import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
@@ -22,14 +19,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import dev.zwander.shared.util.hiddenapi.PackageManager
-import fe.linksheet.interconnect.ILinkSheetService
+import fe.linksheet.interconnect.LinkSheet
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import kotlin.coroutines.resume
-import kotlin.coroutines.suspendCoroutine
 
 object LinkVerificationModel {
     private val _refreshFlow = MutableStateFlow(0)
@@ -135,37 +129,21 @@ object LinkVerifyUtils {
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
-    private suspend fun Context.checkLinkSheetStatus(allDomains: List<String>): LinkVerificationStatus? = coroutineScope {
-        suspendCoroutine { continuation ->
-            val intent = Intent(Intent.ACTION_VIEW).apply {
-                `package` = "fe.linksheet"
-                component = ComponentName("fe.linksheet", "fe.linksheet.InterconnectService")
-            }
+    private suspend fun Context.checkLinkSheetStatus(allDomains: List<String>): LinkVerificationStatus? {
+        return with (LinkSheet) {
+            if (isLinkSheetInstalled()) {
+                val service = bindService()
 
-            try {
-                startForegroundService(intent)
-                bindService(
-                    intent,
-                    object : ServiceConnection {
-                        @SuppressLint("WrongConstant")
-                        override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-                            val linkSheetService = ILinkSheetService.Stub.asInterface(service)
-                            val selectedDomains = linkSheetService.getSelectedDomains(packageName)
+                val selectedDomains = service.getSelectedDomains(packageName)
 
-                            val difference = allDomains - selectedDomains.list.toSet()
+                val difference = allDomains - selectedDomains.list.toSet()
 
-                            continuation.resume(LinkVerificationStatus(
-                                verified = difference.isEmpty(),
-                                missingDomains = difference,
-                            ))
-                        }
-
-                        override fun onServiceDisconnected(name: ComponentName?) {}
-                    },
-                    Context.BIND_AUTO_CREATE,
+                LinkVerificationStatus(
+                    verified = difference.isEmpty(),
+                    missingDomains = difference,
                 )
-            } catch (e: Exception) {
-                continuation.resume(null)
+            } else {
+                null
             }
         }
     }

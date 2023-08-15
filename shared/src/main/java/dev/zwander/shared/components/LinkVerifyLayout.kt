@@ -1,5 +1,6 @@
 package dev.zwander.shared.components
 
+import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -46,6 +47,7 @@ import androidx.compose.ui.unit.dp
 import dev.zwander.shared.IShizukuService
 import dev.zwander.shared.LaunchStrategy
 import dev.zwander.shared.R
+import dev.zwander.shared.RedirectActivity
 import dev.zwander.shared.model.AppModel
 import dev.zwander.shared.model.LocalAppModel
 import dev.zwander.shared.util.BaseLaunchStrategyUtils
@@ -57,6 +59,8 @@ import dev.zwander.shared.util.ShizukuCommandResult
 import dev.zwander.shared.util.ShizukuUtils.runShizukuCommand
 import dev.zwander.shared.util.openLinkInBrowser
 import dev.zwander.shared.util.rememberLinkSheetInstallationStatus
+import fe.linksheet.interconnect.LinkSheet
+import fe.linksheet.interconnect.StringParceledListSlice
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import rikka.shizuku.ShizukuProvider
@@ -251,11 +255,23 @@ fun LinkVerifyLayout(
 
                         TextButton(
                             onClick = {
-                                context.openLinkInBrowser(Uri.parse("https://github.com/1fexd/LinkSheet"))
+                                if (linkSheetStatus) {
+                                    scope.launch(Dispatchers.IO) {
+                                        with (LinkSheet) {
+                                            context.bindService().selectDomains(
+                                                packageName = context.packageName,
+                                                domains = StringParceledListSlice(missingDomains),
+                                                componentName = ComponentName(context, RedirectActivity::class.java),
+                                            )
+                                        }
+                                    }
+                                } else {
+                                    context.openLinkInBrowser(Uri.parse("https://github.com/1fexd/LinkSheet"))
+                                }
                             },
                             colors = buttonColors,
                         ) {
-                            Text(text = stringResource(id = if (linkSheetStatus) R.string.open_linksheet else R.string.install_linksheet))
+                            Text(text = stringResource(id = if (linkSheetStatus) R.string.enable_with_linksheet else R.string.install_linksheet))
                         }
                     }
                 }

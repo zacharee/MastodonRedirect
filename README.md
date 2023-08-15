@@ -193,7 +193,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 ## Building
 In order to build Fediverse Redirect, you'll need two things:
 1. The latest [Android Studio Canary](https://developer.android.com/studio/preview) build.  
-~~2. A [modified Android SDK](https://github.com/Reginer/aosp-android-jar) with hidden APIs exposed.~~
+2. ~~A [modified Android SDK](https://github.com/Reginer/aosp-android-jar) with hidden APIs exposed.~~
 
 ~~Download the modified SDK corresponding to Fediverse Redirect's current `compile.sdk` value (found in [gradle.properties](https://github.com/zacharee/MastodonRedirect/tree/main/gradle.properties)) and follow the instructions provided in the link above to install it.~~
 

@@ -56,6 +56,7 @@ import dev.zwander.shared.util.RedirectorTheme
 import dev.zwander.shared.util.ShizukuCommandResult
 import dev.zwander.shared.util.ShizukuUtils.runShizukuCommand
 import dev.zwander.shared.util.openLinkInBrowser
+import dev.zwander.shared.util.rememberLinkSheetInstallationStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import rikka.shizuku.ShizukuProvider
@@ -246,13 +247,15 @@ fun LinkVerifyLayout(
                             Text(text = stringResource(id = R.string.enable_using_shizuku))
                         }
 
+                        val linkSheetStatus = rememberLinkSheetInstallationStatus()
+
                         TextButton(
                             onClick = {
                                 context.openLinkInBrowser(Uri.parse("https://github.com/1fexd/LinkSheet"))
                             },
                             colors = buttonColors,
                         ) {
-                            Text(text = stringResource(id = R.string.install_linksheet))
+                            Text(text = stringResource(id = if (linkSheetStatus) R.string.open_linksheet else R.string.install_linksheet))
                         }
                     }
                 }

@@ -18,5 +18,6 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Fediverse Redirect"
-include(":mastodonredirect", ":lemmyredirect", ":shared")
+include(":mastodonredirect", ":lemmyredirect", ":shared", ":linksheet-interconnect")
+project(":linksheet-interconnect").projectDir = File("../LinkSheet/interconnect")
  

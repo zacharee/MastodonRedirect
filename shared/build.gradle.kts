@@ -71,5 +71,7 @@ dependencies {
 
     api(libs.patreonSupportersRetrieval)
 
+    api(project(":linksheet-interconnect"))
+
     debugApi(libs.ui.tooling)
 }

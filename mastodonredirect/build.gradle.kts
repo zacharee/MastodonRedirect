@@ -65,9 +65,7 @@ android {
         kotlinCompilerExtensionVersion = rootProject.extra["compose.compiler.extension"].toString()
     }
     packaging {
-        resources {
-            excludes += "/META-INF/{AL2.0,LGPL2.1}"
-        }
+        resources.excludes.add("META-INF/versions/9/previous-compilation-data.bin")
     }
 }
 

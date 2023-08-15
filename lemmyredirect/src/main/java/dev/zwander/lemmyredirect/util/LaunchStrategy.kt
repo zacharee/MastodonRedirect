@@ -99,7 +99,7 @@ data object Sync : LemmyLaunchStrategyRootGroup(R.string.sync) {
     data object SyncMain : LemmyLaunchStrategy("SYNC", dev.zwander.shared.R.string.main) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
-                LaunchStrategyUtils.createShareIntent(
+                LaunchStrategyUtils.createViewIntent(
                     "io.syncapps.lemmy_sync",
                     ComponentName(
                         "io.syncapps.lemmy_sync",

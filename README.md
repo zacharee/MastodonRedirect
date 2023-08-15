@@ -1,5 +1,5 @@
-# Mastodon/Lemmy Redirect
-A simple pair of apps for automatically launching fediverse links in your preferred Mastodon/Lemmy client.
+# Fediverse Redirect
+A simple suite of apps for automatically launching fediverse links in your preferred Mastodon or Lemmy client.
 
 ## Use-Cases
 Mastodon and Lemmy are both examples of federated social media. This is mostly a good thing, for a whole host of reasons, but it does have one notable disadvantage: deep linking support.
@@ -9,19 +9,21 @@ When you tap a Twitter link in your browser and your phone opens the Twitter app
 2. Android only lets app developers declare supported deep link domains at compile time: users can't add custom domains, and domains can only be added through app updates. Many developers understandably don't want to maintain a list of thousands of domains.
 3. Android really isn't set up for a single app to support more than a few different domains for deep links.
 
-Mastodon/Lemmy Redirect aims to solve the first two issues and somewhat solve the third.
+Fediverse Redirect aims to solve the first two issues and somewhat solve the third.
 
-By using the [instances.social](https://instances.social) and [Lemmy Explorer](https://lemmyverse.net/communities) APIs, Mastodon/Lemmy Redirect is able to maintain an up-to-date list of supported domains.
+By using the [instances.social](https://instances.social) and [Lemmy Explorer](https://lemmyverse.net/communities) APIs, Fediverse Redirect is able to maintain an up-to-date list of supported domains.
 
-Once you download the app, you can choose your client app and then enable all supported domains, so that when you tap a recognized link, it gets passed to Mastodon/Lemmy Redirect.
+Once you download the app, you can choose your client app and then enable all supported domains, so that when you tap a recognized link, it gets passed to the proper Fediverse Redirect variant.
 
-Mastodon/Lemmy Redirect then sends the link directly to the chosen client app for it to handle.
+The Fediverse Redirect variant then sends the link directly to the chosen client app for it to handle.
 
-Since the point of Mastodon/Lemmy Redirect is only to change where supported links open, the maintenance of supported domains isn't extra busywork that has to be done in addition to other features and fixes; it's literally all the app does.
+Since the point of Fediverse Redirect is only to change where supported links open, the maintenance of supported domains isn't extra busywork that has to be done in addition to other features and fixes; it's literally all the app does.
 
-Client developers do need to do some work for Mastodon/Lemmy Redirect to support them, but it's a one-time thing, and instructions are available below.
+Client developers do need to do some work for Fediverse Redirect to support them, but it's a one-time thing, and instructions are available below.
 
 ## Downloads
+Fediverse Redirect has different variants depending on which social media network you want to use. Download the appropriate APK for Mastodon or Lemmy (or both) below.
+
 ### GitHub
 [![GitHub Release](https://img.shields.io/github/v/release/zacharee/MastodonRedirect?style=for-the-badge&logo=github&label=Mastodon%20%2B%20Lemmy%20Redirect&color=orange)](https://github.com/zacharee/MastodonRedirect/releases)
 
@@ -32,9 +34,9 @@ Client developers do need to do some work for Mastodon/Lemmy Redirect to support
 ## Supported Domains
 Currently, most domains on https://instances.social and https://lemmyverse.net/communities are supported.
 
-Mastodon/Lemmy Redirect supports most active and alive instances, but excludes dead instances and instances that haven't had any activity recently. This is to keep the list as short as possible and avoid crashes.
+Fediverse Redirect supports most active and alive instances, but excludes dead instances and instances that haven't had any activity recently. This is to keep the list as short as possible and avoid crashes.
 
-Mastodon/Lemmy Redirect also (sort of) supports the `web+activity+http` and `web+activity+https` URL schemes. The expectation is that the full post or profile URL will follow.
+Fediverse Redirect also (sort of) supports the `web+activity+http` and `web+activity+https` URL schemes. The expectation is that the full post or profile URL will follow.
 
 Examples:
 ```
@@ -46,19 +48,19 @@ web+activity+https://androiddev.social/@wander1236
 ```
 
 ## Setup
-If any domains aren't enabled for handling by Mastodon/Lemmy Redirect, the app will let you know and provide you buttons for enabling them.
+If any domains aren't enabled for handling by the Fediverse Redirect variant, the app will let you know and provide you buttons for enabling them.
 
-Enabling each supported domain one at a time is possible, but tedious. Instead, Mastodon/Lemmy Redirect can use [Shizuku](https://shizuku.rikka.app) to automatically enable all links at once. The setup for Shizuku is a little complex, but can be done completely on-device on Android 11 and later. It is also only needed once for the initial setup or for enabling domains added in app updates.
+Enabling each supported domain one at a time is possible, but tedious. Instead, Fediverse Redirect can use [Shizuku](https://shizuku.rikka.app) to automatically enable all links at once. The setup for Shizuku is a little complex, but can be done completely on-device on Android 11 and later. It is also only needed once for the initial setup or for enabling domains added in app updates.
 
-Alternatively, you can use [LinkSheet](https://github.com/1fexd/LinkSheet) to have supported domains open in Mastodon/Lemmy Redirect. LinkSheet needs to be set as your default browser and then acts as a much more comprehensive and usable version of Android's built-in link handling options.
+Alternatively, you can use [LinkSheet](https://github.com/1fexd/LinkSheet) to have supported domains open in Fediverse Redirect. LinkSheet needs to be set as your default browser and then acts as a much more comprehensive and usable version of Android's built-in link handling options.
 
 ## Usage
-Open Mastodon/Lemmy Redirect and select your preferred client.
+Open the chosen Fediverse Redirect variant and select your preferred client.
 
 ## Client Support
-Unfortunately, many Mastodon and Lemmy clients don't have a way for Mastodon/Lemmy Redirect to interface with them.
+Unfortunately, many Mastodon and Lemmy clients don't have a way for Fediverse Redirect to interface with them.
 
-Mastodon/Lemmy Redirect relies on clients having a link sharing target that can parse and open fediverse links. 
+Fediverse Redirect relies on clients having a link sharing target that can parse and open fediverse links. 
 
 Clients such as Tusky and Trunks do have share targets, but they can only be used to create new posts, with the shared link as the content. Other clients have no share targets at all.
 
@@ -81,12 +83,12 @@ Lemmy Redirect currently supports the following clients:
 If your favorite client isn't on the list, consider creating an issue on their code repository or issue tracker linking to the section below, ***but please search through the existing issues first, including ones that have been closed***. Pestering developers won't help anyone.
 
 ## Adding Client Support
-If you're the developer of a Mastodon client and want to add support for Mastodon/Lemmy Redirect into your app, here's how.
+If you're the developer of a Mastodon client and want to add support for Fediverse Redirect into your app, here's how.
 
 ### Automatic
-You can let Mastodon/Lemmy Redirect automatically discover your app by filtering for a custom Intent and parsing the data as a URL.
+You can let Fediverse Redirect automatically discover your app by filtering for a custom Intent and parsing the data as a URL.
 
-Note: right now, Mastodon/Lemmy Redirect doesn't support auto discovery, but it should be added soon.
+Note: right now, Fediverse Redirect doesn't support auto discovery, but it should be added soon.
 
 #### Create a discoverable target.
 In your `AndroidManifest.xml`, add the following intent filter inside the relevant Activity tag:
@@ -124,7 +126,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 ### Manual
 The high level process is pretty simple: expose some way for your app to be launched that accepts a URL and tries to parse it as a fediverse link to open as a post or profile. There are a few ways you can do this.
 
-Once you've implemented support, feel free to open an issue or PR to have it added to Mastodon/Lemmy Redirect.
+Once you've implemented support, feel free to open an issue or PR to have it added to Fediverse Redirect.
 
 #### Create a share target.
 Note: this will cause your app to appear in the share menu when a user chooses to share any text, not just links. If your app already has a share target for pasting the shared text into a new post draft, it might make sense to reuse that target with an option to open the shared link instead of only creating a new post.
@@ -189,11 +191,11 @@ override fun onCreate(savedInstanceState: Bundle?) {
 ```
 
 ## Building
-In order to build Mastodon/Lemmy Redirect, you'll need two things:
+In order to build Fediverse Redirect, you'll need two things:
 1. The latest [Android Studio Canary](https://developer.android.com/studio/preview) build.
-2. A [modified Android SDK](https://github.com/Reginer/aosp-android-jar) with hidden APIs exposed.
+~~2. A [modified Android SDK](https://github.com/Reginer/aosp-android-jar) with hidden APIs exposed.~~
 
-Download the modified SDK corresponding to Mastodon/Lemmy Redirect's current `compile.sdk` value (found in [gradle.properties](https://github.com/zacharee/MastodonRedirect/tree/main/gradle.properties)) and follow the instructions provided in the link above to install it.
+~~Download the modified SDK corresponding to Fediverse Redirect's current `compile.sdk` value (found in [gradle.properties](https://github.com/zacharee/MastodonRedirect/tree/main/gradle.properties)) and follow the instructions provided in the link above to install it.~~
 
 ## Contributing
 If you want to add support for another app:
@@ -201,6 +203,6 @@ If you want to add support for another app:
 Until development slows down, check out the `LaunchStrategy.kt` file for how to add new apps.
 
 ## Error Reporting
-Mastodon/Lemmy Redirect uses Bugsnag for error reporting.
+Fediverse Redirect uses Bugsnag for error reporting.
 
 <a href="https://www.bugsnag.com"><img src="https://assets-global.website-files.com/607f4f6df411bd01527dc7d5/63bc40cd9d502eda8ea74ce7_Bugsnag%20Full%20Color.svg" width="200"></a>

@@ -17,6 +17,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Mastodon Redirect"
+rootProject.name = "Fediverse Redirect"
 include(":mastodonredirect", ":lemmyredirect", ":shared")
  

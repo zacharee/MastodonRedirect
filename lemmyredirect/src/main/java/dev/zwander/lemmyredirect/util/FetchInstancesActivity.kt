@@ -10,6 +10,11 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.decodeFromStream
 
 @Serializable
+private data class Extra(
+    val lemmy: List<String>,
+)
+
+@Serializable
 private data class Instance(
     val base: String?,
 )
@@ -25,9 +30,14 @@ class FetchInstancesActivity : BaseFetchActivity() {
             urlString = "https://data.lemmyverse.net/data/kbin.min.json",
         )
 
+        val extraResponse = HttpClient().get(
+            urlString = "https://data.lemmyverse.net/data/fediverse_software_sites.json",
+        )
+
         val root = json.decodeFromStream<List<Instance>>(response.body())
         val kbinRoot = json.decodeFromStream<List<String>>(kbinResponse.body()).map { Instance(it) }
+        val extraRoot = json.decodeFromStream<Extra>(extraResponse.body()).lemmy.map { Instance(it) }
 
-        return (root + kbinRoot).map { FetchedInstance(it.base!!, it.base) }
+        return (root + kbinRoot + extraRoot).distinctBy { it.base }.map { FetchedInstance(it.base!!, it.base) }
     }
 }

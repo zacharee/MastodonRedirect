@@ -71,7 +71,7 @@ dependencies {
 
     api(libs.patreonSupportersRetrieval)
 
-    api(project(":linksheet-interconnect"))
+    api("com.github.zacharee:LinkSheet:1ca2a4ac64")
 
     debugApi(libs.ui.tooling)
 }

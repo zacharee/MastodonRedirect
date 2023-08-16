@@ -70,8 +70,7 @@ dependencies {
     api(libs.shizuku.provider)
 
     api(libs.patreonSupportersRetrieval)
-
-    api("com.github.zacharee:LinkSheet:1ca2a4ac64")
+    api(libs.linkSheet)
 
     debugApi(libs.ui.tooling)
 }

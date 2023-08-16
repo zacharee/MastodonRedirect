@@ -13,16 +13,40 @@ val ActivityInfo.componentNameCompat: ComponentName
     get() = ComponentName(packageName, name)
 
 @Composable
-fun rememberLinkSheetInstallationStatus(): Boolean {
+fun rememberLinkSheetInstallationStatus(): LinkSheetStatus {
     val context = LocalContext.current
 
+    fun checkStatus(): LinkSheetStatus {
+        with (LinkSheet) {
+            val installed = context.isLinkSheetInstalled()
+
+            if (!installed) {
+                return LinkSheetStatus.NOT_INSTALLED
+            }
+
+            val interconnect = context.supportsInterconnect()
+
+            if (!interconnect) {
+                return LinkSheetStatus.INSTALLED_NO_INTERCONNECT
+            }
+
+            return LinkSheetStatus.INSTALLED_WITH_INTERCONNECT
+        }
+    }
+
     val state = remember {
-        mutableStateOf(with (LinkSheet) { context.isLinkSheetInstalled() })
+        mutableStateOf(checkStatus())
     }
 
     LifecycleEffect(Lifecycle.State.RESUMED) {
-        state.value = with (LinkSheet) { context.isLinkSheetInstalled() }
+        state.value = checkStatus()
     }
 
     return state.value
+}
+
+enum class LinkSheetStatus {
+    NOT_INSTALLED,
+    INSTALLED_NO_INTERCONNECT,
+    INSTALLED_WITH_INTERCONNECT,
 }

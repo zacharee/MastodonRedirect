@@ -4,6 +4,7 @@ import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.clickable
@@ -52,6 +53,7 @@ import dev.zwander.shared.model.AppModel
 import dev.zwander.shared.model.LocalAppModel
 import dev.zwander.shared.util.BaseLaunchStrategyUtils
 import dev.zwander.shared.util.Expander
+import dev.zwander.shared.util.LinkSheetStatus
 import dev.zwander.shared.util.LinkVerifyUtils.launchManualVerification
 import dev.zwander.shared.util.Prefs
 import dev.zwander.shared.util.RedirectorTheme
@@ -84,7 +86,11 @@ fun LinkVerifyPreview() {
                     override val prefs: Prefs
                         get() = error("Not implemented")
 
-                    override fun postShizukuCommand(context: CoroutineContext, command: IShizukuService.() -> Unit) {}
+                    override fun postShizukuCommand(
+                        context: CoroutineContext,
+                        command: IShizukuService.() -> Unit
+                    ) {
+                    }
                 }
             ) {
                 LinkVerifyLayout(missingDomains = listOf("test")) {}
@@ -241,8 +247,10 @@ fun LinkVerifyLayout(
                                         loading = false
                                     }
 
-                                    showingShizukuInstallDialog = result == ShizukuCommandResult.NOT_INSTALLED
-                                    showingShizukuStartDialog = result == ShizukuCommandResult.INSTALLED_NOT_RUNNING
+                                    showingShizukuInstallDialog =
+                                        result == ShizukuCommandResult.NOT_INSTALLED
+                                    showingShizukuStartDialog =
+                                        result == ShizukuCommandResult.INSTALLED_NOT_RUNNING
                                 }
                             },
                             enabled = !loading,
@@ -255,23 +263,56 @@ fun LinkVerifyLayout(
 
                         TextButton(
                             onClick = {
-                                if (linkSheetStatus) {
-                                    scope.launch(Dispatchers.IO) {
-                                        with (LinkSheet) {
-                                            context.bindService().selectDomains(
-                                                packageName = context.packageName,
-                                                domains = StringParceledListSlice(missingDomains),
-                                                componentName = ComponentName(context, RedirectActivity::class.java),
-                                            )
+                                with (LinkSheet) {
+                                    when (linkSheetStatus) {
+                                        LinkSheetStatus.NOT_INSTALLED -> {
+                                            context.openLinkInBrowser(Uri.parse("https://github.com/1fexd/LinkSheet"))
+                                        }
+                                        LinkSheetStatus.INSTALLED_NO_INTERCONNECT -> {
+                                            context.getInstalledPackageName()?.let { pkg ->
+                                                try {
+                                                    context.startActivity(
+                                                        context.packageManager.getLaunchIntentForPackage(
+                                                            pkg
+                                                        )?.apply {
+                                                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                                        },
+                                                    )
+                                                } catch (e: Exception) {
+                                                    Log.e(
+                                                        "FediverseRedirect",
+                                                        "Failed to open LinkSheet.",
+                                                        e
+                                                    )
+                                                }
+                                            }
+                                        }
+                                        LinkSheetStatus.INSTALLED_WITH_INTERCONNECT -> {
+                                            scope.launch(Dispatchers.IO) {
+                                                context.bindService().selectDomains(
+                                                    packageName = context.packageName,
+                                                    domains = StringParceledListSlice(missingDomains),
+                                                    componentName = ComponentName(
+                                                        context,
+                                                        RedirectActivity::class.java
+                                                    ),
+                                                )
+                                            }
                                         }
                                     }
-                                } else {
-                                    context.openLinkInBrowser(Uri.parse("https://github.com/1fexd/LinkSheet"))
                                 }
                             },
                             colors = buttonColors,
                         ) {
-                            Text(text = stringResource(id = if (linkSheetStatus) R.string.enable_with_linksheet else R.string.install_linksheet))
+                            Text(
+                                text = stringResource(
+                                    id = when (linkSheetStatus) {
+                                        LinkSheetStatus.NOT_INSTALLED -> R.string.install_linksheet
+                                        LinkSheetStatus.INSTALLED_NO_INTERCONNECT -> R.string.open_linksheet
+                                        LinkSheetStatus.INSTALLED_WITH_INTERCONNECT -> R.string.enable_with_linksheet
+                                    },
+                                )
+                            )
                         }
                     }
                 }
@@ -292,7 +333,8 @@ fun LinkVerifyLayout(
             confirmButton = {
                 TextButton(
                     onClick = {
-                        val launchIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://shizuku.rikka.app"))
+                        val launchIntent =
+                            Intent(Intent.ACTION_VIEW, Uri.parse("https://shizuku.rikka.app"))
                         context.startActivity(launchIntent)
                         showingShizukuInstallDialog = false
                     }
@@ -317,7 +359,8 @@ fun LinkVerifyLayout(
                 TextButton(
                     onClick = {
                         val launchIntent = context.packageManager.getLaunchIntentForPackage(
-                            ShizukuProvider.MANAGER_APPLICATION_ID)
+                            ShizukuProvider.MANAGER_APPLICATION_ID
+                        )
                         context.startActivity(launchIntent)
                         showingShizukuStartDialog = false
                     }
@@ -332,10 +375,12 @@ fun LinkVerifyLayout(
         AlertDialog(
             onDismissRequest = { showingUnverifiedDomains = false },
             title = {
-                Text(text = stringResource(
-                    id = R.string.unverified_domains_format,
-                    missingDomains.size.toString(),
-                ))
+                Text(
+                    text = stringResource(
+                        id = R.string.unverified_domains_format,
+                        missingDomains.size.toString(),
+                    )
+                )
             },
             text = {
                 LazyColumn(

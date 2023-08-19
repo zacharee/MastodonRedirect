@@ -6,13 +6,19 @@ import android.util.Log
 import androidx.activity.ComponentActivity
 import dev.zwander.shared.util.openLinkInBrowser
 import dev.zwander.shared.util.prefs
+import io.ktor.client.HttpClient
+import io.ktor.client.request.get
+import io.ktor.http.Url
+import io.ktor.http.contentType
+import io.ktor.http.fullPath
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.net.URLConnection
 
 class RedirectActivity : ComponentActivity(), CoroutineScope by MainScope() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,10 +30,11 @@ class RedirectActivity : ComponentActivity(), CoroutineScope by MainScope() {
             intent?.data?.toString()?.replace("web+activity+", "")
         }
 
-        when {
-            url.isNullOrBlank() || url.contains("oauth/authorize") -> launchInBrowser()
-            else -> {
-                launch {
+        runBlocking(Dispatchers.IO) {
+            when {
+                url.isNullOrBlank() || url.contains("oauth/authorize") -> launchInBrowser()
+                prefs.openMediaInBrowser && isUrlMedia(url) -> launchInBrowser()
+                else -> {
                     prefs.selectedApp.run {
                         createIntents(url).forEach {
                             it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -62,9 +69,9 @@ class RedirectActivity : ComponentActivity(), CoroutineScope by MainScope() {
                     }
                 }
             }
-        }
 
-        finish()
+            finish()
+        }
     }
 
     override fun onDestroy() {
@@ -74,5 +81,30 @@ class RedirectActivity : ComponentActivity(), CoroutineScope by MainScope() {
 
     private fun launchInBrowser() {
         openLinkInBrowser(intent?.data)
+    }
+
+    private suspend fun isUrlMedia(url: String): Boolean {
+        val parsedUrl = try {
+            Url(url)
+        } catch (e: Exception) {
+            null
+        }
+
+        parsedUrl?.let {
+            val guessedType = URLConnection.guessContentTypeFromName(parsedUrl.fullPath)
+
+            if (guessedType.startsWith("video") ||
+                guessedType.startsWith("image") ||
+                guessedType.startsWith("audio")) {
+                return true
+            }
+        }
+
+        val response = HttpClient().get(url)
+        val returnedType = response.contentType()?.contentType
+
+        return returnedType == "video" ||
+                returnedType == "image" ||
+                returnedType == "audio"
     }
 }

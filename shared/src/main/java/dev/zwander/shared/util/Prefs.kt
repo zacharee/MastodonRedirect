@@ -28,6 +28,7 @@ class Prefs private constructor(
 
         const val SELECTED_APP = "selected_app"
         const val ENABLE_CRASH_REPORTS = "enable_crash_reports"
+        const val OPEN_MEDIA_IN_BROWSER = "open_media_in_browser"
     }
 
     val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(this)
@@ -44,5 +45,11 @@ class Prefs private constructor(
         get() = preferences.getBoolean(ENABLE_CRASH_REPORTS, false)
         set(value) {
             preferences.edit { putBoolean(ENABLE_CRASH_REPORTS, value) }
+        }
+
+    var openMediaInBrowser: Boolean
+        get() = preferences.getBoolean(OPEN_MEDIA_IN_BROWSER, false)
+        set(value) {
+            preferences.edit { putBoolean(OPEN_MEDIA_IN_BROWSER, value) }
         }
 }

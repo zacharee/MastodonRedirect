@@ -166,6 +166,11 @@ private fun OptionsDialog(
         value = { prefs.enableCrashReports },
     ) { prefs.enableCrashReports = it }
 
+    var openMediaInBrowser by rememberPreferenceState(
+        key = Prefs.OPEN_MEDIA_IN_BROWSER,
+        value = { prefs.openMediaInBrowser },
+    ) { prefs.openMediaInBrowser = it }
+
     LaunchedEffect(key1 = enableCrashReports) {
         if (enableCrashReports) {
             Bugsnag.start(context)
@@ -188,6 +193,17 @@ private fun OptionsDialog(
                         subtitle = stringResource(id = R.string.enable_crash_reports_desc),
                         checked = enableCrashReports,
                         onCheckedChange = { enableCrashReports = it },
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                    )
+                }
+
+                item {
+                    TextSwitch(
+                        text = stringResource(id = R.string.open_media_in_browser),
+                        subtitle = stringResource(id = R.string.open_media_in_browser_desc),
+                        checked = openMediaInBrowser,
+                        onCheckedChange = { openMediaInBrowser = it },
                         modifier = Modifier
                             .fillMaxWidth(),
                     )

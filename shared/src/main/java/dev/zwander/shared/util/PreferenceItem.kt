@@ -9,16 +9,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withTimeout
 
 sealed interface PreferenceItem<T, K> {
     val key: Preferences.Key<K>
@@ -30,7 +26,7 @@ sealed interface PreferenceItem<T, K> {
         return value.map { it ?: default }.stateIn(
             scope = scope,
             started = SharingStarted.Eagerly,
-            initialValue = default,
+            initialValue = value.firstBlocking() ?: default,
         )
     }
 
@@ -59,15 +55,7 @@ fun <T, K> PreferenceItem<T, K>.rememberMutablePreferenceState(): MutableState<T
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
     val state = value.collectAsState(
-        initial = runBlocking {
-            try {
-                withTimeout(500) {
-                    value.first()
-                }
-            } catch (_: TimeoutCancellationException) {
-                null
-            }
-        } ?: default
+        initial = value.firstBlocking() ?: default
     )
 
     return remember {

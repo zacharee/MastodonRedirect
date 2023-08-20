@@ -30,6 +30,7 @@
             android:targetActivity=".RedirectActivity"
             android:excludeFromRecents="true"
             android:exported="true"
+            android:launchMode="singleInstance"
             android:theme="@style/AppTheme.Transparent">
             <intent-filter android:label="@string/open_link">
                 <action android:name="android.intent.action.SEND" />

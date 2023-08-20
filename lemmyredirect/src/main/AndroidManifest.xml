@@ -27,6 +27,7 @@
             android:name="dev.zwander.shared.RedirectActivity"
             android:excludeFromRecents="true"
             android:exported="true"
+            android:launchMode="singleInstance"
             android:theme="@style/AppTheme.Transparent">
             <intent-filter android:label="@string/http_filter">
                 <action android:name="android.intent.action.VIEW" />

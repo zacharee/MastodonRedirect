@@ -49,4 +49,6 @@
 
     <string name="open_media_in_browser">Open Media in Browser</string>
     <string name="open_media_in_browser_desc">If %s detects a media URL, it will open it directly in the browser instead of in the selected client.</string>
+
+    <string name="opening_link">Opening link…</string>
 </resources>

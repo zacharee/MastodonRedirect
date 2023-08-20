@@ -157,7 +157,8 @@ private fun OptionsDialog(
     onDismissRequest: () -> Unit,
 ) {
     val context = LocalContext.current
-    val prefs = LocalAppModel.current.prefs
+    val appModel = LocalAppModel.current
+    val prefs = appModel.prefs
     val scope = rememberCoroutineScope()
 
     var enableCrashReports by prefs.enableCrashReports.rememberMutablePreferenceState()
@@ -185,19 +186,20 @@ private fun OptionsDialog(
                         subtitle = stringResource(id = R.string.enable_crash_reports_desc),
                         checked = enableCrashReports,
                         onCheckedChange = { enableCrashReports = it },
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                     )
                 }
 
                 item {
                     TextSwitch(
                         text = stringResource(id = R.string.open_media_in_browser),
-                        subtitle = stringResource(id = R.string.open_media_in_browser_desc),
+                        subtitle = stringResource(
+                            id = R.string.open_media_in_browser_desc,
+                            appModel.appName
+                        ),
                         checked = openMediaInBrowser,
                         onCheckedChange = { openMediaInBrowser = it },
-                        modifier = Modifier
-                            .fillMaxWidth(),
+                        modifier = Modifier.fillMaxWidth(),
                     )
                 }
 

@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.core.view.WindowCompat
 import dev.zwander.shared.components.MainContent
@@ -24,8 +25,13 @@ abstract class BaseActivity : ComponentActivity() {
                     isAppearanceLightNavigationBars = isAppearanceLightStatusBars
                 }
 
-                MainContent()
+                Content()
             }
         }
+    }
+
+    @Composable
+    open fun Content() {
+        MainContent()
     }
 }

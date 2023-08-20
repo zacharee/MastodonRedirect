@@ -32,8 +32,7 @@ import dev.zwander.shared.LaunchStrategy
 import dev.zwander.shared.LaunchStrategyRootGroup
 import dev.zwander.shared.R
 import dev.zwander.shared.model.LocalAppModel
-import dev.zwander.shared.util.Prefs
-import dev.zwander.shared.util.rememberPreferenceState
+import dev.zwander.shared.util.rememberMutablePreferenceState
 
 @Composable
 fun AppChooserLayout(
@@ -43,10 +42,7 @@ fun AppChooserLayout(
     val prefs = appModel.prefs
     val launchStrategies = appModel.launchStrategyUtils.rememberSortedLaunchStrategies()
 
-    var selectedStrategy by rememberPreferenceState(
-        key = Prefs.SELECTED_APP,
-        value = { prefs.selectedApp },
-    ) { prefs.selectedApp = it }
+    var selectedStrategy by prefs.selectedApp.rememberMutablePreferenceState()
 
     Column(
         modifier = modifier,

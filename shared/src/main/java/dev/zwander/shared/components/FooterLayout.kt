@@ -40,10 +40,9 @@ import dev.zwander.shared.BuildConfig
 import dev.zwander.shared.R
 import dev.zwander.shared.model.LocalAppModel
 import dev.zwander.shared.util.LinkVerificationModel
-import dev.zwander.shared.util.Prefs
 import dev.zwander.shared.util.ShizukuUtils.runShizukuCommand
 import dev.zwander.shared.util.openLinkInBrowser
-import dev.zwander.shared.util.rememberPreferenceState
+import dev.zwander.shared.util.rememberMutablePreferenceState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tk.zwander.patreonsupportersretrieval.view.SupporterView
@@ -161,15 +160,8 @@ private fun OptionsDialog(
     val prefs = LocalAppModel.current.prefs
     val scope = rememberCoroutineScope()
 
-    var enableCrashReports by rememberPreferenceState(
-        key = Prefs.ENABLE_CRASH_REPORTS,
-        value = { prefs.enableCrashReports },
-    ) { prefs.enableCrashReports = it }
-
-    var openMediaInBrowser by rememberPreferenceState(
-        key = Prefs.OPEN_MEDIA_IN_BROWSER,
-        value = { prefs.openMediaInBrowser },
-    ) { prefs.openMediaInBrowser = it }
+    var enableCrashReports by prefs.enableCrashReports.rememberMutablePreferenceState()
+    var openMediaInBrowser by prefs.openMediaInBrowser.rememberMutablePreferenceState()
 
     LaunchedEffect(key1 = enableCrashReports) {
         if (enableCrashReports) {

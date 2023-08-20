@@ -33,9 +33,9 @@ class RedirectActivity : ComponentActivity(), CoroutineScope by MainScope() {
         runBlocking(Dispatchers.IO) {
             when {
                 url.isNullOrBlank() || url.contains("oauth/authorize") -> launchInBrowser()
-                prefs.openMediaInBrowser && isUrlMedia(url) -> launchInBrowser()
+                prefs.openMediaInBrowser.currentValue(this) && isUrlMedia(url) -> launchInBrowser()
                 else -> {
-                    prefs.selectedApp.run {
+                    prefs.selectedApp.currentValue(this).run {
                         createIntents(url).forEach {
                             it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 

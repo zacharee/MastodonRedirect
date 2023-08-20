@@ -57,6 +57,7 @@ dependencies {
     api(libs.material3)
     api(libs.materialComponents)
     api(libs.preferences)
+    api(libs.datastore.preferences)
     api(libs.hiddenApiBypass)
     api(libs.lifecycleRuntimeCompose)
     api(libs.ktor.client.android)

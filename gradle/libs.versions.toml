@@ -3,6 +3,7 @@ accompanist = "0.33.0-alpha"
 agp = "8.2.0-alpha16"
 bugsnagAndroid = "5.31.1"
 bugsnagAndroidGradlePlugin = "8.0.1"
+datastorePreferences = "1.0.0"
 kotlin = "1.9.0"
 core-ktx = "1.12.0-rc01"
 lifecycle-runtime-ktx = "2.7.0-alpha01"
@@ -22,6 +23,7 @@ accompanist-themeadapter-material3 = { module = "com.google.accompanist:accompan
 bugsnag-android = { module = "com.bugsnag:bugsnag-android", version.ref = "bugsnagAndroid" }
 bugsnag-android-gradle-plugin = { module = "com.bugsnag:bugsnag-android-gradle-plugin", version.ref = "bugsnagAndroidGradlePlugin" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+datastore-preferences = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferences" }
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }

@@ -85,7 +85,7 @@ abstract class App(
             HiddenApiBypass.addHiddenApiExemptions("")
         }
 
-        if (prefs.enableCrashReports) {
+        if (prefs.enableCrashReports.currentValue(this)) {
             Bugsnag.start(this)
         }
 

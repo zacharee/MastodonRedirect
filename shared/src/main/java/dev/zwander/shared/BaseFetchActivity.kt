@@ -68,7 +68,7 @@ abstract class BaseFetchActivity : ComponentActivity() {
                         modifier = Modifier.fillMaxSize(),
                     ) {
                         Button(onClick = {
-                            exportResult.launch("instances.xml")
+                            exportResult.launch("${appModel.appName.replace(" ", "")}_instances.xml")
                         }) {
                             Text(text = "Export")
                         }

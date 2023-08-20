@@ -104,12 +104,14 @@ object LinkVerifyUtils {
                     if (unverifiedDomains.isEmpty()) {
                         true
                     } else {
-                        context.checkLinkSheetStatus(allDomains)?.let {
-                            newMissingDomains.addAll(it.missingDomains)
-                            it.verified
-                        } ?: run {
+                        val linkSheetStatus = context.checkLinkSheetStatus(allDomains)
+
+                        if (linkSheetStatus == null) {
                             newMissingDomains.addAll(unverifiedDomains)
                             false
+                        } else {
+                            newMissingDomains.addAll(linkSheetStatus.missingDomains)
+                            linkSheetStatus.verified
                         }
                     }
                 } else {
@@ -131,12 +133,12 @@ object LinkVerifyUtils {
     @RequiresApi(Build.VERSION_CODES.S)
     private suspend fun Context.checkLinkSheetStatus(allDomains: List<String>): LinkVerificationStatus? {
         return with (LinkSheet) {
-            if (isLinkSheetInstalled()) {
+            if (isLinkSheetInstalled() && supportsInterconnect()) {
                 val service = bindService()
 
-                val selectedDomains = service.getSelectedDomains(packageName)
+                val selectedDomains = service.getSelectedDomains(packageName).list
 
-                val difference = allDomains - selectedDomains.list.toSet()
+                val difference = allDomains - selectedDomains.toSet()
 
                 LinkVerificationStatus(
                     verified = difference.isEmpty(),

@@ -13,6 +13,8 @@
     </queries>
 
     <application
+        android:supportsRtl="true"
+        android:allowBackup="true"
         android:theme="@style/Theme.Redirector">
         <provider
             android:name="rikka.shizuku.ShizukuProvider"

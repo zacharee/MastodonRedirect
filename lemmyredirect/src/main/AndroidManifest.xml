@@ -2,15 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
     <application
-        android:name="dev.zwander.lemmyredirect.LemmyRedirectApp"
-        android:allowBackup="true"
+        android:name=".LemmyRedirectApp"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:label="@string/app_name"
-        android:supportsRtl="true"
         tools:targetApi="31">
         <activity
-            android:name="dev.zwander.lemmyredirect.MainActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,7 +18,7 @@
         </activity>
 
         <activity
-            android:name="dev.zwander.lemmyredirect.util.FetchInstancesActivity"
+            android:name=".util.FetchInstancesActivity"
             android:exported="true" />
 
         <activity

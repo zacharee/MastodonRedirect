@@ -55,6 +55,10 @@ abstract class BaseLaunchStrategyUtils(
     }
 
     open fun Context.getLaunchStrategyForKey(key: String?): LaunchStrategy? {
+        if (key == null) {
+            return null
+        }
+
         return flattenedLaunchStrategies[key] ?: getLaunchStrategyForPackage(key)
     }
 

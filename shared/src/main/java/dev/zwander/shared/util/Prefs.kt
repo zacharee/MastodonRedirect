@@ -8,7 +8,6 @@ import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.preference.PreferenceManager
-import dev.zwander.shared.LaunchStrategy
 import dev.zwander.shared.app
 import dev.zwander.shared.appModel
 import kotlinx.coroutines.flow.map
@@ -45,29 +44,26 @@ class Prefs private constructor(
         },
     )
 
-    val selectedApp: ComplexPreferenceItem<LaunchStrategy, String>
-        get() = ComplexPreferenceItem(
-            key = SELECTED_APP,
-            value = dataStore.data.map {
-                with (appModel.launchStrategyUtils) {
-                    getLaunchStrategyForKey(it[SELECTED_APP])
-                }
-            },
-            default = appModel.defaultLaunchStrategy,
-            transform = { it.key },
-        )
+    val selectedApp = ComplexPreferenceItem(
+        key = SELECTED_APP,
+        value = dataStore.data.map {
+            with (appModel.launchStrategyUtils) {
+                getLaunchStrategyForKey(it[SELECTED_APP])
+            }
+        },
+        default = appModel.defaultLaunchStrategy,
+        transform = { it.key },
+    )
 
-    val enableCrashReports: SimplePreferenceItem<Boolean>
-        get() = SimplePreferenceItem(
-            key = ENABLE_CRASH_REPORTS,
-            value = dataStore.data.map { it[ENABLE_CRASH_REPORTS] },
-            default = false,
-        )
+    val enableCrashReports = SimplePreferenceItem(
+        key = ENABLE_CRASH_REPORTS,
+        value = dataStore.data.map { it[ENABLE_CRASH_REPORTS] },
+        default = false,
+    )
 
-    val openMediaInBrowser: SimplePreferenceItem<Boolean>
-        get() = SimplePreferenceItem(
-            key = OPEN_MEDIA_IN_BROWSER,
-            value = dataStore.data.map { it[OPEN_MEDIA_IN_BROWSER] },
-            default = false,
-        )
+    val openMediaInBrowser = SimplePreferenceItem(
+        key = OPEN_MEDIA_IN_BROWSER,
+        value = dataStore.data.map { it[OPEN_MEDIA_IN_BROWSER] },
+        default = false,
+    )
 }

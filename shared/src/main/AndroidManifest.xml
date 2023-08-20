@@ -24,6 +24,20 @@
             android:multiprocess="false"
             android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
 
+        <activity android:name=".BaseActivity"
+            android:exported="true" />
+
+        <activity-alias
+            android:name="${applicationId}.MainActivity"
+            android:targetActivity=".BaseActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity-alias>
+
         <activity-alias
             android:name=".RedirectActivityBase"
             android:targetActivity=".RedirectActivity"

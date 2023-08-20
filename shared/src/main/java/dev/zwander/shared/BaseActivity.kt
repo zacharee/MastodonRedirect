@@ -10,7 +10,7 @@ import androidx.core.view.WindowCompat
 import dev.zwander.shared.components.MainContent
 import dev.zwander.shared.model.LocalAppModel
 
-abstract class BaseActivity : ComponentActivity() {
+open class BaseActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

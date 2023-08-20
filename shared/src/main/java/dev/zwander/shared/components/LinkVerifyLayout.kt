@@ -77,6 +77,8 @@ fun LinkVerifyPreview() {
                 LocalAppModel provides object : AppModel {
                     override val launchStrategyUtils: BaseLaunchStrategyUtils
                         get() = error("Not implemented")
+                    override val fetchActivity: Class<*>
+                        get() = error("Not implemented")
                     override val defaultLaunchStrategy: LaunchStrategy
                         get() = error("Not implemented")
                     override val versionName: String

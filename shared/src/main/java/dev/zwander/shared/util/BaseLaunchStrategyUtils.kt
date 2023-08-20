@@ -3,6 +3,8 @@ package dev.zwander.shared.util
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.content.pm.ResolveInfo
 import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -65,15 +67,12 @@ abstract class BaseLaunchStrategyUtils(
     open fun Context.discoverStrategies(): Map<String, LaunchStrategy> {
         return packageManager.queryIntentActivities(
             Intent(launchAction),
-            0,
+            PackageManager.MATCH_ALL,
         ).groupBy { it.resolvePackageName }
-            .map { (pkg, infos) ->
-                pkg to DiscoveredLaunchStrategy(
-                    packageName = pkg,
-                    components = infos.map { it.activityInfo.componentNameCompat },
-                    labelRes = infos.first().activityInfo.applicationInfo.labelRes,
-                    launchAction = launchAction,
-                )
+            .mapNotNull { (pkg, infos) ->
+                val strategy = createDiscoveredLaunchStrategy(pkg, infos)
+
+                strategy?.let { pkg to strategy }
             }
             .toMap()
     }
@@ -88,15 +87,10 @@ abstract class BaseLaunchStrategyUtils(
                 Intent(launchAction).apply {
                     `package` = pkg
                 },
-                0,
+                PackageManager.MATCH_ALL,
             ).ifEmpty { return null }
 
-            DiscoveredLaunchStrategy(
-                packageName = pkg,
-                components = infos.map { it.activityInfo.componentNameCompat },
-                labelRes = infos.first().activityInfo.applicationInfo.labelRes,
-                launchAction = launchAction,
-            )
+            createDiscoveredLaunchStrategy(pkg, infos)
         } catch (e: Exception) {
             e.printStackTrace()
             null
@@ -120,5 +114,18 @@ abstract class BaseLaunchStrategyUtils(
             `package` = pkg
             this.component = component
         }
+    }
+
+    private fun createDiscoveredLaunchStrategy(pkg: String, infos: List<ResolveInfo>): DiscoveredLaunchStrategy? {
+        if (infos.isEmpty()) {
+            return null
+        }
+
+        return DiscoveredLaunchStrategy(
+            packageName = pkg,
+            components = infos.map { it.activityInfo.componentNameCompat },
+            labelRes = infos.first().activityInfo.applicationInfo.labelRes,
+            launchAction = launchAction,
+        )
     }
 }

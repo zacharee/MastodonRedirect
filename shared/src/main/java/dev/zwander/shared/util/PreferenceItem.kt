@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-interface PreferenceItem<T, K> {
+sealed interface PreferenceItem<T, K> {
     val key: Preferences.Key<K>
     val value: Flow<T?>
     val default: T

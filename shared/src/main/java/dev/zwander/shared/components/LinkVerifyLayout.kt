@@ -46,7 +46,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import dev.zwander.shared.IShizukuService
-import dev.zwander.shared.LaunchStrategy
 import dev.zwander.shared.R
 import dev.zwander.shared.RedirectActivity
 import dev.zwander.shared.model.AppModel
@@ -78,8 +77,6 @@ fun LinkVerifyPreview() {
                     override val launchStrategyUtils: BaseLaunchStrategyUtils
                         get() = error("Not implemented")
                     override val fetchActivity: Class<*>
-                        get() = error("Not implemented")
-                    override val defaultLaunchStrategy: LaunchStrategy
                         get() = error("Not implemented")
                     override val versionName: String
                         get() = error("Not implemented")

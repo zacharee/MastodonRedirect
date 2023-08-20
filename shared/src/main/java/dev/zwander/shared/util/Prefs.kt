@@ -39,7 +39,7 @@ class Prefs private constructor(
             listOf(
                 SharedPreferencesMigration(
                     { PreferenceManager.getDefaultSharedPreferences(this) },
-                )
+                ),
             )
         },
     )
@@ -51,7 +51,7 @@ class Prefs private constructor(
                 getLaunchStrategyForKey(it[SELECTED_APP])
             }
         },
-        default = appModel.defaultLaunchStrategy,
+        default = appModel.launchStrategyUtils.defaultLaunchStrategy,
         transform = { it.key },
     )
 

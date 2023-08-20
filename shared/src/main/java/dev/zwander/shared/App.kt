@@ -27,7 +27,7 @@ val Context.appModel: AppModel
 
 abstract class App(
     override val launchStrategyUtils: BaseLaunchStrategyUtils,
-    override val defaultLaunchStrategy: LaunchStrategy,
+    override val fetchActivity: Class<*>,
 ) : Application(), AppModel, CoroutineScope by MainScope() {
     private val pInfo by lazy {
         packageManager.getPackageInfo(packageName, 0)
@@ -39,7 +39,6 @@ abstract class App(
     override val appName by lazy {
         pInfo.applicationInfo.loadLabel(packageManager).toString()
     }
-
     override val prefs: Prefs
         get() = Prefs.getInstance(this)
 

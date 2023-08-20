@@ -14,9 +14,12 @@ import dev.zwander.shared.LaunchStrategyRootGroup
 import kotlin.reflect.KClass
 
 abstract class BaseLaunchStrategyUtils(
-    val launchAction: String,
+    applicationId: String,
     private val baseGroupClass : KClass<out LaunchStrategyRootGroup>,
+    val defaultLaunchStrategy: LaunchStrategy,
 ) {
+    protected open val launchAction = "$applicationId.intent.action.OPEN_FEDI_LINK"
+
     protected open val groupedLaunchStrategies by lazy {
         baseGroupClass.sealedSubclasses
             .mapNotNull { it.objectInstance }.filter { it.autoAdd }

@@ -8,7 +8,7 @@
         <package android:name="fe.linksheet.debug" />
 
         <intent>
-            <action android:name="dev.zwander.mastodonredirect.intent.action.OPEN_FEDI_LINK" />
+            <action android:name="${applicationId}.intent.action.OPEN_FEDI_LINK" />
         </intent>
     </queries>
 

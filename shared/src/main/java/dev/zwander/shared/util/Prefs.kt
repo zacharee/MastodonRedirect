@@ -51,7 +51,7 @@ class Prefs private constructor(
                 getLaunchStrategyForKey(it[SELECTED_APP])
             }
         },
-        default = appModel.launchStrategyUtils.defaultLaunchStrategy,
+        default = appModel.defaultLaunchStrategy,
         transform = { it.key },
     )
 

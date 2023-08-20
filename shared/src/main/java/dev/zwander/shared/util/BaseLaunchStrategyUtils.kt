@@ -17,8 +17,7 @@ import kotlin.reflect.KClass
 
 abstract class BaseLaunchStrategyUtils(
     applicationId: String,
-    private val baseGroupClass : KClass<out LaunchStrategyRootGroup>,
-    val defaultLaunchStrategy: LaunchStrategy,
+    baseGroupClass : KClass<out LaunchStrategyRootGroup>,
 ) {
     protected open val launchAction = "$applicationId.intent.action.OPEN_FEDI_LINK"
 

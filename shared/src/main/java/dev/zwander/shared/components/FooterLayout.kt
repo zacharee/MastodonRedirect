@@ -41,7 +41,6 @@ import dev.zwander.shared.R
 import dev.zwander.shared.model.LocalAppModel
 import dev.zwander.shared.util.LinkVerificationModel
 import dev.zwander.shared.util.ShizukuUtils.runShizukuCommand
-import dev.zwander.shared.util.openLinkInBrowser
 import dev.zwander.shared.util.openLinkNaturally
 import dev.zwander.shared.util.rememberMutablePreferenceState
 import kotlinx.coroutines.Dispatchers
@@ -74,13 +73,13 @@ fun FooterLayout(
                 R.string.github,
                 R.drawable.github,
             ) {
-                context.openLinkInBrowser(Uri.parse("https://github.com/zacharee/MastodonRedirect/"))
+                context.openLinkNaturally(Uri.parse("https://github.com/zacharee/MastodonRedirect/"))
             },
             FooterButton(
                 R.string.patreon,
                 R.drawable.patreon,
             ) {
-                context.openLinkInBrowser(Uri.parse("https://www.patreon.com/zacharywander"))
+                context.openLinkNaturally(Uri.parse("https://www.patreon.com/zacharywander"))
             },
             FooterButton(
                 R.string.mastodon,

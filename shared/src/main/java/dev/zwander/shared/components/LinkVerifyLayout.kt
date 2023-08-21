@@ -59,7 +59,7 @@ import dev.zwander.shared.util.Prefs
 import dev.zwander.shared.util.RedirectorTheme
 import dev.zwander.shared.util.ShizukuCommandResult
 import dev.zwander.shared.util.ShizukuUtils.runShizukuCommand
-import dev.zwander.shared.util.openLinkInBrowser
+import dev.zwander.shared.util.openLinkNaturally
 import dev.zwander.shared.util.rememberLinkSheetInstallationStatus
 import fe.linksheet.interconnect.LinkSheet
 import fe.linksheet.interconnect.StringParceledListSlice
@@ -268,7 +268,7 @@ fun LinkVerifyLayout(
                                 with (LinkSheet) {
                                     when (linkSheetStatus) {
                                         LinkSheetStatus.NOT_INSTALLED -> {
-                                            context.openLinkInBrowser(Uri.parse("https://github.com/1fexd/LinkSheet"))
+                                            context.openLinkNaturally(Uri.parse("https://github.com/1fexd/LinkSheet"))
                                         }
                                         LinkSheetStatus.INSTALLED_NO_INTERCONNECT -> {
                                             context.getInstalledPackageName()?.let { pkg ->

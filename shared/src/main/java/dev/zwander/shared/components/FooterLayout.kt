@@ -42,6 +42,7 @@ import dev.zwander.shared.model.LocalAppModel
 import dev.zwander.shared.util.LinkVerificationModel
 import dev.zwander.shared.util.ShizukuUtils.runShizukuCommand
 import dev.zwander.shared.util.openLinkInBrowser
+import dev.zwander.shared.util.openLinkNaturally
 import dev.zwander.shared.util.rememberMutablePreferenceState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -85,7 +86,7 @@ fun FooterLayout(
                 R.string.mastodon,
                 R.drawable.mastodon,
             ) {
-              context.openLinkInBrowser(Uri.parse("https://androiddev.social/@wander1236"))
+                context.openLinkNaturally(Uri.parse("https://androiddev.social/@wander1236"))
             },
             FooterButton(
                 R.string.supporters,

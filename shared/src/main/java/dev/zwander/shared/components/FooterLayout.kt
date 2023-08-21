@@ -82,6 +82,12 @@ fun FooterLayout(
                 context.openLinkInBrowser(Uri.parse("https://www.patreon.com/zacharywander"))
             },
             FooterButton(
+                R.string.mastodon,
+                R.drawable.mastodon,
+            ) {
+              context.openLinkInBrowser(Uri.parse("https://androiddev.social/@wander1236"))
+            },
+            FooterButton(
                 R.string.supporters,
                 R.drawable.heart,
             ) {

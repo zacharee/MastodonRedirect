@@ -74,7 +74,7 @@ Mastodon Redirect currently supports the following clients:
 - [Tooot](https://github.com/tooot-app/app).
 
 Lemmy Redirect currently supports the following clients:
-- [Infinity](https://codeberg.org/Bazsalanszky/Infinity-For-Lemmy).
+- [Eternity](https://codeberg.org/Bazsalanszky/Eternity).
 - [Jerboa](https://github.com/dessalines/jerboa).
 - [Liftoff](https://github.com/liftoff-app/liftoff).
 - [Summit](https://lemmy.world/c/summit).

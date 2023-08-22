@@ -17,6 +17,7 @@ hiddenApiBypass = "4.3"
 ktor = "2.3.3"
 kotlinx-serialization = "1.6.0-RC"
 shizuku = "13.1.4"
+compose-compiler = "1.5.1"
 
 [libraries]
 accompanist-themeadapter-material3 = { module = "com.google.accompanist:accompanist-themeadapter-material3", version.ref = "accompanist" }
@@ -52,4 +53,3 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 
 [bundles]
-

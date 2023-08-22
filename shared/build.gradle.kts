@@ -39,7 +39,7 @@ android {
         buildConfig = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = rootProject.extra["compose.compiler.extension"].toString()
+        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
     packaging {
         resources.excludes.add("META-INF/versions/9/previous-compilation-data.bin")

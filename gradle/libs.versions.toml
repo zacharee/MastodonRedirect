@@ -9,7 +9,7 @@ core-ktx = "1.12.0-rc01"
 lifecycle-runtime-ktx = "2.7.0-alpha01"
 activity-compose = "1.8.0-alpha06"
 compose-bom = "2023.09.00-alpha02"
-linkSheet = "c617fbce83"
+linkSheet = "-SNAPSHOT"
 material-components = "1.11.0-alpha02"
 patreonSupportersRetrieval = "8436bbdbdc"
 preferences = "1.2.1"
@@ -28,7 +28,7 @@ kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref =
 lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 compose-bom = { group = "dev.chrisbanes.compose", name = "compose-bom", version.ref = "compose-bom" }
-linkSheet = { module = "com.github.zacharee:LinkSheet", version.ref = "linkSheet" }
+linkSheet = { module = "com.github.1fexd:LinkSheet", version.ref = "linkSheet" }
 patreonSupportersRetrieval = { module = "com.github.zacharee:PatreonSupportersRetrieval", version.ref = "patreonSupportersRetrieval" }
 ui = { group = "androidx.compose.ui", name = "ui" }
 ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }

@@ -6,6 +6,7 @@
         <package android:name="moe.shizuku.privileged.api" />
         <package android:name="fe.linksheet" />
         <package android:name="fe.linksheet.debug" />
+        <package android:name="fe.linksheet.nightly" />
 
         <intent>
             <action android:name="${applicationId}.intent.action.OPEN_FEDI_LINK" />

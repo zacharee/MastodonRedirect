@@ -97,17 +97,26 @@ data object Liftoff : LemmyLaunchStrategyRootGroup(R.string.liftoff) {
 data object Sync : LemmyLaunchStrategyRootGroup(R.string.sync) {
     @Keep
     data object SyncMain : LemmyLaunchStrategy("SYNC", dev.zwander.shared.R.string.main) {
+        private fun createIntent(url: String, component: String): Intent {
+            return Intent().apply {
+                this.action = null
+                addCategory(Intent.CATEGORY_LAUNCHER)
+                putExtra("link", url)
+
+                `package` = "io.syncapps.lemmy_sync"
+                this.component = ComponentName(
+                    "io.syncapps.lemmy_sync",
+                    "io.syncapps.lemmy_sync.ui.activities.HomeActivity.$component",
+                )
+            }
+        }
+
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
-                LaunchStrategyUtils.createViewIntent(
-                    "io.syncapps.lemmy_sync",
-                    ComponentName(
-                        "io.syncapps.lemmy_sync",
-                        "io.syncapps.lemmy_sync.ui.activities.IntentActivity",
-                    ),
-                    url,
-                ),
-            )
+                "Default",
+                "Blm",
+                "Pride",
+            ).map { createIntent(url, it) }
         }
     }
 }

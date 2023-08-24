@@ -119,13 +119,13 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
                         } catch (e: Exception) {
                             Log.e(packageName, "Error launching.", e)
 
-                            if (sequentialLaunch) {
+                            if (!sequentialLaunch) {
                                 launchInBrowser()
                                 return@run
                             }
                         }
 
-                        if (sequentialLaunch && index < intents.lastIndex) {
+                        if (index < intents.lastIndex) {
                             withContext(Dispatchers.IO) {
                                 delay(500)
                             }

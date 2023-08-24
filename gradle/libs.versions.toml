@@ -1,6 +1,6 @@
 [versions]
 accompanist = "0.33.0-alpha"
-agp = "8.2.0-alpha16"
+agp = "8.2.0-beta01"
 bugsnagAndroid = "5.31.1"
 bugsnagAndroidGradlePlugin = "8.0.1"
 datastorePreferences = "1.0.0"
@@ -15,9 +15,9 @@ patreonSupportersRetrieval = "8436bbdbdc"
 preferences = "1.2.1"
 hiddenApiBypass = "4.3"
 ktor = "2.3.3"
-kotlinx-serialization = "1.6.0-RC"
+kotlinx-serialization = "1.6.0"
 shizuku = "13.1.4"
-compose-compiler = "1.5.1"
+compose-compiler = "1.5.2"
 
 [libraries]
 accompanist-themeadapter-material3 = { module = "com.google.accompanist:accompanist-themeadapter-material3", version.ref = "accompanist" }

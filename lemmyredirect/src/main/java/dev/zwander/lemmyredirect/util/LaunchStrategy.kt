@@ -103,6 +103,8 @@ data object Sync : LemmyLaunchStrategyRootGroup(R.string.sync) {
                 addCategory(Intent.CATEGORY_LAUNCHER)
                 putExtra("link", url)
 
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
+
                 `package` = "io.syncapps.lemmy_sync"
                 this.component = ComponentName(
                     "io.syncapps.lemmy_sync",

@@ -47,31 +47,34 @@ android {
 }
 
 dependencies {
-    api(libs.core.ktx)
-    api(libs.lifecycle.runtime.ktx)
-    api(libs.activity.compose)
+    api(libs.androidx.core.ktx)
+    api(libs.androidx.lifecycle.runtime.ktx)
+    api(libs.androidx.lifecycle.runtime.compose)
+    api(libs.androidx.preferences)
+    api(libs.androidx.datastore.preferences)
+
     api(platform(libs.compose.bom))
-    api(libs.ui)
-    api(libs.ui.graphics)
-    api(libs.ui.tooling.preview)
-    api(libs.material3)
-    api(libs.materialComponents)
-    api(libs.preferences)
-    api(libs.datastore.preferences)
-    api(libs.hiddenApiBypass)
-    api(libs.lifecycleRuntimeCompose)
+    api(libs.compose.activity)
+    api(libs.compose.ui)
+    api(libs.compose.ui.graphics)
+    api(libs.compose.ui.tooling.preview)
+    api(libs.compose.compiler)
+    api(libs.compose.material3)
+    api(libs.compose.accompanist.themeadapter.material3)
+
+    api(libs.kotlin.reflect)
+    api(libs.kotlinx.serialization)
     api(libs.ktor.client.android)
     api(libs.ktor.client.auth)
-    api(libs.kotlinx.serialization)
-    api(libs.bugsnag.android)
-    api(libs.accompanist.themeadapter.material3)
-    api(libs.kotlin.reflect)
 
     api(libs.shizuku.api)
     api(libs.shizuku.provider)
 
     api(libs.patreonSupportersRetrieval)
     api(libs.linkSheet)
+    api(libs.material.components)
+    api(libs.hiddenApiBypass)
+    api(libs.bugsnag.android)
 
-    debugApi(libs.ui.tooling)
+    debugApi(libs.compose.ui.tooling)
 }

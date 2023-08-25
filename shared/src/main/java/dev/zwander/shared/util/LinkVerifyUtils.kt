@@ -23,7 +23,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import tk.zwander.linksheet.interconnect.LinkSheet
+import fe.linksheet.interconnect.LinkSheet
 
 object LinkVerificationModel {
     private val _refreshFlow = MutableStateFlow(0)

@@ -7,7 +7,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
-import tk.zwander.linksheet.interconnect.LinkSheet
+import fe.linksheet.interconnect.LinkSheet
 
 val ActivityInfo.componentNameCompat: ComponentName
     get() = ComponentName(packageName, name)

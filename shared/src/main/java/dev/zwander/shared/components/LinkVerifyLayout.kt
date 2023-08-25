@@ -64,8 +64,8 @@ import dev.zwander.shared.util.rememberLinkSheetInstallationStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import rikka.shizuku.ShizukuProvider
-import tk.zwander.linksheet.interconnect.LinkSheet
-import tk.zwander.linksheet.interconnect.StringParceledListSlice
+import fe.linksheet.interconnect.LinkSheet
+import fe.linksheet.interconnect.StringParceledListSlice
 import kotlin.coroutines.CoroutineContext
 
 @Preview(showSystemUi = true)

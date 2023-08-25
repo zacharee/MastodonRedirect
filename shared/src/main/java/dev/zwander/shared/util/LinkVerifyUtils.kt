@@ -19,11 +19,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import dev.zwander.shared.util.hiddenapi.PackageManager
-import fe.linksheet.interconnect.LinkSheet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import tk.zwander.linksheet.interconnect.LinkSheet
 
 object LinkVerificationModel {
     private val _refreshFlow = MutableStateFlow(0)

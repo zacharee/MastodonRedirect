@@ -61,11 +61,11 @@ import dev.zwander.shared.util.ShizukuCommandResult
 import dev.zwander.shared.util.ShizukuUtils.runShizukuCommand
 import dev.zwander.shared.util.openLinkNaturally
 import dev.zwander.shared.util.rememberLinkSheetInstallationStatus
-import fe.linksheet.interconnect.LinkSheet
-import fe.linksheet.interconnect.StringParceledListSlice
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import rikka.shizuku.ShizukuProvider
+import tk.zwander.linksheet.interconnect.LinkSheet
+import tk.zwander.linksheet.interconnect.StringParceledListSlice
 import kotlin.coroutines.CoroutineContext
 
 @Preview(showSystemUi = true)

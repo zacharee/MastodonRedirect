@@ -45,6 +45,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.icerock.moko.mvvm.flow.compose.collectAsMutableState
 import dev.zwander.shared.IShizukuService
 import dev.zwander.shared.LaunchStrategy
 import dev.zwander.shared.R
@@ -54,6 +55,7 @@ import dev.zwander.shared.model.LocalAppModel
 import dev.zwander.shared.util.BaseLaunchStrategyUtils
 import dev.zwander.shared.util.Expander
 import dev.zwander.shared.util.LinkSheetStatus
+import dev.zwander.shared.util.LinkVerificationModel
 import dev.zwander.shared.util.LinkVerifyUtils.launchManualVerification
 import dev.zwander.shared.util.Prefs
 import dev.zwander.shared.util.RedirectorTheme
@@ -124,9 +126,7 @@ fun LinkVerifyLayout(
     var expanded by remember {
         mutableStateOf(false)
     }
-    var loading by remember {
-        mutableStateOf(false)
-    }
+    var loading by LinkVerificationModel.isRefreshing.collectAsMutableState()
 
     ElevatedCard(
         modifier = modifier.padding(horizontal = 8.dp),
@@ -305,6 +305,7 @@ fun LinkVerifyLayout(
                                 }
                             },
                             colors = buttonColors,
+                            enabled = !loading,
                         ) {
                             Text(
                                 text = stringResource(

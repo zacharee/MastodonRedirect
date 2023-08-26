@@ -31,6 +31,8 @@ object LinkVerificationModel {
     val refreshFlow: StateFlow<Int>
         get() = _refreshFlow
 
+    val isRefreshing = MutableStateFlow(false)
+
     fun refresh() {
         _refreshFlow.value += 1
     }
@@ -83,6 +85,7 @@ object LinkVerifyUtils {
 
         LifecycleEffect(Lifecycle.State.RESUMED, keys = listOf(refresh)) {
             launch(Dispatchers.IO) {
+                LinkVerificationModel.isRefreshing.value = true
                 val newMissingDomains = mutableListOf<String>()
 
                 val newVerified = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -124,6 +127,8 @@ object LinkVerifyUtils {
                     verified = newVerified,
                     missingDomains = newMissingDomains,
                 )
+
+                LinkVerificationModel.isRefreshing.value = false
             }
         }
 
@@ -136,7 +141,7 @@ object LinkVerifyUtils {
             if (isLinkSheetInstalled() && supportsInterconnect()) {
                 val service = bindService()
 
-                val selectedDomains = service.getSelectedDomains(packageName).list
+                val selectedDomains = service.getSelectedDomainsAsync(packageName).list
 
                 val difference = allDomains - selectedDomains.toSet()
 

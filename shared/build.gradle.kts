@@ -75,6 +75,7 @@ dependencies {
     api(libs.material.components)
     api(libs.hiddenApiBypass)
     api(libs.bugsnag.android)
+    api(libs.mvvm.flow.compose)
 
     debugApi(libs.compose.ui.tooling)
 }

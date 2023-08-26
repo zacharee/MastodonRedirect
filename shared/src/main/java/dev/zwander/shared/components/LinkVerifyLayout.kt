@@ -61,12 +61,12 @@ import dev.zwander.shared.util.Prefs
 import dev.zwander.shared.util.RedirectorTheme
 import dev.zwander.shared.util.ShizukuCommandResult
 import dev.zwander.shared.util.ShizukuUtils.runShizukuCommand
+import dev.zwander.shared.util.locals.LocalLinkSheet
 import dev.zwander.shared.util.openLinkNaturally
 import dev.zwander.shared.util.rememberLinkSheetInstallationStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import rikka.shizuku.ShizukuProvider
-import fe.linksheet.interconnect.LinkSheet
 import fe.linksheet.interconnect.StringParceledListSlice
 import kotlin.coroutines.CoroutineContext
 
@@ -112,6 +112,7 @@ fun LinkVerifyLayout(
 ) {
     val context = LocalContext.current
     val appModel = LocalAppModel.current
+    val linkSheet = LocalLinkSheet.current
     val scope = rememberCoroutineScope()
 
     var showingShizukuInstallDialog by remember {
@@ -265,41 +266,39 @@ fun LinkVerifyLayout(
 
                         TextButton(
                             onClick = {
-                                with (LinkSheet) {
-                                    when (linkSheetStatus) {
-                                        LinkSheetStatus.NOT_INSTALLED -> {
-                                            context.openLinkNaturally(Uri.parse("https://github.com/1fexd/LinkSheet"))
-                                        }
-                                        LinkSheetStatus.INSTALLED_NO_INTERCONNECT -> {
-                                            context.getInstalledPackageName()?.let { pkg ->
-                                                try {
-                                                    context.startActivity(
-                                                        context.packageManager.getLaunchIntentForPackage(
-                                                            pkg
-                                                        )?.apply {
-                                                            addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                                        },
-                                                    )
-                                                } catch (e: Exception) {
-                                                    Log.e(
-                                                        "FediverseRedirect",
-                                                        "Failed to open LinkSheet.",
-                                                        e
-                                                    )
-                                                }
-                                            }
-                                        }
-                                        LinkSheetStatus.INSTALLED_WITH_INTERCONNECT -> {
-                                            scope.launch(Dispatchers.IO) {
-                                                context.bindService().selectDomains(
-                                                    packageName = context.packageName,
-                                                    domains = StringParceledListSlice(missingDomains),
-                                                    componentName = ComponentName(
-                                                        context,
-                                                        RedirectActivity::class.java
-                                                    ),
+                                when (linkSheetStatus) {
+                                    LinkSheetStatus.NOT_INSTALLED -> {
+                                        context.openLinkNaturally(Uri.parse("https://github.com/1fexd/LinkSheet"))
+                                    }
+                                    LinkSheetStatus.INSTALLED_NO_INTERCONNECT -> {
+                                        linkSheet?.packageName?.let { pkg ->
+                                            try {
+                                                context.startActivity(
+                                                    context.packageManager.getLaunchIntentForPackage(
+                                                        pkg
+                                                    )?.apply {
+                                                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                                                    },
+                                                )
+                                            } catch (e: Exception) {
+                                                Log.e(
+                                                    "FediverseRedirect",
+                                                    "Failed to open LinkSheet.",
+                                                    e
                                                 )
                                             }
+                                        }
+                                    }
+                                    LinkSheetStatus.INSTALLED_WITH_INTERCONNECT -> {
+                                        scope.launch(Dispatchers.IO) {
+                                            with (linkSheet!!) { context.bindService() }.selectDomains(
+                                                packageName = context.packageName,
+                                                domains = StringParceledListSlice(missingDomains),
+                                                componentName = ComponentName(
+                                                    context,
+                                                    RedirectActivity::class.java
+                                                ),
+                                            )
                                         }
                                     }
                                 }

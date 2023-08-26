@@ -19,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import dev.zwander.shared.util.hiddenapi.PackageManager
+import dev.zwander.shared.util.locals.LocalLinkSheet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -77,6 +78,7 @@ object LinkVerifyUtils {
     @Composable
     fun rememberLinkVerificationAsState(): State<LinkVerificationStatus> {
         val context = LocalContext.current
+        val linkSheet = LocalLinkSheet.current
         val refresh by LinkVerificationModel.refreshFlow.collectAsState()
 
         val verificationStatus = remember {
@@ -107,7 +109,7 @@ object LinkVerifyUtils {
                     if (unverifiedDomains.isEmpty()) {
                         true
                     } else {
-                        val linkSheetStatus = context.checkLinkSheetStatus(allDomains)
+                        val linkSheetStatus = context.checkLinkSheetStatus(linkSheet, allDomains)
 
                         if (linkSheetStatus == null) {
                             newMissingDomains.addAll(unverifiedDomains)
@@ -136,22 +138,18 @@ object LinkVerifyUtils {
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
-    private suspend fun Context.checkLinkSheetStatus(allDomains: List<String>): LinkVerificationStatus? {
-        return with (LinkSheet) {
-            if (isLinkSheetInstalled() && supportsInterconnect()) {
-                val service = bindService()
+    private suspend fun Context.checkLinkSheetStatus(linkSheet: LinkSheet?, allDomains: List<String>): LinkVerificationStatus? {
+        return if (linkSheet != null && linkSheet.supportsInterconnect) {
+            val service = with (linkSheet) { bindService() }
+            val selectedDomains = service.getSelectedDomainsAsync(packageName).list
+            val difference = allDomains - selectedDomains.toSet()
 
-                val selectedDomains = service.getSelectedDomainsAsync(packageName).list
-
-                val difference = allDomains - selectedDomains.toSet()
-
-                LinkVerificationStatus(
-                    verified = difference.isEmpty(),
-                    missingDomains = difference,
-                )
-            } else {
-                null
-            }
+            LinkVerificationStatus(
+                verified = difference.isEmpty(),
+                missingDomains = difference,
+            )
+        } else {
+            null
         }
     }
 }

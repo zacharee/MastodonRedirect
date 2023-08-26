@@ -67,7 +67,6 @@ import dev.zwander.shared.util.rememberLinkSheetInstallationStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import rikka.shizuku.ShizukuProvider
-import fe.linksheet.interconnect.StringParceledListSlice
 import kotlin.coroutines.CoroutineContext
 
 @Preview(showSystemUi = true)
@@ -291,14 +290,26 @@ fun LinkVerifyLayout(
                                     }
                                     LinkSheetStatus.INSTALLED_WITH_INTERCONNECT -> {
                                         scope.launch(Dispatchers.IO) {
-                                            linkSheet?.bindService(context)?.selectDomains(
-                                                packageName = context.packageName,
-                                                domains = StringParceledListSlice(missingDomains),
-                                                componentName = ComponentName(
-                                                    context,
-                                                    RedirectActivity::class.java
-                                                ),
+                                            val component = ComponentName(
+                                                context,
+                                                RedirectActivity::class.java,
                                             )
+
+                                            try {
+                                                linkSheet?.bindService(context)?.selectDomainsWithResult(
+                                                    packageName = context.packageName,
+                                                    domains = missingDomains,
+                                                    componentName = component,
+                                                )
+
+                                                refresh()
+                                            } catch (e: Exception) {
+                                                linkSheet?.bindService(context)?.selectDomains(
+                                                    packageName = context.packageName,
+                                                    domains = missingDomains,
+                                                    componentName = component,
+                                                )
+                                            }
                                         }
                                     }
                                 }

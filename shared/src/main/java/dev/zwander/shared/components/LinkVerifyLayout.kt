@@ -291,7 +291,7 @@ fun LinkVerifyLayout(
                                     }
                                     LinkSheetStatus.INSTALLED_WITH_INTERCONNECT -> {
                                         scope.launch(Dispatchers.IO) {
-                                            with (linkSheet!!) { context.bindService() }.selectDomains(
+                                            linkSheet?.bindService(context)?.selectDomains(
                                                 packageName = context.packageName,
                                                 domains = StringParceledListSlice(missingDomains),
                                                 componentName = ComponentName(

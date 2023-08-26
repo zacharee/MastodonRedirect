@@ -140,7 +140,7 @@ object LinkVerifyUtils {
     @RequiresApi(Build.VERSION_CODES.S)
     private suspend fun Context.checkLinkSheetStatus(linkSheet: LinkSheet?, allDomains: List<String>): LinkVerificationStatus? {
         return if (linkSheet != null && linkSheet.supportsInterconnect) {
-            val service = with (linkSheet) { bindService() }
+            val service = linkSheet.bindService(this)
             val selectedDomains = service.getSelectedDomainsAsync(packageName).list
             val difference = allDomains - selectedDomains.toSet()
 

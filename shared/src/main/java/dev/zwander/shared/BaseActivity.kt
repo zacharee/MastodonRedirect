@@ -6,11 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
 import dev.zwander.shared.components.MainContent
 import dev.zwander.shared.model.LocalAppModel
 import dev.zwander.shared.util.locals.LocalLinkSheet
-import fe.linksheet.interconnect.LinkSheetConnector
+import dev.zwander.shared.util.locals.rememberLinkSheet
 
 open class BaseActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,9 +20,11 @@ open class BaseActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
 
         setContent {
+            val linkSheet by rememberLinkSheet()
+
             CompositionLocalProvider(
                 LocalAppModel provides appModel,
-                LocalLinkSheet provides with (LinkSheetConnector) { getLinkSheet() },
+                LocalLinkSheet provides linkSheet,
             ) {
                 WindowCompat.getInsetsController(window, window.decorView).apply {
                     isAppearanceLightStatusBars = !isSystemInDarkTheme()

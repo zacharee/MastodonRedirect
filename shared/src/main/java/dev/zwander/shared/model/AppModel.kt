@@ -15,7 +15,6 @@ interface AppModel {
     val defaultLaunchStrategy: LaunchStrategy
     val fetchActivity: Class<*>
 
-    val versionName: String
     val appName: String
 
     val prefs: Prefs

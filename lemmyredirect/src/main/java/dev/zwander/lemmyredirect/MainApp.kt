@@ -9,4 +9,5 @@ class MainApp : App(
     launchStrategyUtils = LaunchStrategyUtils,
     fetchActivity = FetchInstancesActivity::class.java,
     defaultLaunchStrategy = Jerboa.JerboaStable,
+    appNameRes = R.string.app_name,
 )

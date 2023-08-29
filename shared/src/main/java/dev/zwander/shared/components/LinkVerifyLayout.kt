@@ -82,8 +82,6 @@ fun LinkVerifyPreview() {
                         get() = error("Not implemented")
                     override val fetchActivity: Class<*>
                         get() = error("Not implemented")
-                    override val versionName: String
-                        get() = error("Not implemented")
                     override val appName: String
                         get() = "Test Redirect"
                     override val prefs: Prefs

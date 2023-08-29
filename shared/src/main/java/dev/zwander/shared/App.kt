@@ -7,6 +7,7 @@ import android.content.ServiceConnection
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.IBinder
+import androidx.annotation.StringRes
 import com.bugsnag.android.Bugsnag
 import dev.zwander.shared.model.AppModel
 import dev.zwander.shared.shizuku.ShizukuService
@@ -29,16 +30,10 @@ abstract class App(
     override val launchStrategyUtils: BaseLaunchStrategyUtils,
     override val fetchActivity: Class<*>,
     override val defaultLaunchStrategy: LaunchStrategy,
+    @StringRes private val appNameRes: Int,
 ) : Application(), AppModel, CoroutineScope by MainScope() {
-    private val pInfo by lazy {
-        packageManager.getPackageInfo(packageName, 0)
-    }
-
-    override val versionName by lazy {
-        pInfo.versionName.toString()
-    }
     override val appName by lazy {
-        pInfo.applicationInfo.loadLabel(packageManager).toString()
+        resources.getString(appNameRes)
     }
     override val prefs: Prefs
         get() = Prefs.getInstance(this)
@@ -68,10 +63,9 @@ abstract class App(
         }
     }
 
-    @Suppress("DEPRECATION")
     private val serviceArgs by lazy {
         Shizuku.UserServiceArgs(ComponentName(packageName, ShizukuService::class.java.canonicalName!!))
-            .version(pInfo.versionCode + (if (BuildConfig.DEBUG) 10003 else 0))
+            .version(BuildConfig.VERSION_CODE + (if (BuildConfig.DEBUG) 10003 else 0))
             .processNameSuffix("redirect")
             .debuggable(BuildConfig.DEBUG)
             .daemon(false)

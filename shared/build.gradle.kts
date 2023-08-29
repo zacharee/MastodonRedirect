@@ -27,6 +27,10 @@ android {
         debug {
             isMinifyEnabled = false
         }
+        all {
+            buildConfigField("int", "VERSION_CODE", rootProject.extra["version.code"].toString())
+            buildConfigField("String", "VERSION_NAME", "\"${rootProject.extra["version.name"]}\"")
+        }
     }
     val javaVersion = JavaVersion.toVersion(rootProject.extra["java.version"].toString().toInt())
     compileOptions {

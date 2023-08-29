@@ -9,4 +9,5 @@ class MainApp : App(
     launchStrategyUtils = LaunchStrategyUtils,
     fetchActivity = FetchInstancesActivity::class.java,
     defaultLaunchStrategy = Megalodon.MegalodonStable,
+    appNameRes = R.string.app_name,
 )

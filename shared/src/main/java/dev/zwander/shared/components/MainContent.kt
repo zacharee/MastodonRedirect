@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import dev.zwander.shared.BuildConfig
 import dev.zwander.shared.model.LocalAppModel
 import dev.zwander.shared.util.LinkVerificationModel
 import dev.zwander.shared.util.LinkVerifyUtils
@@ -68,7 +69,7 @@ fun MainContent() {
                         }
 
                         Text(
-                            text = appModel.versionName,
+                            text = BuildConfig.VERSION_NAME,
                             style = MaterialTheme.typography.bodyMedium,
                             modifier = Modifier.fillMaxWidth()
                                 .clickable(

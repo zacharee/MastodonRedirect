@@ -56,6 +56,8 @@ object LinkVerifyUtils {
                 return
             } catch (e: ActivityNotFoundException) {
                 e.printStackTrace()
+            } catch (e: SecurityException) {
+                e.printStackTrace()
             }
         }
     }

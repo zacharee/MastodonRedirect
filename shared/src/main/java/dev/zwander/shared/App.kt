@@ -87,16 +87,11 @@ abstract class App(
             if (Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED) {
                 addUserService()
             } else {
-                Shizuku.addRequestPermissionResultListener(
-                    object : Shizuku.OnRequestPermissionResultListener {
-                        override fun onRequestPermissionResult(requestCode: Int, grantResult: Int) {
-                            if (grantResult == PackageManager.PERMISSION_GRANTED) {
-                                addUserService()
-                                Shizuku.removeRequestPermissionResultListener(this)
-                            }
-                        }
+                Shizuku.addRequestPermissionResultListener { _, grantResult ->
+                    if (grantResult == PackageManager.PERMISSION_GRANTED) {
+                        addUserService()
                     }
-                )
+                }
             }
         }
     }

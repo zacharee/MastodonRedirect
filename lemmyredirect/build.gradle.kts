@@ -2,18 +2,17 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinSerialization)
-}
-
-apply {
-    plugin("com.bugsnag.android.gradle")
+    alias(libs.plugins.bugsnagAndroid)
 }
 
 android {
-    namespace = "dev.zwander.lemmyredirect"
+    val pkg = "dev.zwander.lemmyredirect"
+
+    namespace = pkg
     compileSdk = rootProject.extra["compile.sdk"].toString().toInt()
 
     defaultConfig {
-        applicationId = "dev.zwander.lemmyredirect"
+        applicationId = pkg
         minSdk = rootProject.extra["min.sdk"].toString().toInt()
         targetSdk = rootProject.extra["target.sdk"].toString().toInt()
         versionCode = rootProject.extra["version.code"].toString().toInt()
@@ -32,13 +31,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
-            buildConfigField("int", "VERSION_CODE", "${defaultConfig.versionCode}")
-            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
         }
 
         debug {
-            buildConfigField("int", "VERSION_CODE", "${defaultConfig.versionCode}")
-            buildConfigField("String","VERSION_NAME","\"${defaultConfig.versionName}\"")
+            isMinifyEnabled = false
         }
     }
     val javaVersion = JavaVersion.toVersion(rootProject.extra["java.version"].toString().toInt())

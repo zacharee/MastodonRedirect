@@ -4,46 +4,28 @@
 
     <queries>
         <package android:name="moe.shizuku.privileged.api" />
-        <package android:name="fe.linksheet" />
-        <package android:name="fe.linksheet.debug" />
-        <package android:name="fe.linksheet.nightly" />
 
         <intent>
             <action android:name="${applicationId}.intent.action.OPEN_FEDI_LINK" />
         </intent>
     </queries>
 
+    <!-- Manifest will show some resolve errors but the app should still compile,
+            as long as the target variant has the component/resource. -->
     <application
         android:supportsRtl="true"
         android:allowBackup="true"
-        android:theme="@style/Theme.Redirector">
-        <provider
-            android:name="rikka.shizuku.ShizukuProvider"
-            android:authorities="${applicationId}.shizuku"
-            android:enabled="true"
-            android:exported="true"
-            android:multiprocess="false"
-            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
-
+        android:theme="@style/Theme.Redirector"
+        android:name="${applicationId}.MainApp"
+        android:label="@string/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:roundIcon="@mipmap/ic_launcher_round">
         <activity android:name=".BaseActivity"
             android:exported="true" />
 
-        <activity-alias
-            android:name="${applicationId}.MainActivity"
-            android:targetActivity=".BaseActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity-alias>
-
-        <activity-alias
-            android:name=".RedirectActivityBase"
-            android:targetActivity=".RedirectActivity"
-            android:excludeFromRecents="true"
+        <activity android:name=".RedirectActivity"
             android:exported="true"
+            android:excludeFromRecents="true"
             android:launchMode="singleInstance"
             android:theme="@style/AppTheme.Transparent">
             <intent-filter android:label="@string/open_link">
@@ -64,7 +46,34 @@
                 <data android:scheme="web+activity+http" />
                 <data android:scheme="web+activity+https" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name="${applicationId}.util.FetchInstancesActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
+
+        <activity-alias
+            android:name="${applicationId}.MainActivity"
+            android:targetActivity=".BaseActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity-alias>
+
+        <provider
+            android:name="rikka.shizuku.ShizukuProvider"
+            android:authorities="${applicationId}.shizuku"
+            android:enabled="true"
+            android:exported="true"
+            android:multiprocess="false"
+            android:permission="android.permission.INTERACT_ACROSS_USERS_FULL" />
 
         <meta-data
             android:name="com.bugsnag.android.API_KEY"

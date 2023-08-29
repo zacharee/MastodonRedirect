@@ -5,7 +5,7 @@ import dev.zwander.lemmyredirect.util.Jerboa
 import dev.zwander.lemmyredirect.util.LaunchStrategyUtils
 import dev.zwander.shared.App
 
-class LemmyRedirectApp : App(
+class MainApp : App(
     launchStrategyUtils = LaunchStrategyUtils,
     fetchActivity = FetchInstancesActivity::class.java,
     defaultLaunchStrategy = Jerboa.JerboaStable,

@@ -1,6 +1,5 @@
 package dev.zwander.shared.shizuku
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import androidx.annotation.Keep
@@ -16,8 +15,23 @@ class ShizukuService : IShizukuService.Stub {
     @Keep
     constructor(@Suppress("UNUSED_PARAMETER") context: Context) : super()
 
-    @SuppressLint("PrivateApi")
     override fun verifyLinks(sdk: Int, packageName: String): List<VerifyResult> {
+        return doLinkVerification(sdk, packageName, true)
+    }
+
+    override fun unverifyLinks(sdk: Int, packageName: String): List<VerifyResult> {
+        return doLinkVerification(sdk, packageName, false)
+    }
+
+    override fun destroy() {
+        exitProcess(0)
+    }
+
+    private fun doLinkVerification(
+        sdk: Int,
+        packageName: String,
+        verify: Boolean,
+    ): List<VerifyResult> {
         try {
             return if (sdk >= Build.VERSION_CODES.S) {
                 val setOutput = ArrayList<String>()
@@ -36,7 +50,7 @@ class ShizukuService : IShizukuService.Stub {
                 val setResult = runCommand(
                     "cmd package set-app-links-user-selection" +
                             " --user -1" + // USER_ALL
-                            " --package $packageName true all",
+                            " --package $packageName $verify all",
                     setOutput,
                 )
 
@@ -49,39 +63,13 @@ class ShizukuService : IShizukuService.Stub {
         } finally {
             PackageManager.setLinkVerificationState(
                 packageName,
-                PackageManager.VerificationStatus.ALWAYS,
+                if (verify) {
+                    PackageManager.VerificationStatus.ALWAYS
+                } else {
+                    PackageManager.VerificationStatus.ALWAYS_ASK
+                },
             )
         }
-    }
-
-    override fun unverifyLinks(sdk: Int, packageName: String): List<VerifyResult> {
-        try {
-            return if (sdk >= Build.VERSION_CODES.S) {
-                val setOutput = ArrayList<String>()
-
-                val setResult = runCommand(
-                    "cmd package set-app-links-user-selection" +
-                            " --user -1" + // USER_ALL
-                            " --package $packageName false all",
-                    setOutput,
-                )
-
-                listOf(
-                    VerifyResult(setOutput, setResult),
-                )
-            } else {
-                listOf()
-            }
-        } finally {
-            PackageManager.setLinkVerificationState(
-                packageName,
-                PackageManager.VerificationStatus.ALWAYS_ASK,
-            )
-        }
-    }
-
-    override fun destroy() {
-        exitProcess(0)
     }
 
     private fun runCommand(command: String, output: MutableList<String>): Int {

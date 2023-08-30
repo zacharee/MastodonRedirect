@@ -6,7 +6,7 @@ import android.os.Build
 import androidx.annotation.Keep
 import dev.zwander.shared.IShizukuService
 import dev.zwander.shared.data.VerifyResult
-import dev.zwander.shared.util.LinkVerifyUtils
+import dev.zwander.shared.util.hiddenapi.PackageManager
 import kotlin.system.exitProcess
 
 class ShizukuService : IShizukuService.Stub {
@@ -47,7 +47,10 @@ class ShizukuService : IShizukuService.Stub {
                 listOf()
             }
         } finally {
-            LinkVerifyUtils.verifyAllLinks(packageName)
+            PackageManager.setLinkVerificationState(
+                packageName,
+                PackageManager.VerificationStatus.ALWAYS,
+            )
         }
     }
 
@@ -70,7 +73,10 @@ class ShizukuService : IShizukuService.Stub {
                 listOf()
             }
         } finally {
-            LinkVerifyUtils.unverifyAllLinks(packageName)
+            PackageManager.setLinkVerificationState(
+                packageName,
+                PackageManager.VerificationStatus.ALWAYS_ASK,
+            )
         }
     }
 

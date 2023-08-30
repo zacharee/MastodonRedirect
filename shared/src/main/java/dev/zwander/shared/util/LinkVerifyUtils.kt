@@ -62,20 +62,6 @@ object LinkVerifyUtils {
         }
     }
 
-    fun verifyAllLinks(packageName: String) {
-        PackageManager.setLinkVerificationState(
-            packageName,
-            PackageManager.VerificationStatus.ALWAYS,
-        )
-    }
-
-    fun unverifyAllLinks(packageName: String) {
-        PackageManager.setLinkVerificationState(
-            packageName,
-            PackageManager.VerificationStatus.ALWAYS_ASK,
-        )
-    }
-
     @SuppressLint("WrongConstant", "MissingPermission")
     @Composable
     fun rememberLinkVerificationAsState(): State<LinkVerificationStatus> {

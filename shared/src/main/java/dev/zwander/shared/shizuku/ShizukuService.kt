@@ -32,8 +32,10 @@ class ShizukuService : IShizukuService.Stub {
         packageName: String,
         verify: Boolean,
     ): List<VerifyResult> {
-        try {
-            return if (sdk >= Build.VERSION_CODES.S) {
+        val results = mutableListOf<VerifyResult>()
+
+        if (sdk >= Build.VERSION_CODES.S) {
+            try {
                 val setOutput = ArrayList<String>()
 
                 // Use set-app-links-user-selection instead of
@@ -54,14 +56,15 @@ class ShizukuService : IShizukuService.Stub {
                     setOutput,
                 )
 
-                listOf(
-                    VerifyResult(setOutput, setResult),
-                )
-            } else {
-                listOf()
+                results.add(VerifyResult(setOutput, setResult))
+            } catch (e: Exception) {
+                e.printStackTrace()
+                results.add(VerifyResult(e.stackTraceToString().lines(), 1))
             }
-        } finally {
-            PackageManager.setLinkVerificationState(
+        }
+
+        try {
+            val result = PackageManager.setLinkVerificationState(
                 packageName,
                 if (verify) {
                     PackageManager.VerificationStatus.ALWAYS
@@ -69,7 +72,14 @@ class ShizukuService : IShizukuService.Stub {
                     PackageManager.VerificationStatus.ALWAYS_ASK
                 },
             )
+
+            results.add(VerifyResult(listOf(), if (result) 0 else 1))
+        } catch (e: Exception) {
+            e.printStackTrace()
+            results.add(VerifyResult(e.stackTraceToString().lines(), 1))
         }
+
+        return results
     }
 
     private fun runCommand(command: String, output: MutableList<String>): Int {

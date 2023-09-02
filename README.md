@@ -88,8 +88,6 @@ If you're the developer of a Mastodon client and want to add support for Fediver
 ### Automatic
 You can let Fediverse Redirect automatically discover your app by filtering for a custom Intent and parsing the data as a URL.
 
-Note: right now, Fediverse Redirect doesn't support auto discovery, but it should be added soon.
-
 #### Create a discoverable target.
 In your `AndroidManifest.xml`, add the following intent filter inside the relevant Activity tag:
 

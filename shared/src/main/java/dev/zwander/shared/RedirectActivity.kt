@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import dev.zwander.shared.util.RedirectorTheme
 import dev.zwander.shared.util.openLinkInBrowser
 import dev.zwander.shared.util.prefs
+import fe.linksheet.interconnect.LinkSheetConnector
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.http.Url
@@ -57,14 +58,15 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
                 contentAlignment = Alignment.BottomCenter,
             ) {
                 ModalBottomSheet(
-                    onDismissRequest = {},
+                    onDismissRequest = {
+                        finish()
+                    },
                     sheetState = remember {
                         SheetState(
                             skipPartiallyExpanded = true,
                             density = density,
                             initialValue = SheetValue.Expanded,
                             confirmValueChange = { false },
-                            skipHiddenState = true,
                         )
                     },
                     dragHandle = {},
@@ -100,12 +102,22 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
             intent?.data?.toString()?.replace("web+activity+", "")
         }
 
+        val realReferrer = intent?.let {
+            LinkSheetConnector.getLinkSheetReferrer(intent)
+        } ?: referrer
+
         when {
             url.isNullOrBlank() || url.contains("oauth/authorize") -> launchInBrowser()
             prefs.openMediaInBrowser.currentValue(this) && isUrlMedia(url) -> launchInBrowser()
             else -> {
                 prefs.selectedApp.currentValue(this).run {
                     val intents = createIntents(url)
+
+                    if (intents.any { it.`package` == realReferrer?.host }) {
+                        launchInBrowser()
+                        return@run
+                    }
+
                     intents.forEachIndexed { index, intent ->
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 

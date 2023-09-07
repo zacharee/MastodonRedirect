@@ -46,6 +46,9 @@
                 <!-- https://akihikodaki.github.io/activity-intent/scheme.html -->
                 <data android:scheme="web+activity+http" />
                 <data android:scheme="web+activity+https" />
+
+                <!-- https://fedilinks.org/spec/en/ -->
+                <data android:scheme="web+ap" />
             </intent-filter>
         </activity>
 

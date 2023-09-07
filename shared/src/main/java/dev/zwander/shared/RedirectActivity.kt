@@ -99,7 +99,10 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
         val url = if (intent?.action == Intent.ACTION_SEND) {
             intent.getStringExtra(Intent.EXTRA_TEXT)
         } else {
-            intent?.data?.toString()?.replace("web+activity+", "")
+            intent?.dataString
+                ?.replace("web+activity+http://", "http://")
+                ?.replace("web+activity+https://", "https://")
+                ?.replace("web+ap://", "https://")
         }
 
         val realReferrer = intent?.let {

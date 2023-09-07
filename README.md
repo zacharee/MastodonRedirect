@@ -36,16 +36,18 @@ Currently, most domains on https://instances.social and https://lemmyverse.net/c
 
 Fediverse Redirect supports most active and alive instances, but excludes dead instances and instances that haven't had any activity recently. This is to keep the list as short as possible and avoid crashes.
 
-Fediverse Redirect also (sort of) supports the `web+activity+http` and `web+activity+https` URL schemes. The expectation is that the full post or profile URL will follow.
+Fediverse Redirect also supports the `web+activity+http`, `web+activity+https`, and `web+ap` URL schemes. The expectation is that the full post or profile URL will follow.
 
 Examples:
 ```
 // Post
-web+activity+https://androiddev.social/@wander1236/110699242324667418
+web+ap://androiddev.social/@wander1236/110699242324667418
 
 // Profile
-web+activity+https://androiddev.social/@wander1236
+web+ap://androiddev.social/@wander1236
 ```
+
+[Fedi Links Project](https://fedilinks.org/).
 
 ## Setup
 If any domains aren't enabled for handling by the Fediverse Redirect variant, the app will let you know and provide you buttons for enabling them.

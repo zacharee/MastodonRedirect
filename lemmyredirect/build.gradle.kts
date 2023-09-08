@@ -1,3 +1,5 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
@@ -22,6 +24,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        archivesName = "LemmyRedirect_$versionName"
     }
 
     buildTypes {

@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
 import java.util.Properties
 
 plugins {
@@ -24,6 +25,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        archivesName = "MastodonRedirect_$versionName"
     }
 
     buildTypes {

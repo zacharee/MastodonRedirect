@@ -1,10 +1,8 @@
 package dev.zwander.shared.components
 
-import android.content.ComponentName
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.clickable
@@ -49,20 +47,19 @@ import dev.icerock.moko.mvvm.flow.compose.collectAsMutableState
 import dev.zwander.shared.IShizukuService
 import dev.zwander.shared.LaunchStrategy
 import dev.zwander.shared.R
-import dev.zwander.shared.RedirectActivity
 import dev.zwander.shared.model.AppModel
 import dev.zwander.shared.model.LocalAppModel
 import dev.zwander.shared.util.BaseLaunchStrategyUtils
 import dev.zwander.shared.util.Expander
 import dev.zwander.shared.util.LinkSheetStatus
 import dev.zwander.shared.util.LinkVerificationModel
-import dev.zwander.shared.util.LinkVerifyUtils.launchManualVerification
+import dev.zwander.shared.util.LinkVerifyActions.enableWithLinkSheet
+import dev.zwander.shared.util.LinkVerifyActions.launchManualVerification
 import dev.zwander.shared.util.Prefs
 import dev.zwander.shared.util.RedirectorTheme
 import dev.zwander.shared.util.ShizukuCommandResult
 import dev.zwander.shared.util.ShizukuUtils.runShizukuCommand
 import dev.zwander.shared.util.locals.LocalLinkSheet
-import dev.zwander.shared.util.openLinkNaturally
 import dev.zwander.shared.util.rememberLinkSheetInstallationStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -263,54 +260,11 @@ fun LinkVerifyLayout(
 
                         TextButton(
                             onClick = {
-                                when (linkSheetStatus) {
-                                    LinkSheetStatus.NOT_INSTALLED -> {
-                                        context.openLinkNaturally(Uri.parse("https://github.com/1fexd/LinkSheet"))
-                                    }
-                                    LinkSheetStatus.INSTALLED_NO_INTERCONNECT -> {
-                                        linkSheet?.packageName?.let { pkg ->
-                                            try {
-                                                context.startActivity(
-                                                    context.packageManager.getLaunchIntentForPackage(
-                                                        pkg
-                                                    )?.apply {
-                                                        addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                                                    },
-                                                )
-                                            } catch (e: Exception) {
-                                                Log.e(
-                                                    "FediverseRedirect",
-                                                    "Failed to open LinkSheet.",
-                                                    e
-                                                )
-                                            }
-                                        }
-                                    }
-                                    LinkSheetStatus.INSTALLED_WITH_INTERCONNECT -> {
-                                        scope.launch(Dispatchers.IO) {
-                                            val component = ComponentName(
-                                                context,
-                                                RedirectActivity::class.java,
-                                            )
-
-                                            try {
-                                                linkSheet?.bindService(context)?.selectDomainsWithResult(
-                                                    packageName = context.packageName,
-                                                    domains = missingDomains,
-                                                    componentName = component,
-                                                )
-
-                                                refresh()
-                                            } catch (e: Exception) {
-                                                linkSheet?.bindService(context)?.selectDomains(
-                                                    packageName = context.packageName,
-                                                    domains = missingDomains,
-                                                    componentName = component,
-                                                )
-                                            }
-                                        }
-                                    }
-                                }
+                                context.enableWithLinkSheet(
+                                    scope, linkSheet,
+                                    linkSheetStatus, missingDomains,
+                                    refresh,
+                                )
                             },
                             colors = buttonColors,
                             enabled = !loading,

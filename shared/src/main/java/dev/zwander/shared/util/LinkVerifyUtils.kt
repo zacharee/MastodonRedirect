@@ -1,14 +1,10 @@
 package dev.zwander.shared.util
 
 import android.annotation.SuppressLint
-import android.content.ActivityNotFoundException
 import android.content.Context
-import android.content.Intent
 import android.content.pm.verify.domain.DomainVerificationManager
 import android.content.pm.verify.domain.DomainVerificationUserState
-import android.net.Uri
 import android.os.Build
-import android.provider.Settings
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
@@ -20,11 +16,11 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
 import dev.zwander.shared.util.hiddenapi.PackageManager
 import dev.zwander.shared.util.locals.LocalLinkSheet
+import fe.linksheet.interconnect.LinkSheet
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import fe.linksheet.interconnect.LinkSheet
 
 object LinkVerificationModel {
     private val _refreshFlow = MutableStateFlow(0)
@@ -40,28 +36,6 @@ object LinkVerificationModel {
 }
 
 object LinkVerifyUtils {
-    @SuppressLint("InlinedApi")
-    fun Context.launchManualVerification() {
-        val qDirect = Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS
-        val pDirect = "android.settings.APPLICATION_DETAILS_SETTINGS_OPEN_BY_DEFAULT_PAGE"
-        val appDetails = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("package:$packageName"))
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-        arrayOf(qDirect, pDirect, appDetails).forEach { action ->
-            try {
-                intent.action = action
-                startActivity(intent)
-                return
-            } catch (e: ActivityNotFoundException) {
-                e.printStackTrace()
-            } catch (e: SecurityException) {
-                e.printStackTrace()
-            }
-        }
-    }
-
     @SuppressLint("WrongConstant", "MissingPermission")
     @Composable
     fun rememberLinkVerificationAsState(): State<LinkVerificationStatus> {

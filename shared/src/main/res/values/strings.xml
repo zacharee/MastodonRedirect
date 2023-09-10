@@ -47,9 +47,13 @@
     <string name="mastodon">Mastodon</string>
 
     <string name="reset_link_verification">Reset Link Verification</string>
+    <string name="reset_link_verification_desc">Do you want to use Shizuku to reset link verification? This will only have an effect if Shizuku is running and you used Shizuku originally to enable links.</string>
 
     <string name="open_media_in_browser">Open Media in Browser</string>
     <string name="open_media_in_browser_desc">If %s detects a media URL, it will open it directly in the browser instead of in the selected client.</string>
 
     <string name="opening_link">Opening link…</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

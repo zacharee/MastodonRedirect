@@ -1,6 +1,7 @@
 package dev.zwander.shared
 
 import android.content.Intent
+import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -109,8 +110,12 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
             LinkSheetConnector.getLinkSheetReferrer(intent)
         } ?: referrer
 
+        val parsedUrl = url?.let { Uri.parse(it) }
+
         when {
-            url.isNullOrBlank() || url.contains("oauth/authorize") -> launchInBrowser()
+            url.isNullOrBlank() ||
+                    url.contains("oauth/authorize") ||
+                    parsedUrl?.path?.startsWith("auth/sign_in") == true -> launchInBrowser()
             prefs.openMediaInBrowser.currentValue(this) && isUrlMedia(url) -> launchInBrowser()
             else -> {
                 prefs.selectedApp.currentValue(this).run {

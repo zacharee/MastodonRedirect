@@ -257,6 +257,7 @@ private fun ShizukuResetDialog(
                             LinkVerificationModel.refresh()
                         }
                     }
+                    onDismissRequest()
                 },
             ) {
                 Text(

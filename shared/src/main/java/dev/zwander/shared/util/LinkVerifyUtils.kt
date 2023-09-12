@@ -17,6 +17,7 @@ import androidx.lifecycle.Lifecycle
 import dev.zwander.shared.util.hiddenapi.PackageManager
 import dev.zwander.shared.util.locals.LocalLinkSheet
 import fe.linksheet.interconnect.LinkSheet
+import fe.linksheet.interconnect.LinkSheetServiceConnection
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -102,14 +103,15 @@ object LinkVerifyUtils {
     @RequiresApi(Build.VERSION_CODES.S)
     private suspend fun Context.checkLinkSheetStatus(linkSheet: LinkSheet?, allDomains: List<String>): LinkVerificationStatus? {
         return if (linkSheet != null && linkSheet.supportsInterconnect) {
-            val service = linkSheet.bindService(this)
-            val selectedDomains = service.getSelectedDomainsAsync(packageName).list
-            val difference = allDomains - selectedDomains.toSet()
+            linkSheet.useService(this) { service ->
+                val selectedDomains = service.getSelectedDomainsAsync(packageName).list
+                val difference = allDomains - selectedDomains.toSet()
 
-            LinkVerificationStatus(
-                verified = difference.isEmpty(),
-                missingDomains = difference,
-            )
+                LinkVerificationStatus(
+                    verified = difference.isEmpty(),
+                    missingDomains = difference,
+                )
+            }
         } else {
             null
         }
@@ -120,3 +122,16 @@ data class LinkVerificationStatus(
     val verified: Boolean = true,
     val missingDomains: List<String> = listOf(),
 )
+
+suspend fun <T> LinkSheet.useService(
+    context: Context,
+    block: suspend (service: LinkSheetServiceConnection) -> T,
+): T {
+    val service = bindService(context)
+
+    try {
+        return block(service)
+    } finally {
+        service.disconnect()
+    }
+}

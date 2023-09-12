@@ -74,20 +74,22 @@ object LinkVerifyActions {
                         RedirectActivity::class.java,
                     )
 
-                    try {
-                        linkSheet?.bindService(this@enableWithLinkSheet)?.selectDomainsWithResult(
-                            packageName = packageName,
-                            domains = missingDomains,
-                            componentName = component,
-                        )
+                    linkSheet?.useService(this@enableWithLinkSheet) { service ->
+                        try {
+                            service.selectDomainsWithResult(
+                                packageName = packageName,
+                                domains = missingDomains,
+                                componentName = component,
+                            )
 
-                        refresh()
-                    } catch (e: Exception) {
-                        linkSheet?.bindService(this@enableWithLinkSheet)?.selectDomains(
-                            packageName = packageName,
-                            domains = missingDomains,
-                            componentName = component,
-                        )
+                            refresh()
+                        } catch (e: Exception) {
+                            service.selectDomains(
+                                packageName = packageName,
+                                domains = missingDomains,
+                                componentName = component,
+                            )
+                        }
                     }
                 }
             }

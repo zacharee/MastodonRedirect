@@ -110,12 +110,8 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
             LinkSheetConnector.getLinkSheetReferrer(intent)
         } ?: referrer
 
-        val parsedUrl = url?.let { Uri.parse(it) }
-
         when {
-            url.isNullOrBlank() ||
-                    url.contains("oauth/authorize") ||
-                    parsedUrl?.path?.startsWith("auth/sign_in") == true -> launchInBrowser()
+            url.isNullOrBlank() || isSpecialUrl(url) -> launchInBrowser()
             prefs.openMediaInBrowser.currentValue(this) && isUrlMedia(url) -> launchInBrowser()
             else -> {
                 prefs.selectedApp.currentValue(this).run {
@@ -195,5 +191,20 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
         return returnedType == "video" ||
                 returnedType == "image" ||
                 returnedType == "audio"
+    }
+
+    private fun isSpecialUrl(url: String): Boolean {
+        val parsedUrl = Uri.parse(url)
+        val path = parsedUrl.path
+
+        val specialStarters = arrayOf(
+            "oauth",
+            "auth",
+            "miauth",
+            "api",
+            "api-doc",
+        )
+
+        return specialStarters.any { path?.startsWith("/$it") == true }
     }
 }

@@ -110,6 +110,8 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
             LinkSheetConnector.getLinkSheetReferrer(intent)
         } ?: referrer
 
+        val lastHandledLinkIsTheSame = prefs.lastHandledLink.currentValue(this) == url
+
         when {
             url.isNullOrBlank() || isSpecialUrl(url) -> launchInBrowser()
             prefs.openMediaInBrowser.currentValue(this) && isUrlMedia(url) -> launchInBrowser()
@@ -117,7 +119,7 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
                 prefs.selectedApp.currentValue(this).run {
                     val intents = createIntents(url)
 
-                    if (intents.any { it.`package` == realReferrer?.host }) {
+                    if (intents.any { it.`package` == realReferrer?.host } && lastHandledLinkIsTheSame) {
                         launchInBrowser()
                         return@run
                     }
@@ -155,6 +157,8 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
                 }
             }
         }
+
+        prefs.lastHandledLink.set(url)
 
         finish()
     }

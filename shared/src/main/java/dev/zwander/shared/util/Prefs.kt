@@ -10,7 +10,6 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.preference.PreferenceManager
 import dev.zwander.shared.app
 import dev.zwander.shared.appModel
-import kotlinx.coroutines.flow.map
 
 val Context.prefs: Prefs
     get() = Prefs.getInstance(this)
@@ -31,6 +30,7 @@ class Prefs private constructor(
         val SELECTED_APP = stringPreferencesKey("selected_app")
         val ENABLE_CRASH_REPORTS = booleanPreferencesKey("enable_crash_reports")
         val OPEN_MEDIA_IN_BROWSER = booleanPreferencesKey("open_media_in_browser")
+        val LAST_HANDLED_LINK = stringPreferencesKey("last_handled_link")
     }
 
     val dataStore by preferencesDataStore(
@@ -45,25 +45,32 @@ class Prefs private constructor(
     )
 
     val selectedApp = ComplexPreferenceItem(
+        dataStore = dataStore,
         key = SELECTED_APP,
-        value = dataStore.data.map {
+        default = appModel.defaultLaunchStrategy,
+        toValue = { it?.key },
+        fromValue = {
             with (appModel.launchStrategyUtils) {
-                getLaunchStrategyForKey(it[SELECTED_APP])
+                getLaunchStrategyForKey(it)
             }
         },
-        default = appModel.defaultLaunchStrategy,
-        transform = { it.key },
     )
 
     val enableCrashReports = SimplePreferenceItem(
+        dataStore = dataStore,
         key = ENABLE_CRASH_REPORTS,
-        value = dataStore.data.map { it[ENABLE_CRASH_REPORTS] },
         default = false,
     )
 
     val openMediaInBrowser = SimplePreferenceItem(
+        dataStore = dataStore,
         key = OPEN_MEDIA_IN_BROWSER,
-        value = dataStore.data.map { it[OPEN_MEDIA_IN_BROWSER] },
         default = false,
+    )
+
+    val lastHandledLink = SimplePreferenceItem(
+        dataStore = dataStore,
+        key = LAST_HANDLED_LINK,
+        default = "",
     )
 }

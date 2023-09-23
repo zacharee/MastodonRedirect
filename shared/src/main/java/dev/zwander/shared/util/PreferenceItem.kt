@@ -5,7 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.platform.LocalContext
+import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import kotlinx.coroutines.CoroutineScope
@@ -18,9 +18,13 @@ import kotlinx.coroutines.launch
 
 sealed interface PreferenceItem<T, K> {
     val key: Preferences.Key<K>
-    val value: Flow<T?>
+    val dataStore: DataStore<Preferences>
     val default: T
-    val transform: (T) -> K
+    val toValue: (T?) -> K?
+    val fromValue: (K?) -> T?
+
+    val value: Flow<T?>
+        get() = dataStore.data.map { fromValue(it[key]) }
 
     fun asStateFlow(scope: CoroutineScope): StateFlow<T> {
         return value.map { it ?: default }.stateIn(
@@ -33,27 +37,36 @@ sealed interface PreferenceItem<T, K> {
     fun currentValue(scope: CoroutineScope): T {
         return asStateFlow(scope).value
     }
+
+    suspend fun set(newValue: T?) {
+        dataStore.edit { prefs ->
+            toValue(newValue)?.let {
+                prefs[key] = it
+            } ?: prefs.remove(key)
+        }
+    }
 }
 
 data class SimplePreferenceItem<T>(
+    override val dataStore: DataStore<Preferences>,
     override val key: Preferences.Key<T>,
-    override val value: Flow<T?>,
     override val default: T,
 ) : PreferenceItem<T, T> {
-    override val transform: (T) -> T = { it }
+    override val toValue: (T?) -> T? = { it }
+    override val fromValue: (T?) -> T? = { it }
 }
 
 data class ComplexPreferenceItem<T, K>(
+    override val dataStore: DataStore<Preferences>,
     override val key: Preferences.Key<K>,
-    override val value: Flow<T?>,
     override val default: T,
-    override val transform: (T) -> K,
+    override val toValue: (T?) -> K?,
+    override val fromValue: (K?) -> T?,
 ) : PreferenceItem<T, K>
 
 @Composable
 fun <T, K> PreferenceItem<T, K>.rememberMutablePreferenceState(): MutableState<T> {
     val coroutineScope = rememberCoroutineScope()
-    val context = LocalContext.current
     val state = value.collectAsState(
         initial = value.firstBlocking() ?: default
     )
@@ -64,9 +77,7 @@ fun <T, K> PreferenceItem<T, K>.rememberMutablePreferenceState(): MutableState<T
                 get() = state.value ?: default
                 set(value) {
                     coroutineScope.launch {
-                        context.prefs.dataStore.edit {
-                            it[key] = transform(value)
-                        }
+                        set(value)
                     }
                 }
 

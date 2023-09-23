@@ -2,7 +2,6 @@
 
 package dev.zwander.mastodonredirect.util
 
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -39,12 +38,9 @@ data object Megalodon : MastodonLaunchStrategyRootGroup(R.string.megalodon) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createShareIntent(
-                    "org.joinmastodon.android.sk",
-                    ComponentName(
-                        "org.joinmastodon.android.sk",
-                        "org.joinmastodon.android.ExternalShareActivity",
-                    ),
-                    url,
+                    pkg = "org.joinmastodon.android.sk",
+                    component = "org.joinmastodon.android.ExternalShareActivity",
+                    url = url,
                 ),
             )
         }
@@ -59,12 +55,9 @@ data object SubwayTooter : MastodonLaunchStrategyRootGroup(R.string.subway_toote
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(
-                    "jp.juggler.subwaytooter",
-                    ComponentName(
-                        "jp.juggler.subwaytooter",
-                        "jp.juggler.subwaytooter.ActCallback"
-                    ),
-                    url,
+                    pkg = "jp.juggler.subwaytooter",
+                    component = "jp.juggler.subwaytooter.ActCallback",
+                    url = url,
                 ),
             )
         }
@@ -78,12 +71,9 @@ data object Tooot : MastodonLaunchStrategyRootGroup(R.string.tooot) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(
-                    "com.xmflsct.app.tooot",
-                    ComponentName(
-                        "com.xmflsct.app.tooot",
-                        "com.xmflsct.app.tooot.MainActivity",
-                    ),
-                    url,
+                    pkg = "com.xmflsct.app.tooot",
+                    component = "com.xmflsct.app.tooot.MainActivity",
+                    url = url,
                 ),
             )
         }
@@ -101,12 +91,9 @@ data object Fedilab : MastodonLaunchStrategyRootGroup(R.string.fedilab) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(
-                    pkg,
-                    ComponentName(
-                        pkg,
-                        componentName,
-                    ),
-                    url,
+                    pkg = pkg,
+                    component = componentName,
+                    url = url,
                 ),
             )
         }
@@ -140,12 +127,9 @@ data object Moshidon : MastodonLaunchStrategyRootGroup(R.string.moshidon) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createShareIntent(
-                    pkg,
-                    ComponentName(
-                        pkg,
-                        componentName,
-                    ),
-                    url,
+                    pkg = pkg,
+                    component = componentName,
+                    url = url,
                 ),
             )
         }
@@ -198,12 +182,9 @@ data object Mastodon : MastodonLaunchStrategyRootGroup(R.string.mastodon) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(
-                    "org.joinmastodon.android",
-                    ComponentName(
-                        "org.joinmastodon.android",
-                        "org.joinmastodon.android.MainActivity",
-                    ),
-                    url,
+                    pkg = "org.joinmastodon.android",
+                    component = "org.joinmastodon.android.MainActivity",
+                    url = url,
                 ),
             )
         }

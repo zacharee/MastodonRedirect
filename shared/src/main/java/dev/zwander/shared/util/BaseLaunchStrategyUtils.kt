@@ -96,22 +96,36 @@ abstract class BaseLaunchStrategyUtils(
         }
     }
 
-    open fun createViewIntent(pkg: String, component: ComponentName, url: String): Intent {
+    open fun createViewIntent(
+        pkg: String,
+        componentPkg: String = pkg,
+        component: String,
+        url: String,
+    ): Intent {
         return Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
             addCategory(Intent.CATEGORY_DEFAULT)
             addCategory(Intent.CATEGORY_BROWSABLE)
 
             `package` = pkg
-            this.component = component
+            this.component = ComponentName(
+                componentPkg, component
+            )
         }
     }
 
-    open fun createShareIntent(pkg: String, component: ComponentName, url: String): Intent {
+    open fun createShareIntent(
+        pkg: String,
+        componentPkg: String = pkg,
+        component: String,
+        url: String,
+    ): Intent {
         return Intent(Intent.ACTION_SEND).apply {
             putExtra(Intent.EXTRA_TEXT, url)
 
             `package` = pkg
-            this.component = component
+            this.component = ComponentName(
+                componentPkg, component
+            )
         }
     }
 

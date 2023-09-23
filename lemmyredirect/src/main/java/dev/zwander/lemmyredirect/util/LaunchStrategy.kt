@@ -37,12 +37,9 @@ data object Jerboa : LemmyLaunchStrategyRootGroup(R.string.jerboa) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(
-                    "com.jerboa",
-                    ComponentName(
-                        "com.jerboa",
-                        "com.jerboa.MainActivity",
-                    ),
-                    url,
+                    pkg = "com.jerboa",
+                    component = "com.jerboa.MainActivity",
+                    url = url,
                 ),
             )
         }
@@ -55,12 +52,9 @@ data object Summit : LemmyLaunchStrategyRootGroup(R.string.summit) {
     data object SummitStable : LemmyLaunchStrategy("SUMMIT", dev.zwander.shared.R.string.main) {
         override fun Context.createIntents(url: String): List<Intent> {
             val intent = LaunchStrategyUtils.createViewIntent(
-                "com.idunnololz.summit",
-                ComponentName(
-                    "com.idunnololz.summit",
-                    "com.idunnololz.summit.main.MainActivity",
-                ),
-                url,
+                pkg = "com.idunnololz.summit",
+                component = "com.idunnololz.summit.main.MainActivity",
+                url = url,
             )
 
             // Summit currently doesn't follow deep links on a cold start,
@@ -80,12 +74,9 @@ data object Liftoff : LemmyLaunchStrategyRootGroup(R.string.liftoff) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(
-                    "com.liftoffapp.liftoff",
-                    ComponentName(
-                        "com.liftoffapp.liftoff",
-                        "com.liftoffapp.liftoff.MainActivity",
-                    ),
-                    url.replace("https://", "liftoff://")
+                    pkg = "com.liftoffapp.liftoff",
+                    component = "com.liftoffapp.liftoff.MainActivity",
+                    url = url.replace("https://", "liftoff://")
                         .replace("http://", "liftoff://"),
                 ),
             )
@@ -130,12 +121,9 @@ data object Infinity : LemmyLaunchStrategyRootGroup(R.string.infinity) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(
-                    "eu.toldi.infinityforlemmy",
-                    ComponentName(
-                        "eu.toldi.infinityforlemmy",
-                        "eu.toldi.infinityforlemmy.activities.LinkResolverActivity",
-                    ),
-                    url,
+                    pkg = "eu.toldi.infinityforlemmy",
+                    component = "eu.toldi.infinityforlemmy.activities.LinkResolverActivity",
+                    url = url,
                 ),
             )
         }
@@ -149,12 +137,9 @@ data object Boost : LemmyLaunchStrategyRootGroup(R.string.boost) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(
-                    "com.rubenmayayo.lemmy",
-                    ComponentName(
-                        "com.rubenmayayo.lemmy",
-                        "com.rubenmayayo.reddit.ui.activities.DeepLinkingActivity",
-                    ),
-                    url,
+                    pkg = "com.rubenmayayo.lemmy",
+                    component = "com.rubenmayayo.reddit.ui.activities.DeepLinkingActivity",
+                    url = url,
                 ),
             )
         }

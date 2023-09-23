@@ -200,7 +200,16 @@ In order to build Fediverse Redirect, you'll need two things:
 ## Contributing
 If you want to add support for another app:
 
-Until development slows down, check out the `LaunchStrategy.kt` file for how to add new apps.
+1. Find the `LaunchStrategy.kt` file for the relevant variant. For example, if you want to add support for an app to Lemmy Redirect, open `lemmyredirect/src/main/java/dev/zwander/lemmyredirect/util/LaunchStrategy.kt`.
+2. Go to the `strings.xml` file for the variant and add the name of the app there.
+3. Create a new data object extending the relevant `LaunchStrategyRootGroup` class (for Lemmy, it would be `LemmyLaunchStrategyRootGroup`). The argument the base class takes is a reference to the string resource you added.
+4. Nested in that object, create another object extending the relevant `LaunchStrategy` class. This takes a key (unique to the app) and a variant label reference.
+5. Override the `createIntents()` function and return a list of Intents to attempt to launch. Usually, only one Intent is needed.
+6. Make sure to annotate both objects with `@Keep`.
+
+Fediverse Redirect will automatically pick up the new class and show it as an option.
+
+Check out the other objects in the file for examples.
 
 ## Error Reporting
 Fediverse Redirect uses Bugsnag for error reporting.

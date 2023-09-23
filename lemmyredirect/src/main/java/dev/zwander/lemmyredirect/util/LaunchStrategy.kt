@@ -2,7 +2,6 @@
 
 package dev.zwander.lemmyredirect.util
 
-import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import androidx.annotation.Keep
@@ -88,28 +87,14 @@ data object Liftoff : LemmyLaunchStrategyRootGroup(R.string.liftoff) {
 data object Sync : LemmyLaunchStrategyRootGroup(R.string.sync) {
     @Keep
     data object SyncMain : LemmyLaunchStrategy("SYNC", dev.zwander.shared.R.string.main) {
-        private fun createIntent(url: String, component: String): Intent {
-            return Intent().apply {
-                this.action = null
-                addCategory(Intent.CATEGORY_LAUNCHER)
-                putExtra("link", url)
-
-                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK)
-
-                `package` = "io.syncapps.lemmy_sync"
-                this.component = ComponentName(
-                    "io.syncapps.lemmy_sync",
-                    "io.syncapps.lemmy_sync.ui.activities.HomeActivity.$component",
-                )
-            }
-        }
-
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
-                "Default",
-                "Blm",
-                "Pride",
-            ).map { createIntent(url, it) }
+                LaunchStrategyUtils.createViewIntent(
+                    pkg = "io.syncapps.lemmy_sync",
+                    component = "io.syncapps.lemmy_sync.ui.activities.IntentActivity",
+                    url = url,
+                ),
+            )
         }
     }
 }

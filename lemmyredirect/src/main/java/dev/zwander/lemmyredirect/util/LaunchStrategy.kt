@@ -141,3 +141,22 @@ data object Infinity : LemmyLaunchStrategyRootGroup(R.string.infinity) {
         }
     }
 }
+
+@Keep
+data object Boost : LemmyLaunchStrategyRootGroup(R.string.boost) {
+    @Keep
+    data object BoostMain : LemmyLaunchStrategy("BOOST", dev.zwander.shared.R.string.main) {
+        override fun Context.createIntents(url: String): List<Intent> {
+            return listOf(
+                LaunchStrategyUtils.createViewIntent(
+                    "com.rubenmayayo.lemmy",
+                    ComponentName(
+                        "com.rubenmayayo.lemmy",
+                        "com.rubenmayayo.reddit.ui.activities.DeepLinkingActivity",
+                    ),
+                    url,
+                ),
+            )
+        }
+    }
+}

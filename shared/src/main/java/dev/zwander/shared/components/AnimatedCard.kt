@@ -31,15 +31,15 @@ fun AnimatedCard(
     content: @Composable ColumnScope.() -> Unit
 ) {
     val color by animateColorAsState(
-        targetValue = colors.containerColor(enabled).value,
+        targetValue = colors.containerColor(enabled),
         label = "AnimatedCard-color",
     )
     val contentColor by animateColorAsState(
-        targetValue = colors.contentColor(enabled).value,
+        targetValue = colors.contentColor(enabled),
         label = "AnimatedCard-contentColor",
     )
     val tonalElevation by animateDpAsState(
-        targetValue = elevation.tonalElevation(enabled, interactionSource).value,
+        targetValue = elevation.tonalElevation(enabled),
         label = "AnimatedCard-tonalElevation",
     )
     val shadowElevation by animateDpAsState(

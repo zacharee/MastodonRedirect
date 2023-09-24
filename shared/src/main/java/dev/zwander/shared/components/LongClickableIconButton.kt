@@ -38,7 +38,7 @@ fun LongClickableIconButton(
             .minimumInteractiveComponentSize()
             .size(IconButtonTokens.StateLayerSize)
             .clip(IconButtonTokens.StateLayerShape.value)
-            .background(color = colors.containerColor(enabled).value)
+            .background(color = colors.containerColor(enabled))
             .combinedClickable(
                 onClick = onClick,
                 enabled = enabled,
@@ -52,7 +52,7 @@ fun LongClickableIconButton(
             ),
         contentAlignment = Alignment.Center
     ) {
-        val contentColor = colors.contentColor(enabled).value
+        val contentColor = colors.contentColor(enabled)
         CompositionLocalProvider(LocalContentColor provides contentColor, content = content)
     }
 }

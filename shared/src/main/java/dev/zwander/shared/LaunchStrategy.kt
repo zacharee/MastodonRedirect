@@ -25,7 +25,17 @@ abstract class LaunchStrategy(
     @StringRes labelRes: Int,
     val sequentialLaunch: Boolean = true,
 ) : BaseLaunchStrategy(labelRes) {
+    abstract val sourceUrl: String?
+
     abstract fun Context.createIntents(url: String): List<Intent>
+
+    fun Context.isInstalled(): Boolean {
+        val intents = createIntents("https://")
+
+        return intents.any {
+            packageManager.queryIntentActivities(it, 0).isNotEmpty()
+        }
+    }
 }
 
 /**
@@ -62,6 +72,8 @@ data class DiscoveredLaunchStrategy(
     @StringRes override val labelRes: Int,
     val launchAction: String,
 ) : LaunchStrategy(packageName, labelRes, sequentialLaunch = false) {
+    override val sourceUrl: String? = null
+
     override val Context.label: String
         get() = packageManager.getResourcesForApplication(packageName).getString(labelRes)
 

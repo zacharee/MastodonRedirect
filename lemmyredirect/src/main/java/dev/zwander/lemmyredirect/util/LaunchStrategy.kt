@@ -22,6 +22,7 @@ import dev.zwander.shared.LaunchStrategyRootGroup
 sealed class LemmyLaunchStrategy(
     key: String,
     @StringRes labelRes: Int,
+    override val sourceUrl: String?,
 ) : LaunchStrategy(key, labelRes)
 
 sealed class LemmyLaunchStrategyRootGroup(
@@ -32,7 +33,7 @@ sealed class LemmyLaunchStrategyRootGroup(
 @Keep
 data object Jerboa : LemmyLaunchStrategyRootGroup(R.string.jerboa) {
     @Keep
-    data object JerboaStable : LemmyLaunchStrategy("JERBOA", dev.zwander.shared.R.string.main) {
+    data object JerboaStable : LemmyLaunchStrategy("JERBOA", dev.zwander.shared.R.string.main, "https://github.com/dessalines/jerboa") {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(
@@ -48,7 +49,7 @@ data object Jerboa : LemmyLaunchStrategyRootGroup(R.string.jerboa) {
 @Keep
 data object Summit : LemmyLaunchStrategyRootGroup(R.string.summit) {
     @Keep
-    data object SummitStable : LemmyLaunchStrategy("SUMMIT", dev.zwander.shared.R.string.main) {
+    data object SummitStable : LemmyLaunchStrategy("SUMMIT", dev.zwander.shared.R.string.main, "https://play.google.com/store/apps/details?id=com.idunnololz.summit") {
         override fun Context.createIntents(url: String): List<Intent> {
             val intent = LaunchStrategyUtils.createViewIntent(
                 pkg = "com.idunnololz.summit",
@@ -69,7 +70,7 @@ data object Summit : LemmyLaunchStrategyRootGroup(R.string.summit) {
 @Keep
 data object Liftoff : LemmyLaunchStrategyRootGroup(R.string.liftoff) {
     @Keep
-    data object LiftoffStable : LemmyLaunchStrategy("LIFTOFF", dev.zwander.shared.R.string.main) {
+    data object LiftoffStable : LemmyLaunchStrategy("LIFTOFF", dev.zwander.shared.R.string.main, "https://github.com/liftoff-app/liftoff") {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(
@@ -86,7 +87,7 @@ data object Liftoff : LemmyLaunchStrategyRootGroup(R.string.liftoff) {
 @Keep
 data object Sync : LemmyLaunchStrategyRootGroup(R.string.sync) {
     @Keep
-    data object SyncMain : LemmyLaunchStrategy("SYNC", dev.zwander.shared.R.string.main) {
+    data object SyncMain : LemmyLaunchStrategy("SYNC", dev.zwander.shared.R.string.main, "https://play.google.com/store/apps/details?id=io.syncapps.lemmy_sync") {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(
@@ -102,7 +103,7 @@ data object Sync : LemmyLaunchStrategyRootGroup(R.string.sync) {
 @Keep
 data object Infinity : LemmyLaunchStrategyRootGroup(R.string.infinity) {
     @Keep
-    data object InfinityMain : LemmyLaunchStrategy("INFINITY", dev.zwander.shared.R.string.main) {
+    data object InfinityMain : LemmyLaunchStrategy("INFINITY", dev.zwander.shared.R.string.main, "https://codeberg.org/Bazsalanszky/Eternity") {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(
@@ -118,7 +119,7 @@ data object Infinity : LemmyLaunchStrategyRootGroup(R.string.infinity) {
 @Keep
 data object Boost : LemmyLaunchStrategyRootGroup(R.string.boost) {
     @Keep
-    data object BoostMain : LemmyLaunchStrategy("BOOST", dev.zwander.shared.R.string.main) {
+    data object BoostMain : LemmyLaunchStrategy("BOOST", dev.zwander.shared.R.string.main, "https://play.google.com/store/apps/details?id=com.rubenmayayo.lemmy") {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(

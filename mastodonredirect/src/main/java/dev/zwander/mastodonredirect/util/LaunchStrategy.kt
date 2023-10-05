@@ -23,6 +23,7 @@ import dev.zwander.shared.LaunchStrategyRootGroup
 sealed class MastodonLaunchStrategy(
     key: String,
     @StringRes labelRes: Int,
+    override val sourceUrl: String?,
 ) : LaunchStrategy(key, labelRes)
 
 sealed class MastodonLaunchStrategyRootGroup(
@@ -34,7 +35,7 @@ sealed class MastodonLaunchStrategyRootGroup(
 data object Megalodon : MastodonLaunchStrategyRootGroup(R.string.megalodon) {
     @Keep
     data object MegalodonStable :
-        MastodonLaunchStrategy("MEGALODON", dev.zwander.shared.R.string.main) {
+        MastodonLaunchStrategy("MEGALODON", dev.zwander.shared.R.string.main, "https://github.com/sk22/megalodon") {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createShareIntent(
@@ -50,12 +51,25 @@ data object Megalodon : MastodonLaunchStrategyRootGroup(R.string.megalodon) {
 @Keep
 data object SubwayTooter : MastodonLaunchStrategyRootGroup(R.string.subway_tooter) {
     @Keep
-    data object SubwayTooterStable :
-        MastodonLaunchStrategy("SUBWAY_TOOTER", dev.zwander.shared.R.string.main) {
+    data object SubwayTooterPlay :
+        MastodonLaunchStrategy("SUBWAY_TOOTER", dev.zwander.shared.R.string.fcm, "https://github.com/tateisu/SubwayTooter") {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(
                     pkg = "jp.juggler.subwaytooter",
+                    component = "jp.juggler.subwaytooter.ActCallback",
+                    url = url,
+                ),
+            )
+        }
+    }
+
+    @Keep
+    data object SubwayTooterFDroid : MastodonLaunchStrategy("SUBWAY_TOOTER_FDROID", dev.zwander.shared.R.string.no_fcm, "https://github.com/tateisu/SubwayTooter") {
+        override fun Context.createIntents(url: String): List<Intent> {
+            return listOf(
+                LaunchStrategyUtils.createViewIntent(
+                    pkg = "jp.juggler.subwaytooter.noFcm",
                     component = "jp.juggler.subwaytooter.ActCallback",
                     url = url,
                 ),
@@ -67,7 +81,7 @@ data object SubwayTooter : MastodonLaunchStrategyRootGroup(R.string.subway_toote
 @Keep
 data object Tooot : MastodonLaunchStrategyRootGroup(R.string.tooot) {
     @Keep
-    data object ToootStable : MastodonLaunchStrategy("TOOOT", dev.zwander.shared.R.string.main) {
+    data object ToootStable : MastodonLaunchStrategy("TOOOT", dev.zwander.shared.R.string.main, "https://github.com/tooot-app/app") {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(
@@ -87,7 +101,7 @@ data object Fedilab : MastodonLaunchStrategyRootGroup(R.string.fedilab) {
         @StringRes labelRes: Int,
         private val pkg: String,
         private val componentName: String,
-    ) : MastodonLaunchStrategy(key, labelRes) {
+    ) : MastodonLaunchStrategy(key, labelRes, "https://codeberg.org/tom79/Fedilab") {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(
@@ -123,7 +137,7 @@ data object Moshidon : MastodonLaunchStrategyRootGroup(R.string.moshidon) {
         @StringRes labelRes: Int,
         private val pkg: String,
         private val componentName: String,
-    ) : MastodonLaunchStrategy(key, labelRes) {
+    ) : MastodonLaunchStrategy(key, labelRes, "https://github.com/LucasGGamerM/moshidon") {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createShareIntent(
@@ -158,7 +172,7 @@ data object Elk : MastodonLaunchStrategyRootGroup(R.string.elk) {
         key: String,
         @StringRes labelRes: Int,
         private val baseUrl: String,
-    ) : MastodonLaunchStrategy(key, labelRes) {
+    ) : MastodonLaunchStrategy(key, labelRes, baseUrl) {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 Intent(Intent.ACTION_VIEW, Uri.parse("$baseUrl/$url")),
@@ -178,7 +192,7 @@ data object Elk : MastodonLaunchStrategyRootGroup(R.string.elk) {
 @Keep
 data object Mastodon : MastodonLaunchStrategyRootGroup(R.string.mastodon) {
     @Keep
-    data object MastodonMain : MastodonLaunchStrategy("MASTODON", dev.zwander.shared.R.string.main) {
+    data object MastodonMain : MastodonLaunchStrategy("MASTODON", dev.zwander.shared.R.string.main, "https://github.com/mastodon/mastodon-android") {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
                 LaunchStrategyUtils.createViewIntent(

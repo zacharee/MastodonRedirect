@@ -8,11 +8,14 @@
     <string name="nightly">Nightly</string>
     <string name="google_play">Google Play</string>
     <string name="f_droid">F-Droid</string>
+    <string name="fcm">FCM</string>
+    <string name="no_fcm">No FCM</string>
 
     <string name="link_handling">Set Up Link Handling</string>
     <string name="link_handling_desc">To use %1$s, you\'ll need to enable all supported links in Settings or use Shizuku or LinkSheet to do it automatically. Settings may crash when opening the App Info for %2$s, in which case Shizuku or LinkSheet will be required.</string>
     <string name="enable">Enable</string>
     <string name="settings">Settings</string>
+    <string name="download">Download</string>
 
     <string name="unverified_domains">Unverified Domains</string>
     <string name="unverified_domains_format">Unverified Domains (%s)</string>

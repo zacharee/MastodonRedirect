@@ -69,18 +69,21 @@ data class DiscoveredGroup(
 data class DiscoveredLaunchStrategy(
     val packageName: String,
     val components: List<ComponentName>,
-    @StringRes override val labelRes: Int,
     val launchAction: String,
+    @StringRes override val labelRes: Int = 0,
+    private val _label: String,
 ) : LaunchStrategy(packageName, labelRes, sequentialLaunch = false) {
     override val sourceUrl: String? = null
 
     override val Context.label: String
-        get() = packageManager.getResourcesForApplication(packageName).getString(labelRes)
+        get() = _label
 
     override fun Context.createIntents(url: String): List<Intent> {
         return components.map { cmp ->
             Intent(launchAction).apply {
-                `package` = packageName
+                addCategory(Intent.CATEGORY_DEFAULT)
+
+                `package` = this@DiscoveredLaunchStrategy.packageName
                 component = cmp
                 data = Uri.parse(url)
             }

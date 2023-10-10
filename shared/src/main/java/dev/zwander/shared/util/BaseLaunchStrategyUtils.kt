@@ -67,7 +67,7 @@ abstract class BaseLaunchStrategyUtils(
         return packageManager.queryIntentActivities(
             Intent(launchAction),
             PackageManager.MATCH_ALL,
-        ).groupBy { it.resolvePackageName }
+        ).groupBy { it.activityInfo.packageName }
             .mapNotNull { (pkg, infos) ->
                 val strategy = createDiscoveredLaunchStrategy(pkg, infos)
 
@@ -129,7 +129,7 @@ abstract class BaseLaunchStrategyUtils(
         }
     }
 
-    private fun createDiscoveredLaunchStrategy(pkg: String, infos: List<ResolveInfo>): DiscoveredLaunchStrategy? {
+    private fun Context.createDiscoveredLaunchStrategy(pkg: String, infos: List<ResolveInfo>): DiscoveredLaunchStrategy? {
         if (infos.isEmpty()) {
             return null
         }
@@ -137,8 +137,9 @@ abstract class BaseLaunchStrategyUtils(
         return DiscoveredLaunchStrategy(
             packageName = pkg,
             components = infos.map { it.activityInfo.componentNameCompat },
-            labelRes = infos.first().activityInfo.applicationInfo.labelRes,
             launchAction = launchAction,
+            _label = infos.first().activityInfo.applicationInfo
+                .loadLabel(packageManager).toString(),
         )
     }
 }

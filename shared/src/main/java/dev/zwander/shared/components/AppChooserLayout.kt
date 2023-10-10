@@ -37,6 +37,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import dev.zwander.shared.DiscoveredGroup
 import dev.zwander.shared.LaunchStrategy
 import dev.zwander.shared.LaunchStrategyRootGroup
 import dev.zwander.shared.R
@@ -108,7 +109,7 @@ private fun GroupCard(
         Box(
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
         ) {
-            if (strategyGroup.children.size > 1) {
+            if (strategyGroup.children.size > 1 || strategyGroup is DiscoveredGroup) {
                 Column {
                     GroupTitle(strategyGroup = strategyGroup)
 
@@ -239,7 +240,7 @@ private fun SingleCard(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = stringResource(id = strategy.labelRes),
+                text = with (strategy) { context.label },
                 modifier = Modifier.weight(1f),
                 textAlign = TextAlign.Center,
                 color = textColor,

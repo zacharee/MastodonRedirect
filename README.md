@@ -75,12 +75,17 @@ Mastodon Redirect currently supports the following clients:
 - [Subway Tooter](https://github.com/tateisu/SubwayTooter).
 - [Tooot](https://github.com/tooot-app/app).
 
+---------------------------
+
 Lemmy Redirect currently supports the following clients:
 - [Eternity](https://codeberg.org/Bazsalanszky/Eternity).
 - [Jerboa](https://github.com/dessalines/jerboa).
 - [Liftoff](https://github.com/liftoff-app/liftoff).
 - [Summit](https://lemmy.world/c/summit).
 - [Sync](https://github.com/laurencedawson/sync-for-lemmy).
+
+And the following auto-discovery clients:
+- [Raccoon](https://github.com/diegoberaldin/RaccoonForLemmy).
 
 If your favorite client isn't on the list, consider creating an issue on their code repository or issue tracker linking to the section below, ***but please search through the existing issues first, including ones that have been closed***. Pestering developers won't help anyone.
 

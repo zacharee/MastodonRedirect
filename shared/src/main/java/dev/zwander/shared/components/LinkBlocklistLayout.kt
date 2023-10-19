@@ -1,18 +1,18 @@
 package dev.zwander.shared.components
 
-import android.util.Log
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -24,39 +24,25 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import dev.zwander.shared.data.LinkSelectionData
-import dev.zwander.shared.util.collectAvailableDomains
-import kotlinx.coroutines.Dispatchers
+import dev.zwander.shared.util.collectAvailableDomainsSortedByStatus
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LinkBlocklistLayout(
     modifier: Modifier = Modifier,
 ) {
-    val context = LocalContext.current
     val scope = rememberCoroutineScope()
 
     var filter by remember {
         mutableStateOf("")
     }
-    var domains by remember {
-        mutableStateOf(listOf<LinkSelectionData>())
-    }
+
+    val domains by collectAvailableDomainsSortedByStatus()
 
     val filteredDomains by remember {
         derivedStateOf {
             if (filter.isBlank()) domains else domains.filter { it.host.contains(filter, true) }
-        }
-    }
-
-    LaunchedEffect(key1 = null) {
-        domains = withContext(Dispatchers.IO) {
-            try {
-                context.collectAvailableDomains()
-            } catch (e: Throwable) {
-                Log.e("FediverseRedirect", "Error", e)
-                listOf()
-            }
         }
     }
 
@@ -89,10 +75,16 @@ fun LinkBlocklistLayout(
                         verticalArrangement = Arrangement.spacedBy(8.dp),
                         state = listState,
                     ) {
+                        // Needed to prevent the list from sticking to the topmost item if it's toggled on.
+                        item(key = "DUMMYITEM____") {
+                            Box(modifier = Modifier.height(0.dp))
+                        }
                         items(items = filteredDomains, key = { it.host }) {
                             LinkBlocklistItem(
                                 domain = it,
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .animateItemPlacement(),
                             )
                         }
                     }

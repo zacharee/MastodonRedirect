@@ -7,6 +7,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.platform.LocalContext
 import dev.zwander.shared.util.prefs
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
 data class LinkSelectionData(
@@ -16,13 +17,15 @@ data class LinkSelectionData(
         return host.compareTo(other.host)
     }
 
+    fun Context.getLinkBlockedStatusFlow(): Flow<Boolean> {
+        return prefs.blocklistedDomains.value.map { it?.contains(host) == true }
+    }
+
     @Composable
     fun getLinkBlockedStatusAsState(): State<Boolean> {
         val context = LocalContext.current
 
-        return context.prefs.blocklistedDomains.value.map { it?.contains(host) == true }.collectAsState(
-            initial = false
-        )
+        return context.getLinkBlockedStatusFlow().collectAsState(initial = false)
     }
 
     suspend fun Context.updateLinkBlockedStatus(selected: Boolean) = coroutineScope {

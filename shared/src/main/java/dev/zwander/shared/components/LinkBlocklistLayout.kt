@@ -120,7 +120,7 @@ fun LinkBlocklistItem(
 ) {
     val scope = rememberCoroutineScope()
     val context = LocalContext.current
-    val blocked by domain.updateLinkBlockedStatusAsState()
+    val blocked by domain.getLinkBlockedStatusAsState()
 
     TextSwitch(
         text = domain.host,

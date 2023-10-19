@@ -17,7 +17,7 @@ data class LinkSelectionData(
     }
 
     @Composable
-    fun updateLinkBlockedStatusAsState(): State<Boolean> {
+    fun getLinkBlockedStatusAsState(): State<Boolean> {
         val context = LocalContext.current
 
         return context.prefs.blocklistedDomains.value.map { it?.contains(host) == true }.collectAsState(

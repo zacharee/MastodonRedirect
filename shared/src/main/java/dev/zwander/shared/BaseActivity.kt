@@ -10,6 +10,7 @@ import androidx.compose.runtime.getValue
 import androidx.core.view.WindowCompat
 import dev.zwander.shared.components.MainContent
 import dev.zwander.shared.model.LocalAppModel
+import dev.zwander.shared.util.RedirectorTheme
 import dev.zwander.shared.util.locals.LocalLinkSheet
 import dev.zwander.shared.util.locals.rememberLinkSheet
 
@@ -31,7 +32,9 @@ open class BaseActivity : ComponentActivity() {
                     isAppearanceLightNavigationBars = isAppearanceLightStatusBars
                 }
 
-                Content()
+                RedirectorTheme {
+                    Content()
+                }
             }
         }
     }

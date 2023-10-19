@@ -29,7 +29,6 @@ import dev.zwander.shared.BuildConfig
 import dev.zwander.shared.model.LocalAppModel
 import dev.zwander.shared.util.LinkVerificationModel
 import dev.zwander.shared.util.LinkVerifyUtils
-import dev.zwander.shared.util.RedirectorTheme
 
 @Composable
 fun MainContent() {
@@ -38,84 +37,83 @@ fun MainContent() {
 
     val verificationStatus by LinkVerifyUtils.rememberLinkVerificationAsState()
 
-    RedirectorTheme {
-        Surface(
-            modifier = Modifier.fillMaxSize(),
-            color = MaterialTheme.colorScheme.background,
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background,
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .imePadding()
+                .systemBarsPadding(),
         ) {
             Column(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .imePadding()
-                    .systemBarsPadding(),
+                    .fillMaxSize(),
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Column(
-                    modifier = Modifier
-                        .fillMaxSize(),
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier.padding(horizontal = 8.dp),
                 ) {
-                    Column(
-                        modifier = Modifier.padding(horizontal = 8.dp),
-                    ) {
-                        Text(
-                            text = appModel.appName,
-                            style = MaterialTheme.typography.headlineLarge,
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.Center,
-                        )
+                    Text(
+                        text = appModel.appName,
+                        style = MaterialTheme.typography.headlineLarge,
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.Center,
+                    )
 
-                        var clickCount by remember {
-                            mutableIntStateOf(0)
-                        }
-
-                        Text(
-                            text = BuildConfig.VERSION_NAME,
-                            style = MaterialTheme.typography.bodyMedium,
-                            modifier = Modifier.fillMaxWidth()
-                                .clickable(
-                                    interactionSource = remember {
-                                        MutableInteractionSource()
-                                    },
-                                    indication = null,
-                                    onClick = {
-                                        if (clickCount < 9) {
-                                            clickCount++
-                                        } else {
-                                            clickCount = 0
-                                            context.startActivity(
-                                                Intent(context, appModel.fetchActivity)
-                                                    .setAction(Intent.ACTION_MAIN)
-                                            )
-                                        }
-                                    },
-                                ),
-                            textAlign = TextAlign.Center,
-                        )
+                    var clickCount by remember {
+                        mutableIntStateOf(0)
                     }
 
-                    AnimatedVisibility(visible = !verificationStatus.verified) {
-                        LinkVerifyLayout(
-                            refresh = LinkVerificationModel::refresh,
-                            missingDomains = verificationStatus.missingDomains,
-                            modifier = Modifier.fillMaxWidth(),
-                        )
-                    }
-
-                    Row(
+                    Text(
+                        text = BuildConfig.VERSION_NAME,
+                        style = MaterialTheme.typography.bodyMedium,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .weight(1f),
-                        verticalAlignment = Alignment.CenterVertically,
-                    ) {
-                        AppChooserLayout(
-                            modifier = Modifier.fillMaxWidth(),
-                        )
-                    }
+                            .clickable(
+                                interactionSource = remember {
+                                    MutableInteractionSource()
+                                },
+                                indication = null,
+                                onClick = {
+                                    if (clickCount < 9) {
+                                        clickCount++
+                                    } else {
+                                        clickCount = 0
+                                        context.startActivity(
+                                            Intent(context, appModel.fetchActivity)
+                                                .setAction(Intent.ACTION_MAIN)
+                                        )
+                                    }
+                                },
+                            ),
+                        textAlign = TextAlign.Center,
+                    )
+                }
 
-                    FooterLayout(
+                AnimatedVisibility(visible = !verificationStatus.verified) {
+                    LinkVerifyLayout(
+                        refresh = LinkVerificationModel::refresh,
+                        missingDomains = verificationStatus.missingDomains,
                         modifier = Modifier.fillMaxWidth(),
                     )
                 }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .weight(1f),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    AppChooserLayout(
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+
+                FooterLayout(
+                    modifier = Modifier.fillMaxWidth(),
+                )
             }
         }
     }

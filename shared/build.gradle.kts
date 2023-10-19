@@ -84,5 +84,7 @@ dependencies {
     api(libs.bugsnag.android)
     api(libs.mvvm.flow.compose)
 
+    api(libs.apk.parser)
+
     debugApi(libs.compose.ui.tooling)
 }

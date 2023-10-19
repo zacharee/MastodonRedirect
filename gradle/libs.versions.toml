@@ -1,6 +1,7 @@
 [versions]
 accompanist = "0.33.1-alpha"
 agp = "8.3.0-alpha04"
+apkParser = "2.6.10"
 bugsnagAndroid = "5.31.1"
 bugsnagAndroidGradlePlugin = "8.0.1"
 datastorePreferences = "1.0.0"
@@ -29,6 +30,7 @@ androidx-preferences = { group = "androidx.preference", name = "preference", ver
 androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle-runtime-ktx" }
 
 # Bugsnag
+apk-parser = { module = "net.dongliu:apk-parser", version.ref = "apkParser" }
 bugsnag-android = { module = "com.bugsnag:bugsnag-android", version.ref = "bugsnagAndroid" }
 bugsnag-android-gradle-plugin = { module = "com.bugsnag:bugsnag-android-gradle-plugin", version.ref = "bugsnagAndroidGradlePlugin" }
 

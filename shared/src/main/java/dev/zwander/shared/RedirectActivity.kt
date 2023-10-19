@@ -24,7 +24,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import dev.zwander.shared.util.RedirectorTheme
 import dev.zwander.shared.util.openLinkInBrowser
 import dev.zwander.shared.util.prefs
 import fe.linksheet.interconnect.LinkSheetConnector
@@ -53,44 +52,42 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
             }
         }
 
-        RedirectorTheme {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.BottomCenter,
-            ) {
-                ModalBottomSheet(
-                    onDismissRequest = {
-                        finish()
-                    },
-                    sheetState = remember {
-                        SheetState(
-                            skipPartiallyExpanded = true,
-                            density = density,
-                            initialValue = SheetValue.Expanded,
-                            confirmValueChange = { false },
-                        )
-                    },
-                    dragHandle = {},
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Spacer(modifier = Modifier.size(16.dp))
-
-                    Text(
-                        text = stringResource(id = R.string.opening_link),
-                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                        style = MaterialTheme.typography.titleLarge,
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.BottomCenter,
+        ) {
+            ModalBottomSheet(
+                onDismissRequest = {
+                    finish()
+                },
+                sheetState = remember {
+                    SheetState(
+                        skipPartiallyExpanded = true,
+                        density = density,
+                        initialValue = SheetValue.Expanded,
+                        confirmValueChange = { false },
                     )
+                },
+                dragHandle = {},
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Spacer(modifier = Modifier.size(16.dp))
 
-                    Spacer(modifier = Modifier.size(8.dp))
+                Text(
+                    text = stringResource(id = R.string.opening_link),
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    style = MaterialTheme.typography.titleLarge,
+                )
 
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .heightIn(min = 128.dp),
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        CircularProgressIndicator()
-                    }
+                Spacer(modifier = Modifier.size(8.dp))
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .heightIn(min = 128.dp),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    CircularProgressIndicator()
                 }
             }
         }
@@ -112,8 +109,12 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
 
         val lastHandledLinkIsTheSame = prefs.lastHandledLink.currentValue(this) == url
 
+        val skipUrl = url?.let {
+            prefs.blocklistedDomains.currentValue(this).contains(Uri.parse(it).host)
+        } == true
+
         when {
-            url.isNullOrBlank() || isSpecialUrl(url) -> launchInBrowser()
+            url.isNullOrBlank() || isSpecialUrl(url) || skipUrl -> launchInBrowser()
             prefs.openMediaInBrowser.currentValue(this) && isUrlMedia(url) -> launchInBrowser()
             else -> {
                 prefs.selectedApp.currentValue(this).run {

@@ -6,6 +6,7 @@ import android.content.ContextWrapper
 import androidx.datastore.preferences.SharedPreferencesMigration
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.core.stringSetPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.preference.PreferenceManager
 import dev.zwander.shared.app
@@ -31,6 +32,7 @@ class Prefs private constructor(
         val ENABLE_CRASH_REPORTS = booleanPreferencesKey("enable_crash_reports")
         val OPEN_MEDIA_IN_BROWSER = booleanPreferencesKey("open_media_in_browser")
         val LAST_HANDLED_LINK = stringPreferencesKey("last_handled_link")
+        val BLOCKLISTED_DOMAINS = stringSetPreferencesKey("blocklisted_domains")
     }
 
     val dataStore by preferencesDataStore(
@@ -72,5 +74,11 @@ class Prefs private constructor(
         dataStore = dataStore,
         key = LAST_HANDLED_LINK,
         default = "",
+    )
+
+    val blocklistedDomains = SimplePreferenceItem(
+        dataStore = dataStore,
+        key = BLOCKLISTED_DOMAINS,
+        default = setOf(),
     )
 }

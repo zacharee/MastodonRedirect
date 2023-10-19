@@ -25,6 +25,10 @@
         <activity android:name=".BaseActivity"
             android:exported="true" />
 
+        <activity android:name=".LinkBlocklistActivity"
+            android:windowSoftInputMode="adjustResize"
+            android:exported="true" />
+
         <activity android:name=".RedirectActivity"
             android:exported="true"
             android:excludeFromRecents="true"

@@ -67,7 +67,6 @@ dependencies {
     api(libs.compose.ui.tooling.preview)
     api(libs.compose.compiler)
     api(libs.compose.material3)
-    api(libs.compose.accompanist.themeadapter.material3)
 
     api(libs.kotlin.reflect)
     api(libs.kotlinx.serialization)

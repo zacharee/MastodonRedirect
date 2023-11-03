@@ -1,5 +1,4 @@
 [versions]
-accompanist = "0.33.1-alpha"
 agp = "8.3.0-alpha12"
 apkParser = "2.6.10"
 bugsnagAndroid = "5.31.2"
@@ -35,7 +34,6 @@ bugsnag-android = { module = "com.bugsnag:bugsnag-android", version.ref = "bugsn
 bugsnag-android-gradle-plugin = { module = "com.bugsnag:bugsnag-android-gradle-plugin", version.ref = "bugsnagAndroidGradlePlugin" }
 
 # Compose
-compose-accompanist-themeadapter-material3 = { module = "com.google.accompanist:accompanist-themeadapter-material3", version.ref = "accompanist" }
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 compose-bom = { group = "dev.chrisbanes.compose", name = "compose-bom", version.ref = "compose-bom" }
 compose-ui = { group = "androidx.compose.ui", name = "ui" }

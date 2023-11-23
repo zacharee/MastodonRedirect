@@ -2,12 +2,10 @@
 
 package dev.zwander.mastodonredirect.util
 
-import android.content.Context
-import android.content.Intent
-import android.net.Uri
 import androidx.annotation.Keep
 import androidx.annotation.StringRes
 import dev.zwander.mastodonredirect.R
+import dev.zwander.shared.LaunchIntentCreator
 import dev.zwander.shared.LaunchStrategy
 import dev.zwander.shared.LaunchStrategyRootGroup
 
@@ -24,7 +22,8 @@ sealed class MastodonLaunchStrategy(
     key: String,
     @StringRes labelRes: Int,
     override val sourceUrl: String?,
-) : LaunchStrategy(key, labelRes)
+    intentCreator: LaunchIntentCreator,
+) : LaunchStrategy(key, labelRes, intentCreator = intentCreator)
 
 sealed class MastodonLaunchStrategyRootGroup(
     @StringRes labelRes: Int,
@@ -34,64 +33,54 @@ sealed class MastodonLaunchStrategyRootGroup(
 @Keep
 data object Megalodon : MastodonLaunchStrategyRootGroup(R.string.megalodon) {
     @Keep
-    data object MegalodonStable :
-        MastodonLaunchStrategy("MEGALODON", dev.zwander.shared.R.string.main, "https://github.com/sk22/megalodon") {
-        override fun Context.createIntents(url: String): List<Intent> {
-            return listOf(
-                LaunchStrategyUtils.createShareIntent(
-                    pkg = "org.joinmastodon.android.sk",
-                    component = "org.joinmastodon.android.ExternalShareActivity",
-                    url = url,
-                ),
-            )
-        }
-    }
+    data object MegalodonStable : MastodonLaunchStrategy(
+        "MEGALODON",
+        dev.zwander.shared.R.string.main,
+        "https://github.com/sk22/megalodon",
+        LaunchIntentCreator.ComponentIntentCreator.ShareIntentCreator(
+            pkg = "org.joinmastodon.android.sk",
+            component = "org.joinmastodon.android.ExternalShareActivity",
+        ),
+    )
 }
 
 @Keep
 data object SubwayTooter : MastodonLaunchStrategyRootGroup(R.string.subway_tooter) {
     @Keep
-    data object SubwayTooterPlay :
-        MastodonLaunchStrategy("SUBWAY_TOOTER", dev.zwander.shared.R.string.fcm, "https://github.com/tateisu/SubwayTooter") {
-        override fun Context.createIntents(url: String): List<Intent> {
-            return listOf(
-                LaunchStrategyUtils.createViewIntent(
-                    pkg = "jp.juggler.subwaytooter",
-                    component = "jp.juggler.subwaytooter.ActCallback",
-                    url = url,
-                ),
-            )
-        }
-    }
+    data object SubwayTooterPlay : MastodonLaunchStrategy(
+        "SUBWAY_TOOTER",
+        dev.zwander.shared.R.string.fcm,
+        "https://github.com/tateisu/SubwayTooter",
+        LaunchIntentCreator.ComponentIntentCreator.ViewIntentCreator(
+            pkg = "jp.juggler.subwaytooter",
+            component = "jp.juggler.subwaytooter.ActCallback",
+        ),
+    )
 
     @Keep
-    data object SubwayTooterFDroid : MastodonLaunchStrategy("SUBWAY_TOOTER_FDROID", dev.zwander.shared.R.string.no_fcm, "https://github.com/tateisu/SubwayTooter") {
-        override fun Context.createIntents(url: String): List<Intent> {
-            return listOf(
-                LaunchStrategyUtils.createViewIntent(
-                    pkg = "jp.juggler.subwaytooter.noFcm",
-                    component = "jp.juggler.subwaytooter.ActCallback",
-                    url = url,
-                ),
-            )
-        }
-    }
+    data object SubwayTooterFDroid : MastodonLaunchStrategy(
+        "SUBWAY_TOOTER_FDROID",
+        dev.zwander.shared.R.string.no_fcm,
+        "https://github.com/tateisu/SubwayTooter",
+        LaunchIntentCreator.ComponentIntentCreator.ViewIntentCreator(
+            pkg = "jp.juggler.subwaytooter.noFcm",
+            component = "jp.juggler.subwaytooter.ActCallback",
+        ),
+    )
 }
 
 @Keep
 data object Tooot : MastodonLaunchStrategyRootGroup(R.string.tooot) {
     @Keep
-    data object ToootStable : MastodonLaunchStrategy("TOOOT", dev.zwander.shared.R.string.main, "https://github.com/tooot-app/app") {
-        override fun Context.createIntents(url: String): List<Intent> {
-            return listOf(
-                LaunchStrategyUtils.createViewIntent(
-                    pkg = "com.xmflsct.app.tooot",
-                    component = "com.xmflsct.app.tooot.MainActivity",
-                    url = url,
-                ),
-            )
-        }
-    }
+    data object ToootStable : MastodonLaunchStrategy(
+        "TOOOT",
+        dev.zwander.shared.R.string.main,
+        "https://github.com/tooot-app/app",
+        LaunchIntentCreator.ComponentIntentCreator.ViewIntentCreator(
+            pkg = "com.xmflsct.app.tooot",
+            component = "com.xmflsct.app.tooot.MainActivity",
+        ),
+    )
 }
 
 @Keep
@@ -99,19 +88,17 @@ data object Fedilab : MastodonLaunchStrategyRootGroup(R.string.fedilab) {
     sealed class FedilabBase(
         key: String,
         @StringRes labelRes: Int,
-        private val pkg: String,
-        private val componentName: String,
-    ) : MastodonLaunchStrategy(key, labelRes, "https://codeberg.org/tom79/Fedilab") {
-        override fun Context.createIntents(url: String): List<Intent> {
-            return listOf(
-                LaunchStrategyUtils.createViewIntent(
-                    pkg = pkg,
-                    component = componentName,
-                    url = url,
-                ),
-            )
-        }
-
+        pkg: String,
+        componentName: String,
+    ) : MastodonLaunchStrategy(
+        key,
+        labelRes,
+        "https://codeberg.org/tom79/Fedilab",
+        LaunchIntentCreator.ComponentIntentCreator.ViewIntentCreator(
+            pkg = pkg,
+            component = componentName,
+        ),
+    ) {
         @Keep
         data object FedilabGoogle : FedilabBase(
             "FEDILAB",
@@ -135,19 +122,17 @@ data object Moshidon : MastodonLaunchStrategyRootGroup(R.string.moshidon) {
     sealed class MoshidonBase(
         key: String,
         @StringRes labelRes: Int,
-        private val pkg: String,
-        private val componentName: String,
-    ) : MastodonLaunchStrategy(key, labelRes, "https://github.com/LucasGGamerM/moshidon") {
-        override fun Context.createIntents(url: String): List<Intent> {
-            return listOf(
-                LaunchStrategyUtils.createShareIntent(
-                    pkg = pkg,
-                    component = componentName,
-                    url = url,
-                ),
-            )
-        }
-
+        pkg: String,
+        componentName: String,
+    ) : MastodonLaunchStrategy(
+        key,
+        labelRes,
+        "https://github.com/LucasGGamerM/moshidon",
+        LaunchIntentCreator.ComponentIntentCreator.ShareIntentCreator(
+            pkg = pkg,
+            component = componentName,
+        ),
+    ) {
         @Keep
         data object MoshidonStable : MoshidonBase(
             "MOSHIDON",
@@ -171,14 +156,13 @@ data object Elk : MastodonLaunchStrategyRootGroup(R.string.elk) {
     sealed class ElkBase(
         key: String,
         @StringRes labelRes: Int,
-        private val baseUrl: String,
-    ) : MastodonLaunchStrategy(key, labelRes, baseUrl) {
-        override fun Context.createIntents(url: String): List<Intent> {
-            return listOf(
-                Intent(Intent.ACTION_VIEW, Uri.parse("$baseUrl/$url")),
-            )
-        }
-
+        baseUrl: String,
+    ) : MastodonLaunchStrategy(
+        key,
+        labelRes,
+        baseUrl,
+        LaunchIntentCreator.BaseUrlIntentCreator(baseUrl)
+    ) {
         @Keep
         data object ElkStable :
             ElkBase("ELK", dev.zwander.shared.R.string.stable, "https://elk.zone")
@@ -192,15 +176,13 @@ data object Elk : MastodonLaunchStrategyRootGroup(R.string.elk) {
 @Keep
 data object Mastodon : MastodonLaunchStrategyRootGroup(R.string.mastodon) {
     @Keep
-    data object MastodonMain : MastodonLaunchStrategy("MASTODON", dev.zwander.shared.R.string.main, "https://github.com/mastodon/mastodon-android") {
-        override fun Context.createIntents(url: String): List<Intent> {
-            return listOf(
-                LaunchStrategyUtils.createViewIntent(
-                    pkg = "org.joinmastodon.android",
-                    component = "org.joinmastodon.android.MainActivity",
-                    url = url,
-                ),
-            )
-        }
-    }
+    data object MastodonMain : MastodonLaunchStrategy(
+        "MASTODON",
+        dev.zwander.shared.R.string.main,
+        "https://github.com/mastodon/mastodon-android",
+        LaunchIntentCreator.ComponentIntentCreator.ViewIntentCreator(
+            pkg = "org.joinmastodon.android",
+            component = "org.joinmastodon.android.MainActivity",
+        ),
+    )
 }

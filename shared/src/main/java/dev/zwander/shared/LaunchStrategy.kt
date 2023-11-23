@@ -3,7 +3,6 @@ package dev.zwander.shared
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import androidx.annotation.StringRes
 import kotlin.reflect.KClass
 
@@ -24,10 +23,13 @@ abstract class LaunchStrategy(
     val key: String,
     @StringRes labelRes: Int,
     val sequentialLaunch: Boolean = true,
+    val intentCreator: LaunchIntentCreator,
 ) : BaseLaunchStrategy(labelRes) {
     abstract val sourceUrl: String?
 
-    abstract fun Context.createIntents(url: String): List<Intent>
+    fun Context.createIntents(url: String): List<Intent> {
+        return with (intentCreator) { createIntents(url) }
+    }
 
     fun Context.isInstalled(): Boolean {
         val intents = createIntents("https://")
@@ -72,21 +74,17 @@ data class DiscoveredLaunchStrategy(
     val launchAction: String,
     @StringRes override val labelRes: Int = 0,
     private val _label: String,
-) : LaunchStrategy(packageName, labelRes, sequentialLaunch = false) {
+) : LaunchStrategy(
+    key = packageName,
+    labelRes = labelRes,
+    sequentialLaunch = false,
+    intentCreator = LaunchIntentCreator.DiscoveredIntentCreator(
+        components = components,
+        launchAction = launchAction,
+    ),
+) {
     override val sourceUrl: String? = null
 
     override val Context.label: String
         get() = _label
-
-    override fun Context.createIntents(url: String): List<Intent> {
-        return components.map { cmp ->
-            Intent(launchAction).apply {
-                addCategory(Intent.CATEGORY_DEFAULT)
-
-                `package` = this@DiscoveredLaunchStrategy.packageName
-                component = cmp
-                data = Uri.parse(url)
-            }
-        }
-    }
 }

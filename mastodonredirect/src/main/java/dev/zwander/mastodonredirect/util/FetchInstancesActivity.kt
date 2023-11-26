@@ -9,9 +9,8 @@ import io.ktor.client.plugins.auth.Auth
 import io.ktor.client.plugins.auth.providers.BearerTokens
 import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.request.get
-import kotlinx.serialization.ExperimentalSerializationApi
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.decodeFromStream
 
 @Serializable
 private data class InstancesRoot(
@@ -22,10 +21,12 @@ private data class InstancesRoot(
 private data class Instance(
     val id: String,
     val name: String?,
+    @SerialName("active_users")
+    val activeUsers: String?,
+    val admin: String?,
 )
 
 class FetchInstancesActivity : BaseFetchActivity() {
-    @OptIn(ExperimentalSerializationApi::class)
     override suspend fun loadInstances(): List<FetchedInstance> {
         val response = HttpClient {
             Auth {
@@ -44,8 +45,8 @@ class FetchInstancesActivity : BaseFetchActivity() {
             urlString = "https://instances.social/api/1.0/instances/list?include_dead=false&include_down=true&include_closed=true&sort_by=name&count=0&min_active_users=0&min_users=1",
         )
 
-        return json.decodeFromStream<InstancesRoot>(response.body()).instances.map {
-            FetchedInstance(it.id, it.name)
+        return json.decodeFromString<InstancesRoot>(response.body()).instances.mapNotNull { instance ->
+            FetchedInstance(instance.id, instance.name).takeIf { instance.admin != null }
         }
     }
 }

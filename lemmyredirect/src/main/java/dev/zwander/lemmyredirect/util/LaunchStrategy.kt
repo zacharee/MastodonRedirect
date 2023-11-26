@@ -128,3 +128,17 @@ data object Boost : LemmyLaunchStrategyRootGroup(R.string.boost) {
         ),
     )
 }
+
+@Keep
+data object Thunder : LemmyLaunchStrategyRootGroup(R.string.thunder) {
+    @Keep
+    data object ThunderMain : LemmyLaunchStrategy(
+        "THUNDER",
+        dev.zwander.shared.R.string.main,
+        "https://github.com/thunder-app/thunder",
+        LaunchIntentCreator.ComponentIntentCreator.ViewIntentCreator(
+            pkg = "com.hjiangsu.thunder",
+            component = "com.hjiangsu.thunder.MainActivity",
+        ),
+    )
+}

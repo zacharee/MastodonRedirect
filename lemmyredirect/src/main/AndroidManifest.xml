@@ -15,6 +15,7 @@
                 <data android:scheme="http" />
 
                 <data android:host="014450.xyz" />
+                <data android:host="0d.gs" />
                 <data android:host="0v0.social" />
                 <data android:host="0xdd.org.ru" />
                 <data android:host="1001.coolest.zone" />
@@ -25,6 +26,7 @@
                 <data android:host="2dl.eu" />
                 <data android:host="3t.au" />
                 <data android:host="4wd.social" />
+                <data android:host="7.62x54r.ru" />
                 <data android:host="78ac-143-44-140-23.ngrok-free.app" />
                 <data android:host="816am.ddns.net" />
                 <data android:host="818.gallery" />
@@ -90,6 +92,7 @@
                 <data android:host="bin.pztrn.online" />
                 <data android:host="bin.thekittysays.icu" />
                 <data android:host="bjorney.lol" />
+                <data android:host="blendit.bsd.cafe" />
                 <data android:host="blip.cf" />
                 <data android:host="bluuit.org" />
                 <data android:host="board.minimally.online" />
@@ -149,6 +152,7 @@
                 <data android:host="community.adiquaints.moe" />
                 <data android:host="community.destinovate.com" />
                 <data android:host="community.nicfab.it" />
+                <data android:host="community.o0o.social" />
                 <data android:host="community.yshi.org" />
                 <data android:host="compuverse.uk" />
                 <data android:host="corndog.social" />
@@ -168,9 +172,9 @@
                 <data android:host="dandroid.app" />
                 <data android:host="darmok.xyz" />
                 <data android:host="databend.run" />
-                <data android:host="dataharvest.social" />
                 <data android:host="dataterm.digital" />
                 <data android:host="delete.gg" />
+                <data android:host="deljurgdn.dedyn.io" />
                 <data android:host="demmy.co.uk" />
                 <data android:host="demotheque.com" />
                 <data android:host="dendarii.alaeron.com" />
@@ -179,7 +183,6 @@
                 <data android:host="dev-kbin.korako.me" />
                 <data android:host="dev.automationwise.com" />
                 <data android:host="devops.pizza" />
-                <data android:host="dgngrnder.com" />
                 <data android:host="diggit.xyz" />
                 <data android:host="digipres.cafe" />
                 <data android:host="digitalgoblin.uk" />
@@ -205,6 +208,7 @@
                 <data android:host="dmv.social" />
                 <data android:host="donky.social" />
                 <data android:host="doom.broker" />
+                <data android:host="doomscroll.n8e.dev" />
                 <data android:host="dork.farm" />
                 <data android:host="dormi.zone" />
                 <data android:host="dot.surf" />
@@ -278,9 +282,9 @@
                 <data android:host="federated.pro" />
                 <data android:host="federation.red" />
                 <data android:host="fedi.alc.im" />
+                <data android:host="fedi.malmal200.xyz" />
                 <data android:host="fedi.shadowtoot.world" />
                 <data android:host="fedi196.gay" />
-                <data android:host="fedia.io" />
                 <data android:host="fedibb.ml" />
                 <data android:host="fedii.me" />
                 <data android:host="fedilemmy.net" />
@@ -319,6 +323,7 @@
                 <data android:host="forum.fail" />
                 <data android:host="forum.kittensgame.com" />
                 <data android:host="forum.liberatedsystems.co.uk" />
+                <data android:host="forum.penclub.club" />
                 <data android:host="forum.stellarcastle.net" />
                 <data android:host="fost.hu" />
                 <data android:host="fr3diver.se" />
@@ -326,17 +331,17 @@
                 <data android:host="frmsn.space" />
                 <data android:host="fry.gs" />
                 <data android:host="fu.spez.social" />
+                <data android:host="fusionpatrol.social" />
                 <data android:host="futurology.today" />
                 <data android:host="gadgetro.id" />
                 <data android:host="gathering.pikafan.de" />
+                <data android:host="gearhead.town" />
                 <data android:host="geddit.social" />
-                <data android:host="gehirneimer.de" />
                 <data android:host="gekinzuku.com" />
                 <data android:host="gertie.uk" />
                 <data android:host="gioia.news" />
                 <data android:host="glasstower.nl" />
                 <data android:host="gmestock.com" />
-                <data android:host="go.pnyhf.eu" />
                 <data android:host="goblackcat.xyz" />
                 <data android:host="goddess.name" />
                 <data android:host="gonelemmy.xyz" />
@@ -354,7 +359,7 @@
                 <data android:host="hammerdown.0fucks.nl" />
                 <data android:host="hamro.world" />
                 <data android:host="happysl.app" />
-                <data android:host="harfang.social" />
+                <data android:host="hardware.watch" />
                 <data android:host="haynerds.com" />
                 <data android:host="hc.frorayz.tech" />
                 <data android:host="heckoverflow.net" />
@@ -372,6 +377,7 @@
                 <data android:host="hoodlem.me" />
                 <data android:host="hoodratshit.org" />
                 <data android:host="host.eldritch.gift" />
+                <data android:host="hotaudiofiction.social" />
                 <data android:host="hq.unit520.wtf" />
                 <data android:host="hqueue.dev" />
                 <data android:host="hungryhippo.net" />
@@ -399,7 +405,6 @@
                 <data android:host="jlailu.social" />
                 <data android:host="just.vibin.wtf" />
                 <data android:host="jzbr.uk" />
-                <data android:host="k.fe.derate.me" />
                 <data android:host="k.socialyeti.club" />
                 <data android:host="ka.tet42.org" />
                 <data android:host="kaijus.us" />
@@ -415,17 +420,13 @@
                 <data android:host="kbin-u3.vm.elestio.app" />
                 <data android:host="kbin-u353.vm.elestio.app" />
                 <data android:host="kbin.allthingstech.social" />
-                <data android:host="kbin.asdfzdfj.xyz" />
                 <data android:host="kbin.bitgoblin.tech" />
                 <data android:host="kbin.borlax.com" />
                 <data android:host="kbin.buzz" />
                 <data android:host="kbin.cafe" />
-                <data android:host="kbin.chat" />
                 <data android:host="kbin.cloud" />
-                <data android:host="kbin.cocopoops.com" />
                 <data android:host="kbin.ct8.pl" />
                 <data android:host="kbin.dentora.social" />
-                <data android:host="kbin.dk" />
                 <data android:host="kbin.donar.dev" />
                 <data android:host="kbin.ectolab.net" />
                 <data android:host="kbin.fbievan.live" />
@@ -435,11 +436,9 @@
                 <data android:host="kbin.insertapp.net" />
                 <data android:host="kbin.juhlin.network" />
                 <data android:host="kbin.lgbt" />
-                <data android:host="kbin.life" />
                 <data android:host="kbin.lol" />
                 <data android:host="kbin.maciej.cloud" />
                 <data android:host="kbin.mararead.com" />
-                <data android:host="kbin.melroy.org" />
                 <data android:host="kbin.nerfed.net" />
                 <data android:host="kbin.pcft.eu" />
                 <data android:host="kbin.pieho.me" />
@@ -451,7 +450,6 @@
                 <data android:host="kbin.pro" />
                 <data android:host="kbin.projectsegfau.lt" />
                 <data android:host="kbin.ripo.st" />
-                <data android:host="kbin.run" />
                 <data android:host="kbin.sandros.hu" />
                 <data android:host="kbin.sh" />
                 <data android:host="kbin.social" />
@@ -467,7 +465,7 @@
                 <data android:host="kerala.party" />
                 <data android:host="keylog.zip" />
                 <data android:host="kglitch.social" />
-                <data android:host="kilioa.org" />
+                <data android:host="kleptonix.com" />
                 <data android:host="klingon.nl" />
                 <data android:host="kopnij.in" />
                 <data android:host="krabb.org" />
@@ -475,6 +473,7 @@
                 <data android:host="kutsuya.dev" />
                 <data android:host="kuu.kohana.fi" />
                 <data android:host="kwarr.com" />
+                <data android:host="kyberpunk.social" />
                 <data android:host="kyu.de" />
                 <data android:host="l.1in1.net" />
                 <data android:host="l.60228.dev" />
@@ -525,6 +524,7 @@
                 <data android:host="le-me.xyz" />
                 <data android:host="le.fduck.net" />
                 <data android:host="le.mnau.xyz" />
+                <data android:host="le.ptr.is" />
                 <data android:host="le.stuff.st" />
                 <data android:host="le.weme.wtf" />
                 <data android:host="leaf.dance" />
@@ -612,10 +612,12 @@
                 <data android:host="lemmy.8th.world" />
                 <data android:host="lemmy.963.pm" />
                 <data android:host="lemmy.absolutesix.com" />
+                <data android:host="lemmy.activitypub.academy" />
                 <data android:host="lemmy.adambowl.es" />
                 <data android:host="lemmy.aerir.xyz" />
                 <data android:host="lemmy.aguiarvieira.pt" />
                 <data android:host="lemmy.ahall.se" />
+                <data android:host="lemmy.aisteru.ch" />
                 <data android:host="lemmy.akagigahara.site" />
                 <data android:host="lemmy.al" />
                 <data android:host="lemmy.albertoluna.es" />
@@ -737,6 +739,7 @@
                 <data android:host="lemmy.cfb.dev" />
                 <data android:host="lemmy.cfras.net" />
                 <data android:host="lemmy.ch3n2k.com" />
+                <data android:host="lemmy.chaos.berlin" />
                 <data android:host="lemmy.chatterchannel.net" />
                 <data android:host="lemmy.chatterverse.social" />
                 <data android:host="lemmy.chiisana.net" />
@@ -937,8 +940,10 @@
                 <data android:host="lemmy.flunky.club" />
                 <data android:host="lemmy.fmhy.ml" />
                 <data android:host="lemmy.fmhy.net" />
+                <data android:host="lemmy.fnkysloth.net" />
                 <data android:host="lemmy.foldling.org" />
                 <data android:host="lemmy.fornaxian.tech" />
+                <data android:host="lemmy.forty-two.sh" />
                 <data android:host="lemmy.fosshost.com" />
                 <data android:host="lemmy.fourbees.net" />
                 <data android:host="lemmy.foxden.party" />
@@ -971,7 +976,9 @@
                 <data android:host="lemmy.geofox.org" />
                 <data android:host="lemmy.gerdemann.me" />
                 <data android:host="lemmy.gestoord.net" />
+                <data android:host="lemmy.getmeotter.work" />
                 <data android:host="lemmy.ghostplanet.org" />
+                <data android:host="lemmy.giftedmc.com" />
                 <data android:host="lemmy.giggly.de" />
                 <data android:host="lemmy.gimmin.com" />
                 <data android:host="lemmy.gjz010.com" />
@@ -1004,6 +1011,7 @@
                 <data android:host="lemmy.harmon.tech" />
                 <data android:host="lemmy.haruhi.social" />
                 <data android:host="lemmy.havocperil.uk" />
+                <data android:host="lemmy.hbh7.com" />
                 <data android:host="lemmy.helheim.net" />
                 <data android:host="lemmy.helios42.de" />
                 <data android:host="lemmy.hellwhore.com" />
@@ -1057,6 +1065,7 @@
                 <data android:host="lemmy.jasondove.me" />
                 <data android:host="lemmy.jasonsanta.xyz" />
                 <data android:host="lemmy.javant.xyz" />
+                <data android:host="lemmy.jaypg.pw" />
                 <data android:host="lemmy.jaytaggart.com" />
                 <data android:host="lemmy.jcaks.net" />
                 <data android:host="lemmy.jcm.re" />
@@ -1108,6 +1117,7 @@
                 <data android:host="lemmy.kiberness.xyz" />
                 <data android:host="lemmy.killtime.online" />
                 <data android:host="lemmy.kilo666.com" />
+                <data android:host="lemmy.kiois.net" />
                 <data android:host="lemmy.kitsuna.net" />
                 <data android:host="lemmy.kizaing.ca" />
                 <data android:host="lemmy.kjwill.tech" />
@@ -1219,6 +1229,7 @@
                 <data android:host="lemmy.mindoki.com" />
                 <data android:host="lemmy.minecloud.ro" />
                 <data android:host="lemmy.minecodes.de" />
+                <data android:host="lemmy.minetest.ch" />
                 <data android:host="lemmy.minie4.de" />
                 <data android:host="lemmy.minigubben.se" />
                 <data android:host="lemmy.minin0la.xyz" />
@@ -1233,6 +1244,7 @@
                 <data android:host="lemmy.mlsn.fr" />
                 <data android:host="lemmy.mods4ever.com" />
                 <data android:host="lemmy.modshiftx.com" />
+                <data android:host="lemmy.moe" />
                 <data android:host="lemmy.mohammadodeh.com" />
                 <data android:host="lemmy.mongle.us" />
                 <data android:host="lemmy.monocursive.com" />
@@ -1347,6 +1359,7 @@
                 <data android:host="lemmy.pec0ra.ch" />
                 <data android:host="lemmy.pen15.club" />
                 <data android:host="lemmy.penguinore.net" />
+                <data android:host="lemmy.peoplever.se" />
                 <data android:host="lemmy.perigrine.ca" />
                 <data android:host="lemmy.perthchat.org" />
                 <data android:host="lemmy.philipcristiano.com" />
@@ -1369,6 +1382,7 @@
                 <data android:host="lemmy.plaseo.org" />
                 <data android:host="lemmy.plasmatrap.com" />
                 <data android:host="lemmy.platypus-sandbox.com" />
+                <data android:host="lemmy.platypush.tech" />
                 <data android:host="lemmy.plundarr.synology.me" />
                 <data android:host="lemmy.podycust.co.uk" />
                 <data android:host="lemmy.potatoe.ca" />
@@ -1413,6 +1427,7 @@
                 <data android:host="lemmy.reddeth.com" />
                 <data android:host="lemmy.redkrieg.com" />
                 <data android:host="lemmy.rekcon.io" />
+                <data android:host="lemmy.remorse.us" />
                 <data android:host="lemmy.remotelab.uk" />
                 <data android:host="lemmy.remoteplay.im" />
                 <data android:host="lemmy.rentadrunk.org" />
@@ -1439,6 +1454,7 @@
                 <data android:host="lemmy.saik0.com" />
                 <data android:host="lemmy.sakshamar.in" />
                 <data android:host="lemmy.samad.one" />
+                <data android:host="lemmy.sambands.net" />
                 <data android:host="lemmy.samtaen.nl" />
                 <data android:host="lemmy.sand.family" />
                 <data android:host="lemmy.sarcasticdeveloper.com" />
@@ -1483,6 +1499,7 @@
                 <data android:host="lemmy.shtuf.eu" />
                 <data android:host="lemmy.shwizard.chat" />
                 <data android:host="lemmy.sidh.bzh" />
+                <data android:host="lemmy.sieprawski.pl" />
                 <data android:host="lemmy.sietch.online" />
                 <data android:host="lemmy.sikorski.cloud" />
                 <data android:host="lemmy.silkky.dev" />
@@ -1500,6 +1517,7 @@
                 <data android:host="lemmy.snobvio.us" />
                 <data android:host="lemmy.snoot.tube" />
                 <data android:host="lemmy.socdojo.com" />
+                <data android:host="lemmy.social.raku.party" />
                 <data android:host="lemmy.solmoden.no" />
                 <data android:host="lemmy.something.link" />
                 <data android:host="lemmy.songsforno.one" />
@@ -1509,6 +1527,7 @@
                 <data android:host="lemmy.soulfly.dk" />
                 <data android:host="lemmy.spacestation14.com" />
                 <data android:host="lemmy.sprawl.club" />
+                <data android:host="lemmy.srcbeat.com" />
                 <data android:host="lemmy.srcfiles.zip" />
                 <data android:host="lemmy.srv.eco" />
                 <data android:host="lemmy.srv0.lol" />
@@ -1531,6 +1550,7 @@
                 <data android:host="lemmy.strandundmeer.net" />
                 <data android:host="lemmy.stuart.fun" />
                 <data android:host="lemmy.studio" />
+                <data android:host="lemmy.substantialplumbing.repair" />
                 <data android:host="lemmy.suchmeme.nl" />
                 <data android:host="lemmy.sudoer.ch" />
                 <data android:host="lemmy.sumuun.net" />
@@ -1542,6 +1562,7 @@
                 <data android:host="lemmy.syntrofos.xyz" />
                 <data android:host="lemmy.syrasu.com" />
                 <data android:host="lemmy.sysctl.io" />
+                <data android:host="lemmy.t-rg.ws" />
                 <data android:host="lemmy.tabbynet.com" />
                 <data android:host="lemmy.talung.org" />
                 <data android:host="lemmy.tancomps.net" />
@@ -1559,6 +1580,7 @@
                 <data android:host="lemmy.technowizardry.net" />
                 <data android:host="lemmy.techstache.com" />
                 <data android:host="lemmy.techtailors.net" />
+                <data android:host="lemmy.techtriage.guru" />
                 <data android:host="lemmy.tedomum.net" />
                 <data android:host="lemmy.telaax.com" />
                 <data android:host="lemmy.temporus.me" />
@@ -1575,6 +1597,7 @@
                 <data android:host="lemmy.the-gathering.space" />
                 <data android:host="lemmy.the-goblin.net" />
                 <data android:host="lemmy.thebias.nl" />
+                <data android:host="lemmy.thecolddark.com" />
                 <data android:host="lemmy.thecpe.xyz" />
                 <data android:host="lemmy.thegoodoldinternet.com" />
                 <data android:host="lemmy.theia.cafe" />
@@ -1598,6 +1621,7 @@
                 <data android:host="lemmy.timdn.com" />
                 <data android:host="lemmy.timgilbert.be" />
                 <data android:host="lemmy.timon.sh" />
+                <data android:host="lemmy.timothyhay.org" />
                 <data android:host="lemmy.timwaterhouse.com" />
                 <data android:host="lemmy.titanplusplus.online" />
                 <data android:host="lemmy.tobyvin.dev" />
@@ -1840,6 +1864,7 @@
                 <data android:host="lonestarlemmy.mooo.com" />
                 <data android:host="longley.ws" />
                 <data android:host="lostcheese.com" />
+                <data android:host="low.faux.moe" />
                 <data android:host="ls.buckodr.ink" />
                 <data android:host="lsmu.schmurian.xyz" />
                 <data android:host="lu.skbo.net" />
@@ -1849,10 +1874,10 @@
                 <data android:host="lurkers.club" />
                 <data android:host="lurkinlemmings.com" />
                 <data android:host="lx.pontual.social" />
-                <data android:host="lzrprt.sbs" />
                 <data android:host="m.freespace.nohost.me" />
                 <data android:host="mander.xyz" />
                 <data android:host="marginalcuriosity.net" />
+                <data android:host="martinlm.now-dns.net" />
                 <data android:host="matejc.com" />
                 <data android:host="matts.digital" />
                 <data android:host="mayheminc.win" />
@@ -1872,6 +1897,7 @@
                 <data android:host="milksteak.org" />
                 <data android:host="mimiclem.me" />
                 <data android:host="mindshare.space" />
+                <data android:host="mirage-afb8.unit520.wtf" />
                 <data android:host="mlem.a-smol-cat.fr" />
                 <data android:host="mlem.hackular.com" />
                 <data android:host="mlem.lea.moe" />
@@ -1880,7 +1906,6 @@
                 <data android:host="mlemmy.de" />
                 <data android:host="mmm.moooo.ooo" />
                 <data android:host="mobilemmohub.com" />
-                <data android:host="moist.catsweat.com" />
                 <data android:host="monero.house" />
                 <data android:host="monero.im" />
                 <data android:host="monero.town" />
@@ -1971,6 +1996,7 @@
                 <data android:host="philly.page" />
                 <data android:host="picify.podycust.co.uk" />
                 <data android:host="plork.monster" />
+                <data android:host="polesie.pol.social" />
                 <data android:host="pootusmaximus.xyz" />
                 <data android:host="popplesburger.hilciferous.nl" />
                 <data android:host="poptalk.scrubbles.tech" />
@@ -2020,6 +2046,7 @@
                 <data android:host="real.lemmy.fan" />
                 <data android:host="reason.rocks" />
                 <data android:host="red.cyberhase.de" />
+                <data android:host="reddit.azumanga.gay" />
                 <data android:host="reddit.moonbeam.town" />
                 <data android:host="reddrefuge.com" />
                 <data android:host="reddthat.com" />
@@ -2033,7 +2060,6 @@
                 <data android:host="reseed.it" />
                 <data android:host="retarded.dev" />
                 <data android:host="retrolemmy.com" />
-                <data android:host="rimworld.gallery" />
                 <data android:host="rimworldporn.cloud" />
                 <data android:host="ripo.st" />
                 <data android:host="rlyeh.cc" />
@@ -2081,6 +2107,7 @@
                 <data android:host="slangenettet.pyjam.as" />
                 <data android:host="slightlyawesome.ninja" />
                 <data android:host="slrpnk.net" />
+                <data android:host="snake.substantialplumbing.repair" />
                 <data android:host="sneakernet.social" />
                 <data android:host="snkkis.me" />
                 <data android:host="snowstorm.online" />
@@ -2110,7 +2137,6 @@
                 <data android:host="social.rocketsfall.net" />
                 <data android:host="social.sour.is" />
                 <data android:host="social.styxem.xyz" />
-                <data android:host="social.tath.link" />
                 <data android:host="social.venith.net" />
                 <data android:host="social.vmdk.ca" />
                 <data android:host="social2.blahajspin.lol" />
@@ -2160,7 +2186,6 @@
                 <data android:host="talk.macstack.net" />
                 <data android:host="talk.neovibe.app" />
                 <data android:host="talka.live" />
-                <data android:host="teacup.social" />
                 <data android:host="techy.news" />
                 <data android:host="terefere.eu" />
                 <data android:host="test-instance-please-ignore-2.globe.pub" />
@@ -2168,9 +2193,8 @@
                 <data android:host="textandmetal.com" />
                 <data android:host="tezzo.f0rk.pl" />
                 <data android:host="thaumatur.ge" />
-                <data android:host="the.coolest.zone" />
                 <data android:host="the.unknowing.dance" />
-                <data android:host="thebrainbin.org" />
+                <data android:host="theape.space" />
                 <data android:host="thechurchofmemes.com" />
                 <data android:host="theculture.social" />
                 <data android:host="thediscussion.site" />
@@ -2210,6 +2234,7 @@
                 <data android:host="udclemmy.xyz" />
                 <data android:host="ue.reddiverse.umbraluvine.xyz" />
                 <data android:host="unilem.org" />
+                <data android:host="unreachable.cloud" />
                 <data android:host="upvote.au" />
                 <data android:host="usenet.lol" />
                 <data android:host="va11halla.bar" />
@@ -2219,6 +2244,7 @@
                 <data android:host="vermontconnect.com" />
                 <data android:host="versalife.duckdns.org" />
                 <data android:host="victoriagaming.ca" />
+                <data android:host="videolovers.site" />
                 <data android:host="vidya.dev" />
                 <data android:host="vlemmy.net" />
                 <data android:host="voltage.vn" />
@@ -2256,6 +2282,7 @@
                 <data android:host="www.youdeservedthat.com" />
                 <data android:host="wyrm.xynthxolarxylia.xyz" />
                 <data android:host="x69.org" />
+                <data android:host="xalla.day" />
                 <data android:host="xbdv.com" />
                 <data android:host="xcore.social" />
                 <data android:host="xffxe4.lol" />

@@ -83,6 +83,7 @@ Lemmy Redirect currently supports the following clients:
 - [Liftoff](https://github.com/liftoff-app/liftoff).
 - [Summit](https://lemmy.world/c/summit).
 - [Sync](https://github.com/laurencedawson/sync-for-lemmy).
+- [Thunder](https://github.com/thunder-app/thunder).
 
 And the following auto-discovery clients:
 - [Raccoon](https://github.com/diegoberaldin/RaccoonForLemmy).

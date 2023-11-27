@@ -91,7 +91,7 @@ And the following auto-discovery clients:
 If your favorite client isn't on the list, consider creating an issue on their code repository or issue tracker linking to the section below, ***but please search through the existing issues first, including ones that have been closed***. Pestering developers won't help anyone.
 
 ## Adding Client Support
-If you're the developer of a Mastodon client and want to add support for Fediverse Redirect into your app, here's how.
+If you're the developer of a Mastodon or Lemmy client and want to add support for Fediverse Redirect into your app, here's how.
 
 ### Automatic
 You can let Fediverse Redirect automatically discover your app by filtering for a custom Intent and parsing the data as a URL.

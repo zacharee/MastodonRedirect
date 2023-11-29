@@ -186,7 +186,7 @@ private fun GroupRow(
                 selectedStrategy = selectedStrategy,
                 onStrategySelected = onStrategySelected,
                 modifier = Modifier.weight(1f),
-                enabled = with (child) { context.isInstalled() },
+                enabled = child.rememberIsInstalled(),
             )
         }
     }

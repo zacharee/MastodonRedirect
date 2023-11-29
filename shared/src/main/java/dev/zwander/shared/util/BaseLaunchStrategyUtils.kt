@@ -101,8 +101,12 @@ abstract class BaseLaunchStrategyUtils(
         componentPkg: String = pkg,
         component: String,
         url: String,
+        scheme: String = "https",
     ): Intent {
-        return Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+        val originalUri = Uri.parse(url)
+        val newUri = Uri.parse(url.replace("${originalUri.scheme}://", "${scheme}://"))
+
+        return Intent(Intent.ACTION_VIEW, newUri).apply {
             addCategory(Intent.CATEGORY_DEFAULT)
             addCategory(Intent.CATEGORY_BROWSABLE)
 
@@ -118,9 +122,12 @@ abstract class BaseLaunchStrategyUtils(
         componentPkg: String = pkg,
         component: String,
         url: String,
+        type: String = "*/*",
     ): Intent {
         return Intent(Intent.ACTION_SEND).apply {
+            addCategory(Intent.CATEGORY_DEFAULT)
             putExtra(Intent.EXTRA_TEXT, url)
+            this.type = type
 
             `package` = pkg
             this.component = ComponentName(

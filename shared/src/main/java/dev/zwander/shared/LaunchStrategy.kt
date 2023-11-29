@@ -4,6 +4,14 @@ import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
 import androidx.annotation.StringRes
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.Lifecycle
+import dev.zwander.shared.util.LifecycleEffect
 import kotlin.reflect.KClass
 
 /**
@@ -31,11 +39,28 @@ abstract class LaunchStrategy(
         return with (intentCreator) { createIntents(url) }
     }
 
-    fun Context.isInstalled(): Boolean {
-        val intents = createIntents("https://")
+    @Composable
+    fun rememberIsInstalled(): Boolean {
+        val context = LocalContext.current
 
-        return intents.any {
-            packageManager.queryIntentActivities(it, 0).isNotEmpty()
+        var isInstalled by remember {
+            mutableStateOf(context.isInstalled())
+        }
+
+        LifecycleEffect(Lifecycle.State.RESUMED) {
+            isInstalled = context.isInstalled()
+        }
+
+        return isInstalled
+    }
+
+    open fun Context.isInstalled(): Boolean {
+        val pkg = createIntents("https://").firstOrNull()?.`package` ?: return false
+
+        return try {
+            packageManager.getApplicationInfo(pkg, 0) != null
+        } catch (e: Exception) {
+            false
         }
     }
 }

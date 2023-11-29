@@ -79,10 +79,7 @@ data object Liftoff : LemmyLaunchStrategyRootGroup(R.string.liftoff) {
         LaunchIntentCreator.ComponentIntentCreator.ViewIntentCreator(
             pkg = "com.liftoffapp.liftoff",
             component = "com.liftoffapp.liftoff.MainActivity",
-            transformUrl = { url ->
-                url.replace("https://", "liftoff://")
-                    .replace("http://", "liftoff://")
-            },
+            scheme = "liftoff",
         ),
     )
 }

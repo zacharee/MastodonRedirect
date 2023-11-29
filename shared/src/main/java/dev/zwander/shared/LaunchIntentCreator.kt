@@ -6,8 +6,6 @@ import android.content.Intent
 import android.net.Uri
 
 sealed interface LaunchIntentCreator {
-    val transformUrl: (String) -> String
-
     fun Context.createIntents(url: String): List<Intent>
 
     sealed interface ComponentIntentCreator : LaunchIntentCreator {
@@ -17,7 +15,7 @@ sealed interface LaunchIntentCreator {
         data class ViewIntentCreator(
             override val pkg: String,
             override val component: String,
-            override val transformUrl: (String) -> String = { it },
+            val scheme: String = "https",
         ) : ComponentIntentCreator {
             override fun Context.createIntents(url: String): List<Intent> {
                 return listOf(
@@ -25,6 +23,7 @@ sealed interface LaunchIntentCreator {
                         pkg = pkg,
                         component = component,
                         url = url,
+                        scheme = scheme,
                     ),
                 )
             }
@@ -33,7 +32,7 @@ sealed interface LaunchIntentCreator {
         data class ShareIntentCreator(
             override val pkg: String,
             override val component: String,
-            override val transformUrl: (String) -> String = { it },
+            val type: String = "*/*",
         ) : ComponentIntentCreator {
             override fun Context.createIntents(url: String): List<Intent> {
                 return listOf(
@@ -41,6 +40,7 @@ sealed interface LaunchIntentCreator {
                         pkg = pkg,
                         component = component,
                         url = url,
+                        type = type,
                     ),
                 )
             }
@@ -49,7 +49,6 @@ sealed interface LaunchIntentCreator {
 
     data class BaseUrlIntentCreator(
         val baseUrl: String,
-        override val transformUrl: (String) -> String = { it },
     ) : LaunchIntentCreator {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(Intent(Intent.ACTION_VIEW, Uri.parse("$baseUrl/$url")))
@@ -57,7 +56,6 @@ sealed interface LaunchIntentCreator {
     }
 
     data class CustomIntentCreator(
-        override val transformUrl: (String) -> String = { it },
         val creator: Context.(url: String) -> List<Intent>,
     ) : LaunchIntentCreator {
         override fun Context.createIntents(url: String): List<Intent> {
@@ -69,8 +67,6 @@ sealed interface LaunchIntentCreator {
         val components: List<ComponentName>,
         val launchAction: String,
     ) : LaunchIntentCreator {
-        override val transformUrl: (String) -> String = { it }
-
         override fun Context.createIntents(url: String): List<Intent> {
             return components.map { cmp ->
                 Intent(launchAction).apply {

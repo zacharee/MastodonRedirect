@@ -2,6 +2,7 @@
 
 package dev.zwander.mastodonredirect.util
 
+import android.content.Context
 import androidx.annotation.Keep
 import androidx.annotation.StringRes
 import dev.zwander.mastodonredirect.R
@@ -79,6 +80,7 @@ data object Tooot : MastodonLaunchStrategyRootGroup(R.string.tooot) {
         LaunchIntentCreator.ComponentIntentCreator.ViewIntentCreator(
             pkg = "com.xmflsct.app.tooot",
             component = "com.xmflsct.app.tooot.MainActivity",
+            scheme = "tooot",
         ),
     )
 }
@@ -170,6 +172,10 @@ data object Elk : MastodonLaunchStrategyRootGroup(R.string.elk) {
         @Keep
         data object ElkCanary :
             ElkBase("ELK_CANARY", dev.zwander.shared.R.string.canary, "https://main.elk.zone")
+
+        override fun Context.isInstalled(): Boolean {
+            return true
+        }
     }
 }
 

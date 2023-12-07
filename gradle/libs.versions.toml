@@ -1,10 +1,10 @@
 [versions]
-agp = "8.3.0-alpha15"
+agp = "8.3.0-alpha16"
 apkParser = "2.6.10"
-bugsnagAndroid = "5.31.3"
+bugsnagAndroid = "6.1.0"
 bugsnagAndroidGradlePlugin = "8.1.0"
 datastorePreferences = "1.0.0"
-kotlin = "1.9.20"
+kotlin = "1.9.21"
 core-ktx = "1.12.0"
 lifecycle-runtime-ktx = "2.7.0-rc01"
 activity-compose = "1.8.1"
@@ -15,10 +15,10 @@ mvvmFlowCompose = "0.16.1"
 patreonSupportersRetrieval = "d2e9143db2"
 preferences = "1.2.1"
 hiddenApiBypass = "4.3"
-ktor = "2.3.6"
-kotlinx-serialization = "1.6.0"
+ktor = "2.3.7"
+kotlinx-serialization = "1.6.2"
 shizuku = "13.1.5"
-compose-compiler = "1.5.4"
+compose-compiler = "1.5.5"
 
 [libraries]
 # AndroidX

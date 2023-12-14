@@ -23,7 +23,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:usesCleartextTraffic="true">
         <activity android:name=".BaseActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:launchMode="singleInstance" />
 
         <activity android:name=".LinkBlocklistActivity"
             android:windowSoftInputMode="adjustResize"

@@ -57,12 +57,13 @@ data object Summit : LemmyLaunchStrategyRootGroup(R.string.summit) {
                 pkg = "com.idunnololz.summit",
                 component = "com.idunnololz.summit.main.MainActivity",
                 url = url,
+                newTask = false,
             )
 
             // Summit currently doesn't follow deep links on a cold start,
             // so send the Intent twice.
             listOf(
-                Intent(intent),
+                Intent(intent).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
                 Intent(intent),
             )
         },

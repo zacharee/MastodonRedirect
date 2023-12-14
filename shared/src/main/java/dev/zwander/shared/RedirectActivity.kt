@@ -126,8 +126,6 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
                     }
 
                     intents.forEachIndexed { index, intent ->
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
                         try {
                             startActivity(intent)
 

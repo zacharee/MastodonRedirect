@@ -51,7 +51,10 @@ sealed interface LaunchIntentCreator {
         val baseUrl: String,
     ) : LaunchIntentCreator {
         override fun Context.createIntents(url: String): List<Intent> {
-            return listOf(Intent(Intent.ACTION_VIEW, Uri.parse("$baseUrl/$url")))
+            return listOf(
+                Intent(Intent.ACTION_VIEW, Uri.parse("$baseUrl/$url"))
+                    .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+            )
         }
     }
 

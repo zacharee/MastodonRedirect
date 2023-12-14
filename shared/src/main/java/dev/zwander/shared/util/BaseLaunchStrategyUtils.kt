@@ -102,6 +102,7 @@ abstract class BaseLaunchStrategyUtils(
         component: String,
         url: String,
         scheme: String = "https",
+        newTask: Boolean = true,
     ): Intent {
         val originalUri = Uri.parse(url)
         val newUri = Uri.parse(url.replace("${originalUri.scheme}://", "${scheme}://"))
@@ -109,6 +110,9 @@ abstract class BaseLaunchStrategyUtils(
         return Intent(Intent.ACTION_VIEW, newUri).apply {
             addCategory(Intent.CATEGORY_DEFAULT)
             addCategory(Intent.CATEGORY_BROWSABLE)
+            if (newTask) {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
 
             `package` = pkg
             this.component = ComponentName(
@@ -123,9 +127,13 @@ abstract class BaseLaunchStrategyUtils(
         component: String,
         url: String,
         type: String = "*/*",
+        newTask: Boolean = true,
     ): Intent {
         return Intent(Intent.ACTION_SEND).apply {
             addCategory(Intent.CATEGORY_DEFAULT)
+            if (newTask) {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            }
             putExtra(Intent.EXTRA_TEXT, url)
             this.type = type
 

@@ -167,11 +167,11 @@ data object Elk : MastodonLaunchStrategyRootGroup(R.string.elk) {
     ) {
         @Keep
         data object ElkStable :
-            ElkBase("ELK", dev.zwander.shared.R.string.stable, "https://elk.zone")
+            ElkBase("ELK", dev.zwander.shared.R.string.stable, "https://elk.zone/")
 
         @Keep
         data object ElkCanary :
-            ElkBase("ELK_CANARY", dev.zwander.shared.R.string.canary, "https://main.elk.zone")
+            ElkBase("ELK_CANARY", dev.zwander.shared.R.string.canary, "https://main.elk.zone/")
 
         override fun Context.isInstalled(): Boolean {
             return true
@@ -191,4 +191,33 @@ data object Mastodon : MastodonLaunchStrategyRootGroup(R.string.mastodon) {
             component = "org.joinmastodon.android.MainActivity",
         ),
     )
+}
+
+@Keep
+data object Trunks : MastodonLaunchStrategyRootGroup(R.string.trunks) {
+    @Keep
+    data object TrunksMain : MastodonLaunchStrategy(
+        "TRUNKS",
+        dev.zwander.shared.R.string.main,
+        "https://mastodon.social/@trunksapp",
+        LaunchIntentCreator.ComponentIntentCreator.ViewIntentCreator(
+            pkg = "com.decad3nce.trunks",
+            component = "com.decad3nce.trunks.MainActivity",
+            urlTransform = {
+                "https://trunks.social/resolve?url=${it}"
+            },
+        ),
+    )
+
+    @Keep
+    data object TrunksWeb : MastodonLaunchStrategy(
+        "TRUNKS_WEB",
+        dev.zwander.shared.R.string.web,
+        "https://mastodon.social/@trunksapp",
+        LaunchIntentCreator.BaseUrlIntentCreator("https://trunks.social/resolve?url="),
+    ) {
+        override fun Context.isInstalled(): Boolean {
+            return true
+        }
+    }
 }

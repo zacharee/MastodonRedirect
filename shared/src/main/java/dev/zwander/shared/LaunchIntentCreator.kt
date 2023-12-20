@@ -11,18 +11,20 @@ sealed interface LaunchIntentCreator {
     sealed interface ComponentIntentCreator : LaunchIntentCreator {
         val pkg: String
         val component: String
+        val urlTransform: (String) -> String
 
         data class ViewIntentCreator(
             override val pkg: String,
             override val component: String,
             val scheme: String = "https",
+            override val urlTransform: (String) -> String = { it },
         ) : ComponentIntentCreator {
             override fun Context.createIntents(url: String): List<Intent> {
                 return listOf(
                     appModel.launchStrategyUtils.createViewIntent(
                         pkg = pkg,
                         component = component,
-                        url = url,
+                        url = urlTransform(url),
                         scheme = scheme,
                     ),
                 )
@@ -33,13 +35,14 @@ sealed interface LaunchIntentCreator {
             override val pkg: String,
             override val component: String,
             val type: String = "*/*",
+            override val urlTransform: (String) -> String = { it },
         ) : ComponentIntentCreator {
             override fun Context.createIntents(url: String): List<Intent> {
                 return listOf(
                     appModel.launchStrategyUtils.createShareIntent(
                         pkg = pkg,
                         component = component,
-                        url = url,
+                        url = urlTransform(url),
                         type = type,
                     ),
                 )
@@ -52,7 +55,7 @@ sealed interface LaunchIntentCreator {
     ) : LaunchIntentCreator {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
-                Intent(Intent.ACTION_VIEW, Uri.parse("$baseUrl/$url"))
+                Intent(Intent.ACTION_VIEW, Uri.parse("$baseUrl$url"))
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
             )
         }

@@ -74,6 +74,7 @@ Mastodon Redirect currently supports the following clients:
 - [Moshidon (Stable or Nightly)](https://github.com/LucasGGamerM/moshidon).
 - [Subway Tooter](https://github.com/tateisu/SubwayTooter).
 - [Tooot](https://github.com/tooot-app/app).
+- [Trunks (Native or Web)](https://mastodon.social/@trunksapp).
 
 ---------------------------
 

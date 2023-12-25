@@ -8,7 +8,7 @@ kotlin = "1.9.21"
 core-ktx = "1.12.0"
 lifecycle-runtime-ktx = "2.7.0-rc02"
 activity-compose = "1.8.2"
-compose-bom = "2023.10.00-alpha02"
+compose-bom = "2023.12.00-alpha04"
 linkSheet = "2.3.2"
 material-components = "1.11.0"
 mvvmFlowCompose = "0.16.1"
@@ -29,7 +29,6 @@ androidx-preferences = { group = "androidx.preference", name = "preference", ver
 androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle-runtime-ktx" }
 
 # Bugsnag
-apk-parser = { module = "net.dongliu:apk-parser", version.ref = "apkParser" }
 bugsnag-android = { module = "com.bugsnag:bugsnag-android", version.ref = "bugsnagAndroid" }
 bugsnag-android-gradle-plugin = { module = "com.bugsnag:bugsnag-android-gradle-plugin", version.ref = "bugsnagAndroidGradlePlugin" }
 
@@ -54,6 +53,7 @@ shizuku-api = { group = "dev.rikka.shizuku", name = "api", version.ref = "shizuk
 shizuku-provider = { group = "dev.rikka.shizuku", name = "provider", version.ref = "shizuku" }
 
 # Other
+apk-parser = { module = "net.dongliu:apk-parser", version.ref = "apkParser" }
 linkSheet = { module = "com.github.1fexd:LinkSheetInterConnect", version.ref = "linkSheet" }
 patreonSupportersRetrieval = { module = "com.github.zacharee:PatreonSupportersRetrieval", version.ref = "patreonSupportersRetrieval" }
 material-components = { group = "com.google.android.material", name = "material", version.ref = "material-components" }

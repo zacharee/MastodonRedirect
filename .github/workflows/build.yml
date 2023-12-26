@@ -88,7 +88,7 @@ jobs:
         id: sign_mastodon_redirect
         uses: r0adkll/sign-android-release@v1
         with:
-          releaseDirectory: masdtodonredirect/build/outputs/apk/release
+          releaseDirectory: mastodonredirect/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.ANDROID_SIGNING_KEY }}
           alias: ${{ secrets.ANDROID_SIGNING_KEY_ALIAS }}
           keyStorePassword: ${{ secrets.ANDROID_SIGNING_KEY_PWD }}

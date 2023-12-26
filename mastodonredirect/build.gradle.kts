@@ -30,8 +30,12 @@ android {
     }
 
     buildTypes {
+        val localPropertiesFile = project.rootProject.file("local.properties")
         val localProperties = Properties()
-        localProperties.load(project.rootProject.file("local.properties").inputStream())
+
+        if (localPropertiesFile.exists()) {
+            localProperties.load(localPropertiesFile.inputStream())
+        }
 
         release {
             isMinifyEnabled = false

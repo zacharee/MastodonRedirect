@@ -108,16 +108,18 @@ In your `AndroidManifest.xml`, add the following intent filter inside the releva
 Mastodon Redirect:
 ```xml
 <intent-filter>
-    <action android:name="dev.zwander.mastodonredirect.intent.action.OPEN_FEDI_LINK"/>
-    <category android:name="android.intent.category.DEFAULT"/>
+    <action android:name="dev.zwander.mastodonredirect.intent.action.OPEN_FEDI_LINK" />
+    
+    <category android:name="android.intent.category.DEFAULT" />
 </intent-filter>
 ```
 
 Lemmy Redirect:
 ```xml
 <intent-filter>
-    <action android:name="dev.zwander.lemmyredirect.intent.action.OPEN_FEDI_LINK"/>
-    <category android:name="android.intent.category.DEFAULT"/>
+    <action android:name="dev.zwander.lemmyredirect.intent.action.OPEN_FEDI_LINK" />
+    
+    <category android:name="android.intent.category.DEFAULT" />
 </intent-filter>
 ```
 

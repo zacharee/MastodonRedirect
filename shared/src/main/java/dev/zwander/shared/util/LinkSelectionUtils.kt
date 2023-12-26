@@ -53,7 +53,7 @@ fun collectAvailableDomainsSortedByStatus(): State<List<LinkSelectionData>> {
 }
 
 fun Context.collectAvailableDomains(): List<LinkSelectionData> {
-    val apk = ApkFile(applicationInfo.baseCodePath)
+    val apk = ApkFile(applicationInfo.sourceDir)
     val hosts = TreeSet<LinkSelectionData>()
 
     val regex = Regex(".*?android:host=\"(.*?)\".*?")

@@ -113,7 +113,7 @@ jobs:
       - name: Add Lemmy Redirect to Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: {{ github.workspace }}/${{ steps.sign_lemmy_redirect.outputs.signedReleaseFile }}
+          artifacts: ${{ github.workspace }}/${{ steps.sign_lemmy_redirect.outputs.signedReleaseFile }}
           token: ${{ secrets.GITHUB_TOKEN }}
           allowUpdates: true
           replacesArtifacts: false
@@ -123,7 +123,7 @@ jobs:
       - name: Add Mastodon Redirect to Release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: {{ github.workspace }}/${{ steps.sign_mastodon_redirect.outputs.signedReleaseFile }}
+          artifacts: ${{ github.workspace }}/${{ steps.sign_mastodon_redirect.outputs.signedReleaseFile }}
           token: ${{ secrets.GITHUB_TOKEN }}
           allowUpdates: true
           replacesArtifacts: false

@@ -79,7 +79,7 @@ jobs:
 
       - name: Sign Lemmy Redirect
         id: sign_lemmy_redirect
-        uses: zacharee/zipalign-sign-android-release@1.1.1
+        uses: zacharee/zipalign-sign-android-release@1.1.2
         with:
           releaseDirectory: lemmyredirect/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.ANDROID_SIGNING_KEY }}
@@ -89,7 +89,7 @@ jobs:
 
       - name: Sign Mastodon Redirect
         id: sign_mastodon_redirect
-        uses: zacharee/zipalign-sign-android-release@1.1.1
+        uses: zacharee/zipalign-sign-android-release@1.1.2
         with:
           releaseDirectory: mastodonredirect/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.ANDROID_SIGNING_KEY }}

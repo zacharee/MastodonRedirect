@@ -221,3 +221,37 @@ data object Trunks : MastodonLaunchStrategyRootGroup(R.string.trunks) {
         }
     }
 }
+
+@Keep
+data object Phanpy : MastodonLaunchStrategyRootGroup(R.string.phanpy) {
+    @Keep
+    sealed class PhanpyBase(
+        url: String,
+        key: String,
+        @StringRes
+        labelRes: Int,
+    ) : MastodonLaunchStrategy(
+        "PHANPY_$key",
+        labelRes,
+        "https://hachyderm.io/@phanpy",
+        LaunchIntentCreator.BaseUrlIntentCreator("$url/#/"),
+    ) {
+        @Keep
+        data object PhanpyStable : PhanpyBase(
+            "https://phanpy.social",
+            "STABLE",
+            dev.zwander.shared.R.string.stable,
+        )
+
+        @Keep
+        data object PhanpyDev : PhanpyBase(
+            "https://dev.phanpy.social",
+            "DEV",
+            dev.zwander.shared.R.string.dev,
+        )
+
+        override fun Context.isInstalled(): Boolean {
+            return true
+        }
+    }
+}

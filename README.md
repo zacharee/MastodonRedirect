@@ -68,7 +68,7 @@ Unfortunately, many Mastodon and Lemmy clients don't have a way for Fediverse Re
 
 Fediverse Redirect relies on clients having a link sharing target that can parse and open fediverse links. 
 
-Clients such as Tusky and Trunks do have share targets, but they can only be used to create new posts, with the shared link as the content. Other clients have no share targets at all.
+Clients such as Tusky do have share targets, but they can only be used to create new posts, with the shared link as the content. Other clients have no share targets at all.
 
 Mastodon Redirect currently supports the following clients:
 - [Elk (PWA: Stable or Canary)](https://github.com/elk-zone/elk).

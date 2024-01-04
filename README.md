@@ -11,7 +11,7 @@ When you tap a Twitter link in your browser and your phone opens the Twitter app
 
 Fediverse Redirect aims to solve the first two issues and somewhat solve the third.
 
-By using the [instances.social](https://instances.social) and [Lemmy Explorer](https://lemmyverse.net/communities) APIs, Fediverse Redirect is able to maintain an up-to-date list of supported domains.
+By using [Fediverse Observer](https://fediverse.observer) as a data source, Fediverse Redirect can maintain an up-to-date list of active domains.
 
 Once you download the app, you can choose your client app and then enable all supported domains, so that when you tap a recognized link, it gets passed to the proper Fediverse Redirect variant.
 
@@ -36,7 +36,7 @@ Fediverse Redirect has different variants depending on which social media networ
 [![Lemmy Redirect](https://img.shields.io/endpoint?url=https%3A%2F%2Fapt.izzysoft.de%2Ffdroid%2Fapi%2Fv1%2Fshield%2Fdev.zwander.lemmyredirect&style=for-the-badge&logo=f-droid&label=Lemmy%20Redirect)](https://apt.izzysoft.de/fdroid/index/apk/dev.zwander.lemmyredirect/)
 
 ## Supported Domains
-Currently, most domains on https://instances.social and https://lemmyverse.net/communities are supported.
+Currently, most domains on [Fediverse Observer](https://fediverse.observer) are supported.
 
 Fediverse Redirect supports most active and alive instances, but excludes dead instances and instances that haven't had any activity recently. This is to keep the list as short as possible and avoid crashes.
 

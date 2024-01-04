@@ -1,0 +1,6 @@
+schema: 'src/main/graphql/schema.json'
+documents: 'src/main/graphql/*.graphql'
+extensions:
+  endpoints:
+    One:
+      url: 'https://api.fediverse.observer'

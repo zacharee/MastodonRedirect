@@ -21,19 +21,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.core.view.WindowCompat
+import com.apollographql.apollo3.ApolloClient
+import dev.zwander.shared.generated.GetInstancesQuery
 import dev.zwander.shared.util.RedirectorTheme
-import kotlinx.serialization.json.Json
+import java.util.TreeSet
 
 data class FetchedInstance(
     val id: String,
-    val name: String?,
-)
+    val name: String,
+) : Comparable<FetchedInstance> {
+    override fun compareTo(other: FetchedInstance): Int {
+        return name.compareTo(other.name)
+    }
+}
 
 abstract class BaseFetchActivity : ComponentActivity() {
-    protected val json = Json {
-        ignoreUnknownKeys = true
-        isLenient = true
+    protected val client by lazy {
+        ApolloClient.Builder()
+            .serverUrl("https://api.fediverse.observer/")
+            .build()
     }
+
+    protected abstract val softwareNames: Array<String>
 
     @SuppressLint("Recycle")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -88,5 +97,49 @@ abstract class BaseFetchActivity : ComponentActivity() {
         }
     }
 
-    protected abstract suspend fun loadInstances(): List<FetchedInstance>
+    protected suspend fun loadInstances(): List<FetchedInstance> {
+        val list = TreeSet<FetchedInstance>()
+
+        val response = client.query(GetInstancesQuery()).execute()
+
+        response.data?.nodes?.mapNotNull { node ->
+            if (node == null) {
+                return@mapNotNull null
+            }
+
+            if (node.softwarename == null || !softwareNames.contains(node.softwarename)) {
+                return@mapNotNull null
+            }
+
+            if (node.active_users_monthly == null || node.active_users_monthly <= 0) {
+                return@mapNotNull null
+            }
+
+            if (node.date_diedoff != null) {
+                return@mapNotNull null
+            }
+
+            if (node.domain == null) {
+                return@mapNotNull null
+            }
+
+            if (node.total_users == null || node.total_users < 1) {
+                return@mapNotNull null
+            }
+
+            if (node.status != 1 && node.status != 5) {
+                return@mapNotNull null
+            }
+
+            if (node.uptime_alltime == null || node.uptime_alltime.toFloat() < 70) {
+                return@mapNotNull null
+            }
+
+            FetchedInstance(node.domain, node.domain)
+        }?.let { instances ->
+            list.addAll(instances)
+        }
+
+        return list.toList()
+    }
 }

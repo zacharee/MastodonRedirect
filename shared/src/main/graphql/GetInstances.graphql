@@ -1,0 +1,11 @@
+query GetInstances($name: String) {
+    nodes(softwarename: $name, ignoreblacklist: true) {
+        domain
+        active_users_monthly
+        total_users
+        softwarename
+        uptime_alltime
+        status
+        date_diedoff
+    }
+}

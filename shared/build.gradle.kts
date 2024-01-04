@@ -2,6 +2,7 @@
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
+    alias(libs.plugins.apollo)
     id("kotlin-parcelize")
 }
 
@@ -53,6 +54,17 @@ android {
     }
 }
 
+apollo {
+    service("fediverseObserver") {
+        packageName.set("${android.namespace}.generated")
+
+        introspection {
+            endpointUrl.set("https://api.fediverse.observer")
+            schemaFile.set(File("src/main/graphql/schema.json"))
+        }
+    }
+}
+
 dependencies {
     api(libs.androidx.core.ktx)
     api(libs.androidx.lifecycle.runtime.ktx)
@@ -84,6 +96,8 @@ dependencies {
     api(libs.mvvm.flow.compose)
 
     api(libs.apk.parser)
+
+    api(libs.apollo.runtime)
 
     debugApi(libs.compose.ui.tooling)
 }

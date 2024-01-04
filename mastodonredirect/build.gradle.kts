@@ -30,13 +30,6 @@ android {
     }
 
     buildTypes {
-        val localPropertiesFile = project.rootProject.file("local.properties")
-        val localProperties = Properties()
-
-        if (localPropertiesFile.exists()) {
-            localProperties.load(localPropertiesFile.inputStream())
-        }
-
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -47,10 +40,6 @@ android {
 
         debug {
             isMinifyEnabled = false
-        }
-
-        all {
-            buildConfigField("String", "INSTANCES_SOCIAL_KEY", "\"${localProperties.getOrDefault("instances_social_key", "")}\"")
         }
     }
     val javaVersion = JavaVersion.toVersion(rootProject.extra["java.version"].toString().toInt())

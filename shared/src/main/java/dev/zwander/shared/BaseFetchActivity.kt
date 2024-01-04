@@ -27,7 +27,6 @@ import dev.zwander.shared.util.RedirectorTheme
 import java.util.TreeSet
 
 data class FetchedInstance(
-    val id: String,
     val name: String,
 ) : Comparable<FetchedInstance> {
     override fun compareTo(other: FetchedInstance): Int {
@@ -67,8 +66,8 @@ abstract class BaseFetchActivity : ComponentActivity() {
 
             LaunchedEffect(key1 = null) {
                 items = loadInstances().filter {
-                    !it.name.isNullOrBlank() && !it.name.startsWith(".") && it.name.contains(".")
-                }.distinctBy { it.name }.sortedBy { it.name }
+                    it.name.isNotBlank() && !it.name.startsWith(".") && it.name.contains(".")
+                }
             }
 
             RedirectorTheme {
@@ -86,7 +85,7 @@ abstract class BaseFetchActivity : ComponentActivity() {
                             LazyColumn(
                                 modifier = Modifier.weight(1f),
                             ) {
-                                items(items, { it.id }) {
+                                items(items, { it.name }) {
                                     Text(text = "<data android:host=\"${it.name}\" />")
                                 }
                             }
@@ -143,7 +142,7 @@ abstract class BaseFetchActivity : ComponentActivity() {
                 return@mapNotNull null
             }
 
-            FetchedInstance(node.domain, node.domain)
+            FetchedInstance(node.domain)
         }?.let { instances ->
             list.addAll(instances)
         }

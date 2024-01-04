@@ -135,6 +135,14 @@ abstract class BaseFetchActivity : ComponentActivity() {
                 return@mapNotNull null
             }
 
+            if (!node.sslvalid.isNullOrBlank() && node.sslvalid != "true") {
+                return@mapNotNull null
+            }
+
+            if (node.local_posts == null || node.local_posts < 1) {
+                return@mapNotNull null
+            }
+
             FetchedInstance(node.domain, node.domain)
         }?.let { instances ->
             list.addAll(instances)

@@ -9,5 +9,7 @@ query GetInstances($name: String) {
         date_diedoff
         sslvalid
         local_posts
+        protocols
+        score
     }
 }

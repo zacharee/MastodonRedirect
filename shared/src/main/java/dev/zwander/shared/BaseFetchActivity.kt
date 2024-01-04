@@ -130,6 +130,10 @@ abstract class BaseFetchActivity : ComponentActivity() {
                 return@mapNotNull null
             }
 
+            if (node.status != 5 && (node.score == null || node.score < 1)) {
+                return@mapNotNull null
+            }
+
             if (node.uptime_alltime == null || node.uptime_alltime.toFloat() < 70) {
                 return@mapNotNull null
             }
@@ -139,6 +143,10 @@ abstract class BaseFetchActivity : ComponentActivity() {
             }
 
             if (node.local_posts == null || node.local_posts < 1) {
+                return@mapNotNull null
+            }
+
+            if (node.protocols == null || !node.protocols.contains("activitypub")) {
                 return@mapNotNull null
             }
 

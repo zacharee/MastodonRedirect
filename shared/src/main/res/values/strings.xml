@@ -12,6 +12,9 @@
     <string name="no_fcm">No FCM</string>
     <string name="web">Web</string>
     <string name="dev">Dev</string>
+    <string name="release">Release</string>
+    <string name="debug">Debug</string>
+    <string name="unstable">Unstable</string>
 
     <string name="link_handling">Set Up Link Handling</string>
     <string name="link_handling_desc">To use %1$s, you\'ll need to enable all supported links in Settings or use Shizuku or LinkSheet to do it automatically. Settings may crash when opening the App Info for %2$s, in which case Shizuku or LinkSheet will be required.</string>

@@ -18,4 +18,9 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Fediverse Redirect"
-include(":mastodonredirect", ":lemmyredirect", ":shared")
+include(
+    ":mastodonredirect",
+    ":peertuberedirect",
+    ":peertuberedirect",
+    ":shared",
+)

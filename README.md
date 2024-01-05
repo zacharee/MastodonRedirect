@@ -26,7 +26,7 @@ Client developers do need to do some work for Fediverse Redirect to support them
 <img src="https://github.com/zacharee/MastodonRedirect/assets/9020352/839496b6-827f-4b90-a322-f6c33772354e" width="400"> <img src="https://github.com/zacharee/MastodonRedirect/assets/9020352/353cc22a-0bfc-4497-bcb0-6214be7a63c4" width="400"> <img src="https://github.com/zacharee/MastodonRedirect/assets/9020352/e3853f1c-082e-4e87-859b-7df95b5ebc8f" width="400"> <img src="https://github.com/zacharee/MastodonRedirect/assets/9020352/a5acb398-7f54-42e2-bb5a-561feed4ae08" width="400">
 
 ## Downloads
-Fediverse Redirect has different variants depending on which social media network you want to use. Download the appropriate APK for Mastodon or Lemmy (or both) below.
+Fediverse Redirect has different variants depending on which social media network you want to use. Download the appropriate APK for your desired social network below.
 
 ### GitHub
 [![GitHub Release](https://img.shields.io/github/v/release/zacharee/MastodonRedirect?style=for-the-badge&logo=github&label=Mastodon%20%2B%20Lemmy%20Redirect&color=orange)](https://github.com/zacharee/MastodonRedirect/releases)
@@ -64,7 +64,7 @@ Alternatively, you can use [LinkSheet](https://github.com/1fexd/LinkSheet) to ha
 Open the chosen Fediverse Redirect variant and select your preferred client.
 
 ## Client Support
-Unfortunately, many Mastodon and Lemmy clients don't have a way for Fediverse Redirect to interface with them.
+Unfortunately, many Fediverse clients don't have a way for Fediverse Redirect to interface with them.
 
 Fediverse Redirect relies on clients having a link sharing target that can parse and open fediverse links. 
 
@@ -94,10 +94,17 @@ Lemmy Redirect currently supports the following clients:
 And the following auto-discovery clients:
 - [Raccoon](https://github.com/diegoberaldin/RaccoonForLemmy).
 
+---------------------------
+
+PeerTube Redirect currently supports the following clients:
+- [Fedilab (F-Droid or Play Store)](https://github.com/stom79/Fedilab).
+- [Grayjay (Stable, Unstable, or Play Store)](https://grayjay.app).
+- [NewPipe (Release or Debug-Main)](https://github.com/TeamNewPipe/NewPipe).
+
 If your favorite client isn't on the list, consider creating an issue on their code repository or issue tracker linking to the section below, ***but please search through the existing issues first, including ones that have been closed***. Pestering developers won't help anyone.
 
 ## Adding Client Support
-If you're the developer of a Mastodon or Lemmy client and want to add support for Fediverse Redirect into your app, here's how.
+If you're the developer of a Fediverse client and want to add support for Fediverse Redirect into your app, here's how.
 
 ### Automatic
 You can let Fediverse Redirect automatically discover your app by filtering for a custom Intent and parsing the data as a URL.
@@ -118,6 +125,15 @@ Lemmy Redirect:
 ```xml
 <intent-filter>
     <action android:name="dev.zwander.lemmyredirect.intent.action.OPEN_FEDI_LINK" />
+    
+    <category android:name="android.intent.category.DEFAULT" />
+</intent-filter>
+```
+
+PeerTube Redirect:
+```xml
+<intent-filter>
+    <action android:name="dev.zwander.peertuberedirect.intent.action.OPEN_FEDI_LINK" />
     
     <category android:name="android.intent.category.DEFAULT" />
 </intent-filter>

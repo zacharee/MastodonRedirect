@@ -9,6 +9,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/lemmyredirect" />
             <option value="$PROJECT_DIR$/mastodonredirect" />
             <option value="$PROJECT_DIR$/peertuberedirect" />
             <option value="$PROJECT_DIR$/shared" />

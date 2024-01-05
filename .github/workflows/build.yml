@@ -43,6 +43,7 @@ jobs:
             ~/.gradle/wrapper
             ${{ github.workspace }}/lemmyredirect/build/*
             ${{ github.workspace }}/mastodonredirect/build/*
+            ${{ github.workspace }}/peertube/build/*
           key: ${{ runner.os }}-gradle-android-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-android-
@@ -57,12 +58,17 @@ jobs:
           ./gradlew :mastodonredirect:packageRelease
           ./gradlew --stop
 
+      - name: Build PeerTube Redirect
+        run: |
+          ./gradlew :peertuberedirect:packageRelease
+          ./gradlew --stop
+
       - name: Upload Lemmy Redirect Logs
         if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
           name: lemmyredirect_logs
-          path: ${{ github.workspace }}/peertuberedirect/build/outputs/logs/
+          path: ${{ github.workspace }}/lemmydirect/build/outputs/logs/
 
       - name: Upload Mastodon Redirect Logs
         if: ${{ always() }}
@@ -71,17 +77,27 @@ jobs:
           name: mastodonredirect_logs
           path: ${{ github.workspace }}/mastodonredirect/build/outputs/logs/
 
+      - name: Upload PeerTube Redirect Logs
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: peertuberedirect_logs
+          path: ${{ github.workspace }}/peertuberedirect/build/outputs/logs/
+
       - name: Check Lemmy Redirect Exists
-        run: ls -laR ${{ github.workspace }}/peertuberedirect/build/outputs/apk/
+        run: ls -laR ${{ github.workspace }}/lemmyredirect/build/outputs/apk/
 
       - name: Check Mastodon Redirect Exists
         run: ls -laR ${{ github.workspace }}/mastodonredirect/build/outputs/apk/
+
+      - name: Check PeerTube Redirect Exists
+        run: ls -laR ${{ github.workspace }}/peertuberedirect/build/outputs/apk/
 
       - name: Sign Lemmy Redirect
         id: sign_lemmy_redirect
         uses: zacharee/zipalign-sign-android-release@1.1.3
         with:
-          releaseDirectory: peertuberedirect/build/outputs/apk/release
+          releaseDirectory: lemmyredirect/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.ANDROID_SIGNING_KEY }}
           alias: ${{ secrets.ANDROID_SIGNING_KEY_ALIAS }}
           keyStorePassword: ${{ secrets.ANDROID_SIGNING_KEY_PWD }}
@@ -92,6 +108,16 @@ jobs:
         uses: zacharee/zipalign-sign-android-release@1.1.3
         with:
           releaseDirectory: mastodonredirect/build/outputs/apk/release
+          signingKeyBase64: ${{ secrets.ANDROID_SIGNING_KEY }}
+          alias: ${{ secrets.ANDROID_SIGNING_KEY_ALIAS }}
+          keyStorePassword: ${{ secrets.ANDROID_SIGNING_KEY_PWD }}
+          keyPassword: ${{ secrets.ANDROID_SIGNING_KEY_PWD }}
+
+      - name: Sign PeerTube Redirect
+        id: sign_peertube_redirect
+        uses: zacharee/zipalign-sign-android-release@1.1.3
+        with:
+          releaseDirectory: peertuberedirect/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.ANDROID_SIGNING_KEY }}
           alias: ${{ secrets.ANDROID_SIGNING_KEY_ALIAS }}
           keyStorePassword: ${{ secrets.ANDROID_SIGNING_KEY_PWD }}
@@ -111,6 +137,13 @@ jobs:
           name: Mastodon Redirect
           path: ${{ steps.sign_mastodon_redirect.outputs.signedReleaseFile }}
 
+      - name: Upload PeerTube Redirect
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: PeerTube Redirect
+          path: ${{ steps.sign_peertube_redirect.outputs.signedReleaseFile }}
+
       - name: Add Lemmy Redirect to Release
         uses: ncipollo/release-action@v1
         with:
@@ -125,6 +158,16 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: ${{ github.workspace }}/${{ steps.sign_mastodon_redirect.outputs.signedReleaseFile }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+          allowUpdates: true
+          replacesArtifacts: false
+          omitBodyDuringUpdate: true
+          tag: ${{ steps.release.outputs.tag_name }}
+
+      - name: Add PeerTube Redirect to Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: ${{ github.workspace }}/${{ steps.sign_peertube_redirect.outputs.signedReleaseFile }}
           token: ${{ secrets.GITHUB_TOKEN }}
           allowUpdates: true
           replacesArtifacts: false

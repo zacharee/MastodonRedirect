@@ -179,6 +179,7 @@ private fun GroupRow(
         horizontalArrangement = Arrangement.spacedBy(12.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
         modifier = modifier,
+        maxItemsInEachRow = 2,
     ) {
         sortedStrategies.forEach { child ->
             SingleCard(

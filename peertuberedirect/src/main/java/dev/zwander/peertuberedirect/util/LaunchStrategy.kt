@@ -28,7 +28,8 @@ sealed class PeerTubeLaunchStrategy(
 sealed class PeerTubeLaunchStrategyRootGroup(
     @StringRes labelRes: Int,
     autoAdd: Boolean = true,
-) : LaunchStrategyRootGroup(labelRes, autoAdd)
+    enabled: Boolean = true,
+) : LaunchStrategyRootGroup(labelRes, autoAdd, enabled)
 
 @Keep
 data object NewPipe : PeerTubeLaunchStrategyRootGroup(R.string.newpipe) {
@@ -54,7 +55,7 @@ data object NewPipe : PeerTubeLaunchStrategyRootGroup(R.string.newpipe) {
 }
 
 @Keep
-data object Fedilab : PeerTubeLaunchStrategyRootGroup(R.string.fedilab) {
+data object Fedilab : PeerTubeLaunchStrategyRootGroup(R.string.fedilab, enabled = false) {
     sealed class FedilabBase(
         key: String,
         @StringRes labelRes: Int,
@@ -88,7 +89,7 @@ data object Fedilab : PeerTubeLaunchStrategyRootGroup(R.string.fedilab) {
 }
 
 @Keep
-data object Grayjay : PeerTubeLaunchStrategyRootGroup(R.string.grayjay) {
+data object Grayjay : PeerTubeLaunchStrategyRootGroup(R.string.grayjay, enabled = false) {
     sealed class Base(
         key: String,
         @StringRes labelRes: Int,

@@ -29,7 +29,8 @@ sealed class MastodonLaunchStrategy(
 sealed class MastodonLaunchStrategyRootGroup(
     @StringRes labelRes: Int,
     autoAdd: Boolean = true,
-) : LaunchStrategyRootGroup(labelRes, autoAdd)
+    enabled: Boolean = true,
+) : LaunchStrategyRootGroup(labelRes, autoAdd, enabled)
 
 @Keep
 data object Megalodon : MastodonLaunchStrategyRootGroup(R.string.megalodon) {

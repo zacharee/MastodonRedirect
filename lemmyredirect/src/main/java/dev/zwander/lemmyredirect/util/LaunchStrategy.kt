@@ -29,7 +29,8 @@ sealed class LemmyLaunchStrategy(
 sealed class LemmyLaunchStrategyRootGroup(
     @StringRes labelRes: Int,
     autoAdd: Boolean = true,
-) : LaunchStrategyRootGroup(labelRes, autoAdd)
+    enabled: Boolean = true,
+) : LaunchStrategyRootGroup(labelRes, autoAdd, enabled)
 
 @Keep
 data object Jerboa : LemmyLaunchStrategyRootGroup(R.string.jerboa) {

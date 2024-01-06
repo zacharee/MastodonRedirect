@@ -69,7 +69,11 @@ abstract class LaunchStrategy(
  * The base class for adding an app group. Even if there's only one variant of the app to add,
  * this should be used.
  */
-abstract class LaunchStrategyRootGroup(@StringRes labelRes: Int, val autoAdd: Boolean = true) : BaseLaunchStrategy(labelRes) {
+abstract class LaunchStrategyRootGroup(
+    @StringRes labelRes: Int,
+    val autoAdd: Boolean = true,
+    val enabled: Boolean = true,
+) : BaseLaunchStrategy(labelRes) {
     open val children: List<LaunchStrategy> by lazy {
         if (autoAdd) processNestedClasses(this::class) else listOf()
     }

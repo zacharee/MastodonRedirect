@@ -51,7 +51,7 @@ fun AppChooserLayout(
 ) {
     val appModel = LocalAppModel.current
     val prefs = appModel.prefs
-    val launchStrategies = appModel.launchStrategyUtils.rememberSortedLaunchStrategies()
+    val launchStrategies = appModel.launchStrategyUtils.rememberSortedLaunchStrategies().filter { it.enabled }
 
     var selectedStrategy by prefs.selectedApp.rememberMutablePreferenceState()
 

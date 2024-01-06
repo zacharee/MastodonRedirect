@@ -97,8 +97,8 @@ And the following auto-discovery clients:
 ---------------------------
 
 PeerTube Redirect currently supports the following clients:
-- [Fedilab (F-Droid or Play Store)](https://github.com/stom79/Fedilab).
-- [Grayjay (Stable, Unstable, or Play Store)](https://grayjay.app).
+- ~~[Fedilab (F-Droid or Play Store)](https://github.com/stom79/Fedilab)~~ (Currently disabled as link handling is broken).
+- ~~[Grayjay (Stable, Unstable, or Play Store)](https://grayjay.app)~~ (Currently disabled as the PeerTube plugin only respects Grayjay's instance domain and also uses the wrong URL format to check for compatibility).
 - [NewPipe (Release or Debug-Main)](https://github.com/TeamNewPipe/NewPipe).
 
 If your favorite client isn't on the list, consider creating an issue on their code repository or issue tracker linking to the section below, ***but please search through the existing issues first, including ones that have been closed***. Pestering developers won't help anyone.

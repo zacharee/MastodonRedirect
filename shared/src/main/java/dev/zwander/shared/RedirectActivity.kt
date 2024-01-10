@@ -188,12 +188,16 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
             }
         }
 
-        val response = HttpClient().get(url)
-        val returnedType = response.contentType()?.contentType
+        return try {
+            val response = HttpClient().get(url)
+            val returnedType = response.contentType()?.contentType
 
-        return returnedType == "video" ||
-                returnedType == "image" ||
-                returnedType == "audio"
+            returnedType == "video" ||
+                   returnedType == "image" ||
+                   returnedType == "audio"
+        } catch (e: Exception) {
+            false
+        }
     }
 
     private fun isSpecialUrl(url: String): Boolean {

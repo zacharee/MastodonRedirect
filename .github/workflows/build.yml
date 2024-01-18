@@ -44,6 +44,7 @@ jobs:
             ${{ github.workspace }}/lemmyredirect/build
             ${{ github.workspace }}/mastodonredirect/build
             ${{ github.workspace }}/peertuberedirect/build
+            ${{ github.workspace }}/shared/build
           key: ${{ runner.os }}-gradle-android-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
             ${{ runner.os }}-gradle-android-

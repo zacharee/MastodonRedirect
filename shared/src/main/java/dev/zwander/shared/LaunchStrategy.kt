@@ -58,7 +58,8 @@ abstract class LaunchStrategy(
         val pkg = createIntents("https://").firstOrNull()?.`package` ?: return false
 
         return try {
-            packageManager.getApplicationInfo(pkg, 0) != null
+            packageManager.getApplicationInfo(pkg, 0)
+            true
         } catch (e: Exception) {
             false
         }

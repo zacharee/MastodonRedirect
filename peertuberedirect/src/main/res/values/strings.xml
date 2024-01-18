@@ -4,4 +4,6 @@
     <string name="newpipe">NewPipe</string>
     <string name="fedilab">Fedilab</string>
     <string name="grayjay">Grayjay</string>
+
+    <string name="open_link">PeerTube Link</string>
 </resources>

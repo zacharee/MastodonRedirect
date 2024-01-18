@@ -10,4 +10,6 @@
     <string name="mastodon">Mastodon</string>
     <string name="trunks">Trunks</string>
     <string name="phanpy">Phanpy</string>
+
+    <string name="open_link">Mastodon Link</string>
 </resources>

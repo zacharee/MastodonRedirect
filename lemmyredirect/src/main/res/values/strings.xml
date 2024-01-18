@@ -8,4 +8,6 @@
     <string name="infinity">Eternity</string>
     <string name="boost">Boost</string>
     <string name="thunder">Thunder</string>
+
+    <string name="open_link">Lemmy Link</string>
 </resources>

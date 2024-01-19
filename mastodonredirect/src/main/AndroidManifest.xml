@@ -5,6 +5,30 @@
         <activity
             android:name="dev.zwander.shared.RedirectActivity"
             android:exported="true">
+            <intent-filter android:label="@string/protocol_filter">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="web+mastodon" />
+                <data android:scheme="web+calckey" />
+                <data android:scheme="web+misskey" />
+                <data android:scheme="web+pleroma" />
+                <data android:scheme="web+friendica" />
+                <data android:scheme="web+catodon" />
+                <data android:scheme="web+akkoma" />
+                <data android:scheme="web+gotosocial" />
+                <data android:scheme="web+firefish" />
+                <data android:scheme="web+diaspora" />
+                <data android:scheme="web+hometown" />
+                <data android:scheme="web+iceshrimp" />
+                <data android:scheme="web+hubzilla" />
+                <data android:scheme="web+nextcloudsocial" />
+                <data android:scheme="web+pixelfed" />
+                <data android:scheme="web+sharkey" />
+                <data android:scheme="web+wildebeest" />
+            </intent-filter>
             <intent-filter android:label="@string/http_filter">
                 <action android:name="android.intent.action.VIEW" />
 

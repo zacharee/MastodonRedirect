@@ -5,6 +5,16 @@
         <activity
             android:name="dev.zwander.shared.RedirectActivity"
             android:exported="true">
+            <intent-filter android:label="@string/protocol_filter">
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="web+lemmy" />
+                <data android:scheme="web+kbin" />
+                <data android:scheme="web+mbin" />
+            </intent-filter>
             <intent-filter android:label="@string/http_filter">
                 <action android:name="android.intent.action.VIEW" />
 

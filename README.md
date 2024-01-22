@@ -34,6 +34,7 @@ Fediverse Redirect has different variants depending on which social media networ
 ### IzzyOnDroid
 [![Mastodon Redirect](https://img.shields.io/endpoint?url=https%3A%2F%2Fapt.izzysoft.de%2Ffdroid%2Fapi%2Fv1%2Fshield%2Fdev.zwander.mastodonredirect&style=for-the-badge&logo=f-droid&label=Mastodon%20Redirect)](https://apt.izzysoft.de/fdroid/index/apk/dev.zwander.mastodonredirect/)
 [![Lemmy Redirect](https://img.shields.io/endpoint?url=https%3A%2F%2Fapt.izzysoft.de%2Ffdroid%2Fapi%2Fv1%2Fshield%2Fdev.zwander.lemmyredirect&style=for-the-badge&logo=f-droid&label=Lemmy%20Redirect)](https://apt.izzysoft.de/fdroid/index/apk/dev.zwander.lemmyredirect/)
+[![PeerTube Redirect](https://img.shields.io/endpoint?url=https%3A%2F%2Fapt.izzysoft.de%2Ffdroid%2Fapi%2Fv1%2Fshield%2Fdev.zwander.peertuberedirect&style=for-the-badge&logo=f-droid&label=PeerTube%20Redirect)](https://apt.izzysoft.de/fdroid/index/apk/dev.zwander.peertuberedirect/)
 
 ## Supported Domains
 Currently, most domains on [Fediverse Observer](https://fediverse.observer) are supported.

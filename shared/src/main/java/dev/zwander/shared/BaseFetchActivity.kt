@@ -114,9 +114,9 @@ abstract class BaseFetchActivity : ComponentActivity() {
                 return@mapNotNull null
             }
 
-            if (node.date_diedoff != null) {
-                return@mapNotNull null
-            }
+//            if (node.date_diedoff != null) {
+//                return@mapNotNull null
+//            }
 
             if (node.domain == null) {
                 return@mapNotNull null

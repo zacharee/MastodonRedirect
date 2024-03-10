@@ -1,7 +1,7 @@
 [versions]
 agp = "8.1.4"
 apkParser = "2.6.10"
-bugsnagAndroid = "6.1.0"
+bugsnagAndroid = "6.2.0"
 bugsnagAndroidGradlePlugin = "8.1.0"
 datastorePreferences = "1.0.0"
 kotlin = "1.9.22"
@@ -15,10 +15,10 @@ mvvmFlowCompose = "0.16.1"
 patreonSupportersRetrieval = "d2e9143db2"
 preferences = "1.2.1"
 hiddenApiBypass = "4.3"
-ktor = "2.3.7"
-kotlinx-serialization = "1.6.2"
+ktor = "2.3.9"
+kotlinx-serialization = "1.6.3"
 shizuku = "13.1.5"
-compose-compiler = "1.5.8"
+compose-compiler = "1.5.10"
 apollo = "4.0.0-beta.4"
 
 [libraries]

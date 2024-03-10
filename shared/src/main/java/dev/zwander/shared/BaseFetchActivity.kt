@@ -1,29 +1,25 @@
 package dev.zwander.shared
 
-import android.annotation.SuppressLint
-import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.compose.setContent
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.selection.SelectionContainer
 import androidx.compose.material3.Button
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.core.view.WindowCompat
 import com.apollographql.apollo3.ApolloClient
 import dev.zwander.shared.generated.GetInstancesQuery
-import dev.zwander.shared.util.RedirectorTheme
 import java.util.TreeSet
 
 data class FetchedInstance(
@@ -34,7 +30,7 @@ data class FetchedInstance(
     }
 }
 
-abstract class BaseFetchActivity : ComponentActivity() {
+abstract class BaseFetchActivity : BaseActivity() {
     protected val client by lazy {
         ApolloClient.Builder()
             .serverUrl("https://api.fediverse.observer/")
@@ -43,52 +39,45 @@ abstract class BaseFetchActivity : ComponentActivity() {
 
     protected abstract val softwareNames: Array<String>
 
-    @SuppressLint("Recycle")
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+    @Composable
+    override fun Content() {
+        var items by remember {
+            mutableStateOf(listOf<FetchedInstance>())
+        }
 
-        WindowCompat.setDecorFitsSystemWindows(window, true)
-
-        setContent {
-            var items by remember {
-                mutableStateOf(listOf<FetchedInstance>())
-            }
-
-            val exportResult = rememberLauncherForActivityResult(contract = ActivityResultContracts.CreateDocument("text/xml")) { uri ->
-                uri?.let {
-                    contentResolver.openOutputStream(uri, "w")?.bufferedWriter()?.use { output ->
-                        items.forEach { item ->
-                            output.write("<data android:host=\"${item.name}\" />\n")
-                        }
+        val exportResult = rememberLauncherForActivityResult(contract = ActivityResultContracts.CreateDocument("text/xml")) { uri ->
+            uri?.let {
+                contentResolver.openOutputStream(uri, "w")?.bufferedWriter()?.use { output ->
+                    items.forEach { item ->
+                        output.write("<data android:host=\"${item.name}\" />\n")
                     }
                 }
             }
+        }
 
-            LaunchedEffect(key1 = null) {
-                items = loadInstances().filter {
-                    it.name.isNotBlank() && !it.name.startsWith(".") && it.name.contains(".")
-                }
+        LaunchedEffect(key1 = null) {
+            items = loadInstances().filter {
+                it.name.isNotBlank() && !it.name.startsWith(".") && it.name.contains(".")
             }
+        }
 
-            RedirectorTheme {
-                Surface {
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
+        Surface {
+            Column(
+                modifier = Modifier.fillMaxSize()
+                    .systemBarsPadding(),
+            ) {
+                Button(onClick = {
+                    exportResult.launch("${appModel.appName.replace(" ", "")}_instances.xml")
+                }) {
+                    Text(text = "Export")
+                }
+
+                SelectionContainer {
+                    LazyColumn(
+                        modifier = Modifier.weight(1f),
                     ) {
-                        Button(onClick = {
-                            exportResult.launch("${appModel.appName.replace(" ", "")}_instances.xml")
-                        }) {
-                            Text(text = "Export")
-                        }
-
-                        SelectionContainer {
-                            LazyColumn(
-                                modifier = Modifier.weight(1f),
-                            ) {
-                                items(items, { it.name }) {
-                                    Text(text = "<data android:host=\"${it.name}\" />")
-                                }
-                            }
+                        items(items, { it.name }) {
+                            Text(text = "<data android:host=\"${it.name}\" />")
                         }
                     }
                 }

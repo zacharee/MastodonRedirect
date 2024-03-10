@@ -3,6 +3,7 @@
 package dev.zwander.lemmyredirect.util
 
 import android.content.Intent
+import android.net.Uri
 import androidx.annotation.Keep
 import androidx.annotation.StringRes
 import dev.zwander.lemmyredirect.R
@@ -139,5 +140,25 @@ data object Thunder : LemmyLaunchStrategyRootGroup(R.string.thunder) {
             pkg = "com.hjiangsu.thunder",
             component = "com.hjiangsu.thunder.MainActivity",
         ),
+    )
+}
+
+@Keep
+data object Voyager : LemmyLaunchStrategyRootGroup(R.string.voyager) {
+    @Keep
+    data object VoyagerMain : LemmyLaunchStrategy(
+        "VOYAGER",
+        dev.zwander.shared.R.string.main,
+        "https://github.com/aeharding/voyager",
+        LaunchIntentCreator.CustomIntentCreator { url ->
+            listOf(
+                Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+                    addCategory(Intent.CATEGORY_BROWSABLE)
+                    addCategory(Intent.CATEGORY_DEFAULT)
+
+                    `package` = "app.vger.voyager"
+                },
+            )
+        },
     )
 }

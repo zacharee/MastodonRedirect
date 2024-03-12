@@ -23,7 +23,7 @@ Client developers do need to do some work for Fediverse Redirect to support them
 
 ## Screenshots
 
-<img src="https://github.com/zacharee/MastodonRedirect/assets/9020352/839496b6-827f-4b90-a322-f6c33772354e" width="400"> <img src="https://github.com/zacharee/MastodonRedirect/assets/9020352/353cc22a-0bfc-4497-bcb0-6214be7a63c4" width="400"> <img src="https://github.com/zacharee/MastodonRedirect/assets/9020352/e3853f1c-082e-4e87-859b-7df95b5ebc8f" width="400"> <img src="https://github.com/zacharee/MastodonRedirect/assets/9020352/a5acb398-7f54-42e2-bb5a-561feed4ae08" width="400">
+<img alt="Mastodon Redirect clients list" src="https://github.com/zacharee/MastodonRedirect/assets/9020352/839496b6-827f-4b90-a322-f6c33772354e" width="400"> <img alt="Lemmy Redirect clients list" src="https://github.com/zacharee/MastodonRedirect/assets/9020352/353cc22a-0bfc-4497-bcb0-6214be7a63c4" width="400"> <img alt="Mastodon Redirect options dialog" src="https://github.com/zacharee/MastodonRedirect/assets/9020352/e3853f1c-082e-4e87-859b-7df95b5ebc8f" width="400"> <img alt="Supported domains list with options to ignore specified domains" src="https://github.com/zacharee/MastodonRedirect/assets/9020352/a5acb398-7f54-42e2-bb5a-561feed4ae08" width="400">
 
 ## Downloads
 Fediverse Redirect has different variants depending on which social media network you want to use. Download the appropriate APK for your desired social network below.

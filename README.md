@@ -91,7 +91,7 @@ Lemmy Redirect currently supports the following clients:
 - [Summit](https://lemmy.world/c/summit).
 - [Sync](https://github.com/laurencedawson/sync-for-lemmy).
 - [Thunder](https://github.com/thunder-app/thunder).
-- [Voyager (Native > 1.45.0)](https://github.com/aeharding/voyager).
+- [Voyager (1.46.0 and later)](https://github.com/aeharding/voyager).
 
 And the following auto-discovery clients:
 - [Raccoon](https://github.com/diegoberaldin/RaccoonForLemmy).

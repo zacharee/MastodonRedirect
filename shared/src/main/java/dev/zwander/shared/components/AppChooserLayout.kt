@@ -16,7 +16,6 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -25,6 +24,7 @@ import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
+import androidx.compose.material3.contentColorFor
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -194,7 +194,6 @@ private fun GroupRow(
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SingleCard(
     strategy: LaunchStrategy,
@@ -205,21 +204,22 @@ private fun SingleCard(
 ) {
     val context = LocalContext.current
 
-    val color by animateColorAsState(
-        targetValue = if (selectedStrategy == strategy) {
+    val targetBackgroundColor = if (selectedStrategy == strategy) {
+        if (enabled) {
             MaterialTheme.colorScheme.primary
         } else {
-            MaterialTheme.colorScheme.secondaryContainer
-        },
+            MaterialTheme.colorScheme.surfaceDim
+        }
+    } else {
+        MaterialTheme.colorScheme.secondaryContainer
+    }
+    val color by animateColorAsState(
+        targetValue = targetBackgroundColor,
         label = "SingleCardColor-${strategy.key}",
     )
 
     val textColor by animateColorAsState(
-        targetValue = if (selectedStrategy == strategy) {
-            MaterialTheme.colorScheme.onPrimary
-        } else {
-            MaterialTheme.colorScheme.onSecondaryContainer
-        },
+        targetValue = MaterialTheme.colorScheme.contentColorFor(targetBackgroundColor),
         label = "SingleCardText-${strategy.key}"
     )
 
@@ -229,6 +229,7 @@ private fun SingleCard(
         onClick = { onStrategySelected(strategy) },
         colors = CardDefaults.elevatedCardColors(
             containerColor = color,
+            disabledContainerColor = color,
         ),
         modifier = modifier,
         shape = MaterialTheme.shapes.medium,

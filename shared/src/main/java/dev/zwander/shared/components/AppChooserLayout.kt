@@ -21,7 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -36,6 +36,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.zwander.shared.DiscoveredGroup
 import dev.zwander.shared.LaunchStrategy
@@ -250,7 +251,7 @@ private fun SingleCard(
             if (!enabled) {
                 strategy.sourceUrl?.let { sourceUrl ->
                     CompositionLocalProvider(
-                        LocalMinimumInteractiveComponentEnforcement provides false,
+                        LocalMinimumInteractiveComponentSize provides Dp.Unspecified,
                     ) {
                         IconButton(
                             onClick = { context.launchUrl(sourceUrl) },

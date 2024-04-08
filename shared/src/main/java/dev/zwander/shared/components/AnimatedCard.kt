@@ -12,6 +12,7 @@ import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Surface
+import androidx.compose.material3.tokens.FilledCardTokens
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -28,7 +29,7 @@ fun AnimatedCard(
     elevation: CardElevation = CardDefaults.cardElevation(),
     border: BorderStroke? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
-    content: @Composable ColumnScope.() -> Unit
+    content: @Composable ColumnScope.() -> Unit,
 ) {
     val color by animateColorAsState(
         targetValue = colors.containerColor(enabled),
@@ -39,13 +40,10 @@ fun AnimatedCard(
         label = "AnimatedCard-contentColor",
     )
     val tonalElevation by animateDpAsState(
-        targetValue = elevation.tonalElevation(enabled),
+        targetValue = if (enabled) FilledCardTokens.ContainerElevation else FilledCardTokens.DisabledContainerElevation,
         label = "AnimatedCard-tonalElevation",
     )
-    val shadowElevation by animateDpAsState(
-        targetValue = elevation.shadowElevation(enabled, interactionSource).value,
-        label = "AnimatedCard.shadowElevation",
-    )
+    val shadowElevation by elevation.shadowElevation(enabled, interactionSource)
 
     Surface(
         onClick = onClick,

@@ -49,7 +49,7 @@ abstract class BaseFetchActivity : BaseActivity() {
             uri?.let {
                 contentResolver.openOutputStream(uri, "w")?.bufferedWriter()?.use { output ->
                     items.forEach { item ->
-                        output.write("<data android:host=\"${item.name}\" />\n")
+                        output.write("<data android:host=\"${item.name.lowercase()}\" />\n")
                     }
                 }
             }

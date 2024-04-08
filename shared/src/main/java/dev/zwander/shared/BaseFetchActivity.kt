@@ -49,7 +49,7 @@ abstract class BaseFetchActivity : BaseActivity() {
             uri?.let {
                 contentResolver.openOutputStream(uri, "w")?.bufferedWriter()?.use { output ->
                     items.forEach { item ->
-                        output.write("<data android:host=\"${item.name.lowercase()}\" />\n")
+                        output.write("<data android:host=\"${item.name}\" />\n")
                     }
                 }
             }
@@ -139,7 +139,7 @@ abstract class BaseFetchActivity : BaseActivity() {
                 return@mapNotNull null
             }
 
-            FetchedInstance(node.domain)
+            FetchedInstance(node.domain.lowercase())
         }?.let { instances ->
             list.addAll(instances)
         }

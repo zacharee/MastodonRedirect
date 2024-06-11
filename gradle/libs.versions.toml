@@ -1,25 +1,24 @@
 [versions]
 agp = "8.3.2"
 apkParser = "2.6.10"
-bugsnagAndroid = "6.4.0"
+bugsnagAndroid = "6.5.0"
 bugsnagAndroidGradlePlugin = "8.1.0"
-datastorePreferences = "1.1.0"
-kotlin = "1.9.23"
-core-ktx = "1.13.0"
-lifecycle-runtime-ktx = "2.7.0"
+datastorePreferences = "1.1.1"
+kotlin = "2.0.0"
+core-ktx = "1.13.1"
+lifecycle-runtime-ktx = "2.8.1"
 activity-compose = "1.9.0"
 compose-bom = "2024.04.00-alpha02"
 linkSheet = "2.3.2"
-material-components = "1.13.0-alpha01"
+material-components = "1.13.0-alpha03"
 mvvmFlowCompose = "0.16.1"
 patreonSupportersRetrieval = "d2e9143db2"
 preferences = "1.2.1"
 hiddenApiBypass = "4.3"
-ktor = "2.3.10"
-kotlinx-serialization = "1.6.3"
+ktor = "2.3.11"
+kotlinx-serialization = "1.7.0"
 shizuku = "13.1.5"
-compose-compiler = "1.5.12"
-apollo = "4.0.0-beta.6"
+apollo = "4.0.0-beta.7"
 
 [libraries]
 # AndroidX
@@ -44,7 +43,6 @@ compose-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 compose-ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
 compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 compose-material3 = { group = "androidx.compose.material3", name = "material3" }
-compose-compiler = { group = "androidx.compose.compiler", name = "compiler", version.ref = "compose-compiler" }
 
 # JetBrains
 kotlin-reflect = { module = "org.jetbrains.kotlin:kotlin-reflect", version.ref = "kotlin" }
@@ -68,6 +66,7 @@ mvvm-flow-compose = { module = "dev.icerock.moko:mvvm-flow-compose", version.ref
 androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinAndroid = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 bugsnagAndroid = { id = "com.bugsnag.android.gradle", version.ref = "bugsnagAndroidGradlePlugin" }
 apollo = { id = "com.apollographql.apollo3", version.ref = "apollo" }

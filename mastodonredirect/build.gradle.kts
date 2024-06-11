@@ -1,11 +1,10 @@
-import org.jetbrains.kotlin.gradle.plugin.mpp.pm20.util.archivesName
-import java.util.Properties
 
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.bugsnagAndroid)
+    alias(libs.plugins.kotlin.compose)
 }
 
 android {
@@ -26,7 +25,7 @@ android {
             useSupportLibrary = true
         }
 
-        archivesName = "MastodonRedirect_$versionName"
+        extensions.getByType(BasePluginExtension::class.java).archivesName.set("MastodonRedirect_${versionName}")
     }
 
     buildTypes {
@@ -54,9 +53,6 @@ android {
         compose = true
         aidl = true
         buildConfig = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
     packaging {
         resources.excludes.add("META-INF/versions/9/previous-compilation-data.bin")

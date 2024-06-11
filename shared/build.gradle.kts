@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.apollo)
+    alias(libs.plugins.kotlin.compose)
     id("kotlin-parcelize")
 }
 
@@ -46,9 +47,6 @@ android {
         aidl = true
         buildConfig = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
-    }
     packaging {
         resources.excludes.add("META-INF/versions/9/previous-compilation-data.bin")
     }
@@ -77,7 +75,6 @@ dependencies {
     api(libs.compose.ui)
     api(libs.compose.ui.graphics)
     api(libs.compose.ui.tooling.preview)
-    api(libs.compose.compiler)
     api(libs.compose.material3)
 
     api(libs.kotlin.reflect)

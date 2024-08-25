@@ -1,3 +1,5 @@
+import java.util.UUID
+
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.kotlinAndroid)
@@ -25,6 +27,7 @@ android {
         }
 
         extensions.getByType(BasePluginExtension::class.java).archivesName.set("LemmyRedirect_${versionName}")
+        manifestPlaceholders["build_uuid"] = UUID.nameUUIDFromBytes("LemmyRedirect_${versionCode}".toByteArray()).toString()
     }
 
     buildTypes {

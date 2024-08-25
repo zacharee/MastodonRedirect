@@ -89,5 +89,9 @@
         <meta-data
             android:name="com.bugsnag.android.API_KEY"
             android:value="4cef06309dfdf99215d11253bedf8dd9" />
+
+        <meta-data
+            android:name="com.bugsnag.android.BUILD_UUID"
+            android:value="${build_uuid}" />
     </application>
 </manifest>

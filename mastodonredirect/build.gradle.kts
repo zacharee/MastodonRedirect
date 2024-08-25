@@ -1,3 +1,4 @@
+import java.util.UUID
 
 plugins {
     alias(libs.plugins.androidApplication)
@@ -26,6 +27,7 @@ android {
         }
 
         extensions.getByType(BasePluginExtension::class.java).archivesName.set("MastodonRedirect_${versionName}")
+        manifestPlaceholders["build_uuid"] = UUID.nameUUIDFromBytes("MastodonRedirect_${versionCode}".toByteArray()).toString()
     }
 
     buildTypes {

@@ -1,6 +1,7 @@
 package dev.zwander.shared.components
 
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -27,6 +28,7 @@ import dev.zwander.shared.data.LinkSelectionData
 import dev.zwander.shared.util.collectAvailableDomainsSortedByStatus
 import kotlinx.coroutines.launch
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun LinkBlocklistLayout(
     modifier: Modifier = Modifier,
@@ -83,7 +85,7 @@ fun LinkBlocklistLayout(
                                 domain = it,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .animateItem(),
+                                    .animateItemPlacement(),
                             )
                         }
                     }

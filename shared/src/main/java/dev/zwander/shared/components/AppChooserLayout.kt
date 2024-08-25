@@ -16,11 +16,12 @@ import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalMinimumInteractiveComponentSize
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -36,7 +37,6 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import dev.zwander.shared.DiscoveredGroup
 import dev.zwander.shared.LaunchStrategy
@@ -194,6 +194,7 @@ private fun GroupRow(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun SingleCard(
     strategy: LaunchStrategy,
@@ -252,7 +253,7 @@ private fun SingleCard(
             if (!enabled) {
                 strategy.sourceUrl?.let { sourceUrl ->
                     CompositionLocalProvider(
-                        LocalMinimumInteractiveComponentSize provides Dp.Unspecified,
+                        LocalMinimumInteractiveComponentEnforcement provides false,
                     ) {
                         IconButton(
                             onClick = { context.launchUrl(sourceUrl) },

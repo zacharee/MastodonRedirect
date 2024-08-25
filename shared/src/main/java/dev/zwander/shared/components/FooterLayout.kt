@@ -15,8 +15,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalMinimumInteractiveComponentSize
+import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -33,7 +34,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import com.bugsnag.android.Bugsnag
@@ -56,7 +56,7 @@ private data class FooterButton(
 )
 
 @OptIn(
-    ExperimentalLayoutApi::class,
+    ExperimentalLayoutApi::class, ExperimentalMaterial3Api::class,
 )
 @Composable
 fun FooterLayout(
@@ -113,7 +113,7 @@ fun FooterLayout(
     }
 
     CompositionLocalProvider(
-        LocalMinimumInteractiveComponentSize provides Dp.Unspecified,
+        LocalMinimumInteractiveComponentEnforcement provides false,
     ) {
         FlowRow(
             modifier = modifier.padding(bottom = 8.dp),

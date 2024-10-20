@@ -55,6 +55,29 @@ data object NewPipe : PeerTubeLaunchStrategyRootGroup(R.string.newpipe) {
 }
 
 @Keep
+data object Tubular : PeerTubeLaunchStrategyRootGroup(R.string.newpipe) {
+    sealed class Base(
+        keySuffix: String,
+        @StringRes labelRes: Int,
+        pkg: String,
+    ) : PeerTubeLaunchStrategy(
+        "TUBULAR_$keySuffix",
+        labelRes,
+        "https://github.com/polymorphicshade/Tubular",
+        LaunchIntentCreator.ComponentIntentCreator.ViewIntentCreator(
+            pkg = pkg,
+            component = "$pkg.RouterActivity",
+        ),
+    ) {
+        @Keep
+        data object Release : Base("RELEASE", dev.zwander.shared.R.string.release, "org.polymorphicshade.tubular")
+
+        @Keep
+        data object Debug : Base("DEBUG", dev.zwander.shared.R.string.debug, "org.polymorphicshade.tubular.debug")
+    }
+}
+
+@Keep
 data object Fedilab : PeerTubeLaunchStrategyRootGroup(R.string.fedilab, enabled = false) {
     sealed class FedilabBase(
         key: String,

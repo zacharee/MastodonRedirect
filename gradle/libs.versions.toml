@@ -1,24 +1,24 @@
 [versions]
 agp = "8.5.2"
 apkParser = "2.6.10"
-bugsnagAndroid = "6.7.0"
+bugsnagAndroid = "6.8.0"
 bugsnagAndroidGradlePlugin = "8.1.0"
 datastorePreferences = "1.1.1"
-kotlin = "2.0.10"
+kotlin = "2.0.21"
 core-ktx = "1.13.1"
-lifecycle-runtime-ktx = "2.8.4"
-activity-compose = "1.9.1"
-compose-bom = "2024.06.00"
+lifecycle-runtime-ktx = "2.8.6"
+activity-compose = "1.9.3"
+compose-bom = "2024.10.00"
 linkSheet = "2.3.2"
-material-components = "1.13.0-alpha05"
+material-components = "1.13.0-alpha07"
 mvvmFlowCompose = "0.16.1"
 patreonSupportersRetrieval = "d2e9143db2"
 preferences = "1.2.1"
 hiddenApiBypass = "4.3"
-ktor = "2.3.12"
-kotlinx-serialization = "1.7.1"
+ktor = "3.0.0"
+kotlinx-serialization = "1.7.3"
 shizuku = "13.1.5"
-apollo = "4.0.0-beta.7"
+apollo = "4.0.1"
 
 [libraries]
 # AndroidX
@@ -29,7 +29,7 @@ androidx-preferences = { group = "androidx.preference", name = "preference", ver
 androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle-runtime-ktx" }
 
 # Apollo
-apollo-runtime = { module = "com.apollographql.apollo3:apollo-runtime", version.ref = "apollo" }
+apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime", version.ref = "apollo" }
 
 # Bugsnag
 bugsnag-android = { module = "com.bugsnag:bugsnag-android", version.ref = "bugsnagAndroid" }
@@ -69,6 +69,6 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 bugsnagAndroid = { id = "com.bugsnag.android.gradle", version.ref = "bugsnagAndroidGradlePlugin" }
-apollo = { id = "com.apollographql.apollo3", version.ref = "apollo" }
+apollo = { id = "com.apollographql.apollo", version.ref = "apollo" }
 
 [bundles]

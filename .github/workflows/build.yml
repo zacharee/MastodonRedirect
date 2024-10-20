@@ -66,21 +66,21 @@ jobs:
 
       - name: Upload Lemmy Redirect Logs
         if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: lemmyredirect_logs
           path: ${{ github.workspace }}/lemmydirect/build/outputs/logs/
 
       - name: Upload Mastodon Redirect Logs
         if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: mastodonredirect_logs
           path: ${{ github.workspace }}/mastodonredirect/build/outputs/logs/
 
       - name: Upload PeerTube Redirect Logs
         if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: peertuberedirect_logs
           path: ${{ github.workspace }}/peertuberedirect/build/outputs/logs/
@@ -126,21 +126,21 @@ jobs:
 
       - name: Upload Lemmy Redirect
         if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Lemmy Redirect
           path: ${{ steps.sign_lemmy_redirect.outputs.signedReleaseFile }}
 
       - name: Upload Mastodon Redirect
         if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: Mastodon Redirect
           path: ${{ steps.sign_mastodon_redirect.outputs.signedReleaseFile }}
 
       - name: Upload PeerTube Redirect
         if: ${{ always() }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: PeerTube Redirect
           path: ${{ steps.sign_peertube_redirect.outputs.signedReleaseFile }}

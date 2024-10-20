@@ -55,7 +55,7 @@ data object NewPipe : PeerTubeLaunchStrategyRootGroup(R.string.newpipe) {
 }
 
 @Keep
-data object Tubular : PeerTubeLaunchStrategyRootGroup(R.string.newpipe) {
+data object Tubular : PeerTubeLaunchStrategyRootGroup(R.string.tubular) {
     sealed class Base(
         keySuffix: String,
         @StringRes labelRes: Int,

@@ -1,7 +1,6 @@
 package dev.zwander.shared.components
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
@@ -65,6 +64,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import rikka.shizuku.ShizukuProvider
 import kotlin.coroutines.CoroutineContext
+import androidx.core.net.toUri
 
 @Preview(showSystemUi = true)
 @Composable
@@ -299,7 +299,7 @@ fun LinkVerifyLayout(
                 TextButton(
                     onClick = {
                         val launchIntent =
-                            Intent(Intent.ACTION_VIEW, Uri.parse("https://shizuku.rikka.app"))
+                            Intent(Intent.ACTION_VIEW, "https://shizuku.rikka.app".toUri())
                         context.startActivity(launchIntent)
                         showingShizukuInstallDialog = false
                     }

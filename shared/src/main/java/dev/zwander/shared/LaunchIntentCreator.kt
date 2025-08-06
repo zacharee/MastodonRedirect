@@ -3,7 +3,7 @@ package dev.zwander.shared
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
+import androidx.core.net.toUri
 
 sealed interface LaunchIntentCreator {
     fun Context.createIntents(url: String): List<Intent>
@@ -55,7 +55,7 @@ sealed interface LaunchIntentCreator {
     ) : LaunchIntentCreator {
         override fun Context.createIntents(url: String): List<Intent> {
             return listOf(
-                Intent(Intent.ACTION_VIEW, Uri.parse("$baseUrl$url"))
+                Intent(Intent.ACTION_VIEW, "$baseUrl$url".toUri())
                     .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
             )
         }
@@ -80,7 +80,7 @@ sealed interface LaunchIntentCreator {
 
                     `package` = packageName
                     component = cmp
-                    data = Uri.parse(url)
+                    data = url.toUri()
                 }
             }
         }

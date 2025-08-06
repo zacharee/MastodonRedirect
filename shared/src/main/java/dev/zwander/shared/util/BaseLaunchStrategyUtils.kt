@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.ResolveInfo
-import android.net.Uri
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
@@ -14,6 +13,7 @@ import dev.zwander.shared.DiscoveredLaunchStrategy
 import dev.zwander.shared.LaunchStrategy
 import dev.zwander.shared.LaunchStrategyRootGroup
 import kotlin.reflect.KClass
+import androidx.core.net.toUri
 
 abstract class BaseLaunchStrategyUtils(
     applicationId: String,
@@ -104,8 +104,8 @@ abstract class BaseLaunchStrategyUtils(
         scheme: String = "https",
         newTask: Boolean = true,
     ): Intent {
-        val originalUri = Uri.parse(url)
-        val newUri = Uri.parse(url.replace("${originalUri.scheme}://", "${scheme}://"))
+        val originalUri = url.toUri()
+        val newUri = url.replace("${originalUri.scheme}://", "${scheme}://").toUri()
 
         return Intent(Intent.ACTION_VIEW, newUri).apply {
             addCategory(Intent.CATEGORY_DEFAULT)

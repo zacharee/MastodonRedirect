@@ -1,7 +1,6 @@
 package dev.zwander.shared
 
 import android.content.Intent
-import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -39,6 +38,7 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.net.URLConnection
+import androidx.core.net.toUri
 
 class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -110,7 +110,7 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
         val lastHandledLinkIsTheSame = prefs.lastHandledLink.currentValue(this) == url
 
         val skipUrl = url?.let {
-            prefs.blocklistedDomains.currentValue(this).contains(Uri.parse(it).host)
+            prefs.blocklistedDomains.currentValue(this).contains(it.toUri().host)
         } == true
 
         when {
@@ -174,7 +174,7 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
     private suspend fun isUrlMedia(url: String): Boolean {
         val parsedUrl = try {
             Url(url)
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             null
         }
 
@@ -195,13 +195,13 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
             returnedType == "video" ||
                    returnedType == "image" ||
                    returnedType == "audio"
-        } catch (e: Exception) {
+        } catch (_: Exception) {
             false
         }
     }
 
     private fun isSpecialUrl(url: String): Boolean {
-        val parsedUrl = Uri.parse(url)
+        val parsedUrl = url.toUri()
         val path = parsedUrl.path
 
         val specialStarters = arrayOf(

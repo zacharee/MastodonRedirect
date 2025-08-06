@@ -4,10 +4,11 @@ import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import androidx.core.net.toUri
 
 fun Context.openLinkInBrowser(uri: Uri?) {
     val launchIntent = createBaseLaunchIntent(uri)
-    launchIntent.selector = Intent(Intent.ACTION_VIEW, Uri.parse("https://"))
+    launchIntent.selector = Intent(Intent.ACTION_VIEW, "https://".toUri())
         .addCategory(Intent.CATEGORY_BROWSABLE)
 
     try {

@@ -3,13 +3,13 @@
 package dev.zwander.lemmyredirect.util
 
 import android.content.Intent
-import android.net.Uri
 import androidx.annotation.Keep
 import androidx.annotation.StringRes
 import dev.zwander.lemmyredirect.R
 import dev.zwander.shared.LaunchIntentCreator
 import dev.zwander.shared.LaunchStrategy
 import dev.zwander.shared.LaunchStrategyRootGroup
+import androidx.core.net.toUri
 
 /**
  * This file contains the supported launch strategies.
@@ -152,7 +152,7 @@ data object Voyager : LemmyLaunchStrategyRootGroup(R.string.voyager) {
         "https://github.com/aeharding/voyager",
         LaunchIntentCreator.CustomIntentCreator { url ->
             listOf(
-                Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+                Intent(Intent.ACTION_VIEW, url.toUri()).apply {
                     addCategory(Intent.CATEGORY_BROWSABLE)
                     addCategory(Intent.CATEGORY_DEFAULT)
 

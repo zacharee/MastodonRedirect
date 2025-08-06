@@ -5,7 +5,6 @@ import android.content.ActivityNotFoundException
 import android.content.ComponentName
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.provider.Settings
 import android.util.Log
 import dev.zwander.shared.RedirectActivity
@@ -13,6 +12,7 @@ import fe.linksheet.interconnect.LinkSheet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import androidx.core.net.toUri
 
 object LinkVerifyActions {
     @SuppressLint("InlinedApi")
@@ -21,7 +21,7 @@ object LinkVerifyActions {
         val pDirect = "android.settings.APPLICATION_DETAILS_SETTINGS_OPEN_BY_DEFAULT_PAGE"
         val appDetails = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
 
-        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("package:$packageName"))
+        val intent = Intent(Intent.ACTION_VIEW, "package:$packageName".toUri())
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
 
         arrayOf(qDirect, pDirect, appDetails).forEach { action ->
@@ -46,7 +46,7 @@ object LinkVerifyActions {
     ) {
         when (linkSheetStatus) {
             LinkSheetStatus.NOT_INSTALLED -> {
-                openLinkNaturally(Uri.parse("https://github.com/1fexd/LinkSheet"))
+                openLinkNaturally("https://github.com/1fexd/LinkSheet".toUri())
             }
             LinkSheetStatus.INSTALLED_NO_INTERCONNECT -> {
                 linkSheet?.packageName?.let { pkg ->
@@ -83,7 +83,7 @@ object LinkVerifyActions {
                             )
 
                             refresh()
-                        } catch (e: Exception) {
+                        } catch (_: Exception) {
                             service.selectDomains(
                                 packageName = packageName,
                                 domains = missingDomains,

@@ -1,7 +1,6 @@
 package dev.zwander.shared.components
 
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
@@ -17,7 +16,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -47,6 +46,7 @@ import dev.zwander.shared.util.rememberMutablePreferenceState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import tk.zwander.patreonsupportersretrieval.view.SupporterView
+import androidx.core.net.toUri
 
 private data class FooterButton(
     @StringRes val labelRes: Int,
@@ -80,19 +80,19 @@ fun FooterLayout(
                 R.string.github,
                 R.drawable.github,
             ) {
-                context.openLinkNaturally(Uri.parse("https://github.com/zacharee/MastodonRedirect/"))
+                context.openLinkNaturally("https://github.com/zacharee/MastodonRedirect/".toUri())
             },
             FooterButton(
                 R.string.patreon,
                 R.drawable.patreon,
             ) {
-                context.openLinkNaturally(Uri.parse("https://www.patreon.com/zacharywander"))
+                context.openLinkNaturally("https://www.patreon.com/zacharywander".toUri())
             },
             FooterButton(
                 R.string.mastodon,
                 R.drawable.mastodon,
             ) {
-                context.openLinkNaturally(Uri.parse("https://androiddev.social/@wander1236"))
+                context.openLinkNaturally("https://androiddev.social/@wander1236".toUri())
             },
             FooterButton(
                 R.string.supporters,
@@ -113,7 +113,7 @@ fun FooterLayout(
     }
 
     CompositionLocalProvider(
-        LocalMinimumInteractiveComponentEnforcement provides false,
+        LocalMinimumInteractiveComponentSize provides 24.dp,
     ) {
         FlowRow(
             modifier = modifier.padding(bottom = 8.dp),

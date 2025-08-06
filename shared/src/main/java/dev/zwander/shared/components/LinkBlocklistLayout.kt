@@ -85,7 +85,7 @@ fun LinkBlocklistLayout(
                                 domain = it,
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .animateItemPlacement(),
+                                    .animateItem(),
                             )
                         }
                     }

@@ -21,7 +21,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalContentColor
-import androidx.compose.material3.LocalMinimumInteractiveComponentEnforcement
+import androidx.compose.material3.LocalMinimumInteractiveComponentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
@@ -253,7 +253,7 @@ private fun SingleCard(
             if (!enabled) {
                 strategy.sourceUrl?.let { sourceUrl ->
                     CompositionLocalProvider(
-                        LocalMinimumInteractiveComponentEnforcement provides false,
+                        LocalMinimumInteractiveComponentSize provides 24.dp,
                     ) {
                         IconButton(
                             onClick = { context.launchUrl(sourceUrl) },

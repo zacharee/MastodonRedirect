@@ -26,6 +26,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Shape
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import dev.zwander.shared.R
@@ -64,7 +65,7 @@ fun SearchBar(
                 .focusRequester(focusRequester)
                 .onFocusChanged { isFocused = it.isFocused },
             leadingIcon = {
-                val buttonProps = when {
+                val buttonProps: Triple<() -> Unit, ImageVector, Int> = when {
                     isFocused && text.isNotEmpty() -> {
                         Triple({ onTextChange("") }, Icons.Default.Clear, R.string.clear)
                     }

@@ -32,6 +32,58 @@ sealed class PeerTubeLaunchStrategyRootGroup(
 ) : LaunchStrategyRootGroup(labelRes, autoAdd, enabled)
 
 @Keep
+data object BravePipe : PeerTubeLaunchStrategyRootGroup(R.string.bravepipe) {
+    sealed class Base(
+        keySuffix: String,
+        @StringRes labelRes: Int,
+        pkg: String,
+    ) : PeerTubeLaunchStrategy(
+        "BRAVEPIPE_$keySuffix",
+        labelRes,
+        "https://github.com/bravepipeproject/BravePipe",
+        LaunchIntentCreator.ComponentIntentCreator.ViewIntentCreator(
+            pkg = pkg,
+            component = "org.schabi.newpipe.RouterActivity",
+        ),
+    ) {
+        @Keep
+        data object Release : Base("RELEASE", dev.zwander.shared.R.string.release, "com.github.bravenewpipe")
+
+        @Keep
+        data object Debug : Base("DEBUG", dev.zwander.shared.R.string.debug, "com.github.bravenewpipe.debug")
+
+        @Keep
+        data object Legacy : Base("LEGACY", dev.zwander.shared.R.string.legacy, "com.github.bravenewpipe.kitkat")
+    }
+}
+
+@Keep
+data object LastPipeBender : PeerTubeLaunchStrategyRootGroup(R.string.lastpipebender) {
+    sealed class Base(
+        keySuffix: String,
+        @StringRes labelRes: Int,
+        pkg: String,
+    ) : PeerTubeLaunchStrategy(
+        "LASTPIPEBENDER_$keySuffix",
+        labelRes,
+        "https://github.com/maintainteam/lastpipebender",
+        LaunchIntentCreator.ComponentIntentCreator.ViewIntentCreator(
+            pkg = pkg,
+            component = "org.schabi.newpipe.RouterActivity",
+        ),
+    ) {
+        @Keep
+        data object Release : Base("RELEASE", dev.zwander.shared.R.string.release, "org.maintainteam.lastpipebender")
+
+        @Keep
+        data object Debug : Base("DEBUG", dev.zwander.shared.R.string.debug, "org.maintainteam.lastpipebender.debug")
+
+        @Keep
+        data object Extended : Base("EXTENDED", dev.zwander.shared.R.string.extended, "org.maintainteam.lastpipebender.extended")
+    }
+}
+
+@Keep
 data object NewPipe : PeerTubeLaunchStrategyRootGroup(R.string.newpipe) {
     sealed class Base(
         keySuffix: String,
@@ -55,6 +107,29 @@ data object NewPipe : PeerTubeLaunchStrategyRootGroup(R.string.newpipe) {
 }
 
 @Keep
+data object PipePipe : PeerTubeLaunchStrategyRootGroup(R.string.pipepipe) {
+    sealed class Base(
+        keySuffix: String,
+        @StringRes labelRes: Int,
+        pkg: String,
+    ) : PeerTubeLaunchStrategy(
+        "PIPEPIPE_$keySuffix",
+        labelRes,
+        "https://github.com/InfinityLoop1308/PipePipe",
+        LaunchIntentCreator.ComponentIntentCreator.ViewIntentCreator(
+            pkg = pkg,
+            component = "org.schabi.newpipe.RouterActivity",
+        ),
+    ) {
+        @Keep
+        data object Release : Base("RELEASE", dev.zwander.shared.R.string.release, "InfinityLoop1309.NewPipeEnhanced")
+
+        @Keep
+        data object Debug : Base("DEBUG", dev.zwander.shared.R.string.debug, "InfinityLoop1309.NewPipeEnhanced.debug")
+    }
+}
+
+@Keep
 data object Tubular : PeerTubeLaunchStrategyRootGroup(R.string.tubular) {
     sealed class Base(
         keySuffix: String,
@@ -66,7 +141,7 @@ data object Tubular : PeerTubeLaunchStrategyRootGroup(R.string.tubular) {
         "https://github.com/polymorphicshade/Tubular",
         LaunchIntentCreator.ComponentIntentCreator.ViewIntentCreator(
             pkg = pkg,
-            component = "$pkg.RouterActivity",
+            component = "org.schabi.newpipe.RouterActivity",
         ),
     ) {
         @Keep

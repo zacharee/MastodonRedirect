@@ -5,6 +5,9 @@
     <string name="tubular">Tubular</string>
     <string name="fedilab">Fedilab</string>
     <string name="grayjay">Grayjay</string>
+    <string name="pipepipe">PipePipe</string>
+    <string name="lastpipebender">LastPipeBender</string>
+    <string name="bravepipe">BravePipe</string>
 
     <string name="open_link">PeerTube Link</string>
 </resources>

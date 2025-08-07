@@ -96,7 +96,7 @@ jobs:
 
       - name: Sign Lemmy Redirect
         id: sign_lemmy_redirect
-        uses: zacharee/zipalign-sign-android-release@1.1.3
+        uses: kevin-david/zipalign-sign-android-release@v2
         with:
           releaseDirectory: lemmyredirect/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.ANDROID_SIGNING_KEY }}
@@ -106,7 +106,7 @@ jobs:
 
       - name: Sign Mastodon Redirect
         id: sign_mastodon_redirect
-        uses: zacharee/zipalign-sign-android-release@1.1.3
+        uses: kevin-david/zipalign-sign-android-release@v2
         with:
           releaseDirectory: mastodonredirect/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.ANDROID_SIGNING_KEY }}
@@ -116,7 +116,7 @@ jobs:
 
       - name: Sign PeerTube Redirect
         id: sign_peertube_redirect
-        uses: zacharee/zipalign-sign-android-release@1.1.3
+        uses: kevin-david/zipalign-sign-android-release@v2
         with:
           releaseDirectory: peertuberedirect/build/outputs/apk/release
           signingKeyBase64: ${{ secrets.ANDROID_SIGNING_KEY }}

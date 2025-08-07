@@ -7,7 +7,6 @@ query GetInstances($name: String) {
         uptime_alltime
         status
         date_diedoff
-        sslvalid
         local_posts
         protocols
         score

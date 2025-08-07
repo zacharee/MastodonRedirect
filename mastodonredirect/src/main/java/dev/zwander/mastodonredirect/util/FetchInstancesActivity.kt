@@ -21,5 +21,6 @@ class FetchInstancesActivity : BaseFetchActivity() {
         "pixelfed",
         "sharkey",
         "wildebeest",
+        "bridgyfed",
     )
 }

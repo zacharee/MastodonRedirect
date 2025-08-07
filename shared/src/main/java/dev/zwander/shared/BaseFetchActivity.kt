@@ -1,5 +1,6 @@
 package dev.zwander.shared
 
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import com.apollographql.apollo.ApolloClient
 import dev.zwander.shared.generated.GetInstancesQuery
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import java.util.TreeSet
 
 data class FetchedInstance(
@@ -29,6 +32,10 @@ data class FetchedInstance(
         return name.compareTo(other.name)
     }
 }
+
+private val userAndPostCountBypassHosts = arrayOf(
+    "fed.brid.gy",
+)
 
 abstract class BaseFetchActivity : BaseActivity() {
     protected val client by lazy {
@@ -56,8 +63,10 @@ abstract class BaseFetchActivity : BaseActivity() {
         }
 
         LaunchedEffect(key1 = null) {
-            items = loadInstances().filter {
-                it.name.isNotBlank() && !it.name.startsWith(".") && it.name.contains(".")
+            withContext(Dispatchers.IO) {
+                items = loadInstances().filter {
+                    it.name.isNotBlank() && !it.name.startsWith(".") && it.name.contains(".")
+                }
             }
         }
 
@@ -90,6 +99,8 @@ abstract class BaseFetchActivity : BaseActivity() {
 
         val response = client.query(GetInstancesQuery()).execute()
 
+        Log.e("Redirect", "${response.errors}")
+
         response.data?.nodes?.mapNotNull { node ->
             if (node == null) {
                 return@mapNotNull null
@@ -99,19 +110,17 @@ abstract class BaseFetchActivity : BaseActivity() {
                 return@mapNotNull null
             }
 
-            if (node.active_users_monthly == null || node.active_users_monthly <= 0) {
-                return@mapNotNull null
-            }
-
-//            if (node.date_diedoff != null) {
-//                return@mapNotNull null
-//            }
-
             if (node.domain == null) {
                 return@mapNotNull null
             }
 
-            if (node.total_users == null || node.total_users < 1) {
+            val isBypassHost = userAndPostCountBypassHosts.contains(node.domain)
+
+            if (!isBypassHost && (node.active_users_monthly == null || node.active_users_monthly <= 0)) {
+                return@mapNotNull null
+            }
+
+            if (!isBypassHost && (node.total_users == null || node.total_users < 1)) {
                 return@mapNotNull null
             }
 
@@ -127,11 +136,7 @@ abstract class BaseFetchActivity : BaseActivity() {
                 return@mapNotNull null
             }
 
-            if (!node.sslvalid.isNullOrBlank() && node.sslvalid != "true") {
-                return@mapNotNull null
-            }
-
-            if (node.local_posts == null || node.local_posts < 1) {
+            if (!isBypassHost && (node.local_posts == null || node.local_posts < 1)) {
                 return@mapNotNull null
             }
 

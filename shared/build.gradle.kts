@@ -79,6 +79,7 @@ dependencies {
     api(libs.compose.ui.graphics)
     api(libs.compose.ui.tooling.preview)
     api(libs.compose.material3)
+    api(libs.compose.material.icons)
 
     api(libs.kotlin.reflect)
     api(libs.kotlinx.serialization)

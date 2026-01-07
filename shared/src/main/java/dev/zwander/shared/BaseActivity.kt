@@ -12,8 +12,8 @@ import androidx.core.view.WindowCompat
 import dev.zwander.shared.components.MainContent
 import dev.zwander.shared.model.LocalAppModel
 import dev.zwander.shared.util.RedirectorTheme
-import dev.zwander.shared.util.locals.LocalLinkSheet
-import dev.zwander.shared.util.locals.rememberLinkSheet
+import dev.zwander.shared.util.locals.LocalLinkSheetConnector
+import dev.zwander.shared.util.locals.rememberLinkSheetConnector
 
 open class BaseActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,11 +22,11 @@ open class BaseActivity : ComponentActivity() {
         enableEdgeToEdge()
 
         setContent {
-            val linkSheet by rememberLinkSheet()
+            val linkSheet by rememberLinkSheetConnector()
 
             CompositionLocalProvider(
                 LocalAppModel provides appModel,
-                LocalLinkSheet provides linkSheet,
+                LocalLinkSheetConnector provides linkSheet,
             ) {
                 WindowCompat.getInsetsController(window, window.decorView).apply {
                     isAppearanceLightStatusBars = !isSystemInDarkTheme()

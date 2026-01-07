@@ -6,23 +6,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.lifecycle.Lifecycle
-import dev.zwander.shared.util.locals.LocalLinkSheet
+import dev.zwander.shared.util.locals.LocalLinkSheetConnector
 
 val ActivityInfo.componentNameCompat: ComponentName
     get() = ComponentName(packageName, name)
 
 @Composable
 fun rememberLinkSheetInstallationStatus(): LinkSheetStatus {
-    val linkSheet = LocalLinkSheet.current
+    val linkSheet = LocalLinkSheetConnector.current
 
     fun checkStatus(): LinkSheetStatus {
         if (linkSheet == null) {
             return LinkSheetStatus.NOT_INSTALLED
         }
 
-        if (!linkSheet.supportsInterconnect) {
-            return LinkSheetStatus.INSTALLED_NO_INTERCONNECT
-        }
+//        if (!linkSheet.supportsInterconnect) {
+//            return LinkSheetStatus.INSTALLED_NO_INTERCONNECT
+//        }
 
         return LinkSheetStatus.INSTALLED_WITH_INTERCONNECT
     }

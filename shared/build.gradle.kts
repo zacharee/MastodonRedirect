@@ -89,7 +89,7 @@ dependencies {
     api(libs.shizuku.provider)
 
     api(libs.patreonSupportersRetrieval)
-    api(libs.linkSheet)
+    api(libs.linkSheetFlavors)
     api(libs.material.components)
     api(libs.hiddenApiBypass)
     api(libs.bugsnag.android)

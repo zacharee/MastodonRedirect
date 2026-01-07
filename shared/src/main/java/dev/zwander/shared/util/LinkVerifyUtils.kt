@@ -14,10 +14,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.Lifecycle
+import app.linksheet.lib.interconnect.LinkSheetConnector
+import app.linksheet.lib.interconnect.LinkSheetServiceConnection
 import dev.zwander.shared.util.hiddenapi.PackageManager
-import dev.zwander.shared.util.locals.LocalLinkSheet
-import fe.linksheet.interconnect.LinkSheet
-import fe.linksheet.interconnect.LinkSheetServiceConnection
+import dev.zwander.shared.util.locals.LocalLinkSheetConnector
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -41,7 +41,7 @@ object LinkVerifyUtils {
     @Composable
     fun rememberLinkVerificationAsState(): State<LinkVerificationStatus> {
         val context = LocalContext.current
-        val linkSheet = LocalLinkSheet.current
+        val linkSheetConnector = LocalLinkSheetConnector.current
         val refresh by LinkVerificationModel.refreshFlow.collectAsState()
 
         val verificationStatus = remember {
@@ -72,7 +72,7 @@ object LinkVerifyUtils {
                     if (unverifiedDomains.isEmpty()) {
                         true
                     } else {
-                        val linkSheetStatus = context.checkLinkSheetStatus(linkSheet, allDomains)
+                        val linkSheetStatus = context.checkLinkSheetStatus(linkSheetConnector, allDomains)
 
                         if (linkSheetStatus == null) {
                             newMissingDomains.addAll(unverifiedDomains)
@@ -101,19 +101,15 @@ object LinkVerifyUtils {
     }
 
     @RequiresApi(Build.VERSION_CODES.S)
-    private suspend fun Context.checkLinkSheetStatus(linkSheet: LinkSheet?, allDomains: List<String>): LinkVerificationStatus? {
-        return if (linkSheet != null && linkSheet.supportsInterconnect) {
-            linkSheet.useService(this) { service ->
-                val selectedDomains = service.getSelectedDomainsAsync(packageName).list
-                val difference = allDomains - selectedDomains.toSet()
+    private suspend fun Context.checkLinkSheetStatus(linkSheet: LinkSheetConnector?, allDomains: List<String>): LinkVerificationStatus? {
+        return linkSheet?.useService(this) { service ->
+            val selectedDomains = service.getSelectedDomainsAsync(packageName).list
+            val difference = allDomains - selectedDomains.toSet()
 
-                LinkVerificationStatus(
-                    verified = difference.isEmpty(),
-                    missingDomains = difference,
-                )
-            }
-        } else {
-            null
+            LinkVerificationStatus(
+                verified = difference.isEmpty(),
+                missingDomains = difference,
+            )
         }
     }
 }
@@ -123,7 +119,7 @@ data class LinkVerificationStatus(
     val missingDomains: List<String> = listOf(),
 )
 
-suspend fun <T> LinkSheet.useService(
+suspend fun <T> LinkSheetConnector.useService(
     context: Context,
     block: suspend (service: LinkSheetServiceConnection) -> T,
 ): T {

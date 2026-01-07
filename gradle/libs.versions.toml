@@ -9,7 +9,7 @@ core-ktx = "1.16.0"
 lifecycle-runtime-ktx = "2.9.2"
 activity-compose = "1.10.1"
 compose-bom = "2025.07.00"
-linkSheet = "2.3.2"
+linkSheetFlavors = "0.0.24"
 material-components = "1.13.0-rc01"
 mvvmFlowCompose = "0.16.1"
 patreonSupportersRetrieval = "d2e9143db2"
@@ -56,7 +56,7 @@ shizuku-provider = { group = "dev.rikka.shizuku", name = "provider", version.ref
 
 # Other
 apk-parser = { module = "net.dongliu:apk-parser", version.ref = "apkParser" }
-linkSheet = { module = "com.github.1fexd:LinkSheetInterConnect", version.ref = "linkSheet" }
+linkSheetFlavors= { module = "com.github.LinkSheet.flavors:interconnect-client", version.ref = "linkSheetFlavors" }
 patreonSupportersRetrieval = { module = "com.github.zacharee:PatreonSupportersRetrieval", version.ref = "patreonSupportersRetrieval" }
 material-components = { group = "com.google.android.material", name = "material", version.ref = "material-components" }
 hiddenApiBypass = { group = "org.lsposed.hiddenapibypass", name = "hiddenapibypass", version.ref = "hiddenApiBypass" }

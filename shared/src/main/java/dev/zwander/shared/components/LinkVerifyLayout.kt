@@ -58,7 +58,7 @@ import dev.zwander.shared.util.Prefs
 import dev.zwander.shared.util.RedirectorTheme
 import dev.zwander.shared.util.ShizukuCommandResult
 import dev.zwander.shared.util.ShizukuUtils.runShizukuCommand
-import dev.zwander.shared.util.locals.LocalLinkSheet
+import dev.zwander.shared.util.locals.LocalLinkSheetConnector
 import dev.zwander.shared.util.rememberLinkSheetInstallationStatus
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -106,7 +106,7 @@ fun LinkVerifyLayout(
 ) {
     val context = LocalContext.current
     val appModel = LocalAppModel.current
-    val linkSheet = LocalLinkSheet.current
+    val linkSheet = LocalLinkSheetConnector.current
     val scope = rememberCoroutineScope()
 
     var showingShizukuInstallDialog by remember {

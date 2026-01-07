@@ -79,6 +79,7 @@ dependencies {
     api(libs.compose.ui.graphics)
     api(libs.compose.ui.tooling.preview)
     api(libs.compose.material3)
+    api(libs.compose.material.icons)
 
     api(libs.kotlin.reflect)
     api(libs.kotlinx.serialization)
@@ -89,7 +90,7 @@ dependencies {
     api(libs.shizuku.provider)
 
     api(libs.patreonSupportersRetrieval)
-    api(libs.linkSheet)
+    api(libs.linkSheetFlavors)
     api(libs.material.components)
     api(libs.hiddenApiBypass)
     api(libs.bugsnag.android)

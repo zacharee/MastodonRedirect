@@ -25,7 +25,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import dev.zwander.shared.util.openLinkInBrowser
 import dev.zwander.shared.util.prefs
-import fe.linksheet.interconnect.LinkSheetConnector
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.http.Url
@@ -39,6 +38,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.net.URLConnection
 import androidx.core.net.toUri
+import app.linksheet.lib.flavors.LinkSheetReferrer
 
 class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -104,7 +104,7 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
         }
 
         val realReferrer = intent?.let {
-            LinkSheetConnector.getLinkSheetReferrer(intent)
+            LinkSheetReferrer.getLinkSheetReferrer(intent)
         } ?: referrer
 
         val lastHandledLinkIsTheSame = prefs.lastHandledLink.currentValue(this) == url

@@ -8,11 +8,11 @@ import android.content.Intent
 import android.provider.Settings
 import android.util.Log
 import dev.zwander.shared.RedirectActivity
-import fe.linksheet.interconnect.LinkSheet
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import androidx.core.net.toUri
+import app.linksheet.lib.interconnect.LinkSheetConnector
 
 object LinkVerifyActions {
     @SuppressLint("InlinedApi")
@@ -39,7 +39,7 @@ object LinkVerifyActions {
 
     fun Context.enableWithLinkSheet(
         scope: CoroutineScope,
-        linkSheet: LinkSheet?,
+        linkSheet: LinkSheetConnector?,
         linkSheetStatus: LinkSheetStatus,
         missingDomains: List<String>,
         refresh: () -> Unit,
@@ -49,7 +49,7 @@ object LinkVerifyActions {
                 openLinkNaturally("https://github.com/1fexd/LinkSheet".toUri())
             }
             LinkSheetStatus.INSTALLED_NO_INTERCONNECT -> {
-                linkSheet?.packageName?.let { pkg ->
+                linkSheet?.interconnect?.packageName?.let { pkg ->
                     try {
                         startActivity(
                             packageManager.getLaunchIntentForPackage(

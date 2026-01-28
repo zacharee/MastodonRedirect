@@ -70,6 +70,17 @@ data object DeerAyla : BlueskyClientLaunchStrategy(
 )
 
 @Keep
+data object Witchsky : BlueskyClientLaunchStrategy(
+    "WITCHSKY_APP",
+    R.string.witchsky,
+    "https://tangled.org/jollywhoppers.com/witchsky.app",
+    LaunchIntentCreator.ComponentIntentCreator.ViewIntentCreator(
+        pkg = "app.witchsky",
+        component = "app.witchsky.MainActivity",
+    ),
+)
+
+@Keep
 data object AskEveryTime : BlueskyClientLaunchStrategy(
     "ASK_EVERY_TIME",
     dev.zwander.shared.R.string.ask_every_time,

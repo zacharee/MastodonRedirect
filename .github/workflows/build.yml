@@ -23,7 +23,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
-          java-version: '18'
+          java-version: '17'
 
       - name: Get Latest Release
         id: release
@@ -106,7 +106,7 @@ jobs:
           keyStorePassword: ${{ secrets.ANDROID_SIGNING_KEY_PWD }}
           keyPassword: ${{ secrets.ANDROID_SIGNING_KEY_PWD }}
         env:
-          BUILD_TOOLS_VERSION: "35.0.0"
+          BUILD_TOOLS_VERSION: "36.0.0"
 
       - name: Sign Mastodon Redirect
         id: sign_mastodon_redirect
@@ -118,7 +118,7 @@ jobs:
           keyStorePassword: ${{ secrets.ANDROID_SIGNING_KEY_PWD }}
           keyPassword: ${{ secrets.ANDROID_SIGNING_KEY_PWD }}
         env:
-          BUILD_TOOLS_VERSION: "35.0.0"
+          BUILD_TOOLS_VERSION: "36.0.0"
 
       - name: Sign PeerTube Redirect
         id: sign_peertube_redirect
@@ -130,7 +130,7 @@ jobs:
           keyStorePassword: ${{ secrets.ANDROID_SIGNING_KEY_PWD }}
           keyPassword: ${{ secrets.ANDROID_SIGNING_KEY_PWD }}
         env:
-          BUILD_TOOLS_VERSION: "35.0.0"
+          BUILD_TOOLS_VERSION: "36.0.0"
 
       - name: Upload Lemmy Redirect
         if: ${{ always() }}

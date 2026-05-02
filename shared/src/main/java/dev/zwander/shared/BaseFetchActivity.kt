@@ -33,10 +33,6 @@ data class FetchedInstance(
     }
 }
 
-private val userAndPostCountBypassHosts = arrayOf(
-    "fed.brid.gy",
-)
-
 abstract class BaseFetchActivity : BaseActivity() {
     protected val client by lazy {
         ApolloClient.Builder()
@@ -44,7 +40,7 @@ abstract class BaseFetchActivity : BaseActivity() {
             .build()
     }
 
-    protected abstract val softwareNames: Array<String>
+    protected abstract val softwareNames: Map<String, Boolean>
 
     @Composable
     override fun Content() {
@@ -106,6 +102,8 @@ abstract class BaseFetchActivity : BaseActivity() {
                 return@mapNotNull null
             }
 
+            val isBypassHost = softwareNames[node.softwarename] == true
+
             if (node.softwarename == null || !softwareNames.contains(node.softwarename)) {
                 return@mapNotNull null
             }
@@ -113,8 +111,6 @@ abstract class BaseFetchActivity : BaseActivity() {
             if (node.domain == null) {
                 return@mapNotNull null
             }
-
-            val isBypassHost = userAndPostCountBypassHosts.contains(node.domain)
 
             if (!isBypassHost && (node.active_users_monthly == null || node.active_users_monthly <= 0)) {
                 return@mapNotNull null

@@ -12,8 +12,6 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.minimumInteractiveComponentSize
 import androidx.compose.material3.ripple
-import androidx.compose.material3.tokens.IconButtonTokens
-import androidx.compose.material3.value
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
@@ -36,18 +34,15 @@ fun LongClickableIconButton(
     Box(
         modifier = modifier
             .minimumInteractiveComponentSize()
-            .size(IconButtonTokens.StateLayerSize)
-            .clip(IconButtonTokens.StateLayerShape.value)
+            .size(IconButtonDefaults.smallContainerSize())
+            .clip(IconButtonDefaults.standardShape)
             .background(color = colors.containerColor(enabled))
             .combinedClickable(
                 onClick = onClick,
                 enabled = enabled,
                 role = Role.Button,
                 interactionSource = interactionSource,
-                indication = ripple(
-                    bounded = false,
-                    radius = IconButtonTokens.StateLayerSize / 2,
-                ),
+                indication = ripple(),
                 onLongClick = onLongClick,
             ),
         contentAlignment = Alignment.Center

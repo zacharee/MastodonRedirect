@@ -12,17 +12,15 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.SheetState
-import androidx.compose.material3.SheetValue
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.core.net.toUri
 import dev.zwander.shared.util.openLinkInBrowser
 import dev.zwander.shared.util.prefs
 import fe.linksheet.interconnect.LinkSheetConnector
@@ -38,14 +36,11 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 import java.net.URLConnection
-import androidx.core.net.toUri
 
 class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
     override fun Content() {
-        val density = LocalDensity.current
-
         LaunchedEffect(null) {
             withContext(Dispatchers.IO) {
                 handleLink()
@@ -60,14 +55,10 @@ class RedirectActivity : BaseActivity(), CoroutineScope by MainScope() {
                 onDismissRequest = {
                     finish()
                 },
-                sheetState = remember {
-                    SheetState(
-                        skipPartiallyExpanded = true,
-                        density = density,
-                        initialValue = SheetValue.Expanded,
-                        confirmValueChange = { false },
-                    )
-                },
+                sheetState = rememberModalBottomSheetState(
+                    skipPartiallyExpanded = true,
+                    confirmValueChange = { false },
+                ),
                 dragHandle = {},
                 modifier = Modifier.fillMaxWidth(),
             ) {

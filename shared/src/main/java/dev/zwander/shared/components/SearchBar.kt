@@ -1,5 +1,7 @@
 package dev.zwander.shared.components
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -7,16 +9,12 @@ import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowUp
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,10 +24,28 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import dev.zwander.shared.R
+
+private enum class SearchState(
+    @DrawableRes val icon: Int,
+    @StringRes val label: Int,
+) {
+    CLOSED(
+        icon = R.drawable.search_24px,
+        label = R.string.search,
+    ),
+    OPEN(
+        icon = R.drawable.keyboard_arrow_down_24px,
+        label = R.string.close,
+    ),
+    SEARCHING(
+        icon = R.drawable.backspace_24px,
+        label = R.string.clear,
+    );
+}
 
 @Composable
 fun SearchBar(
@@ -65,28 +81,38 @@ fun SearchBar(
                 .focusRequester(focusRequester)
                 .onFocusChanged { isFocused = it.isFocused },
             leadingIcon = {
-                val buttonProps: Triple<() -> Unit, ImageVector, Int> = when {
-                    isFocused && text.isNotEmpty() -> {
-                        Triple({ onTextChange("") }, Icons.Default.Clear, R.string.clear)
-                    }
-                    isFocused -> {
-                        Triple({ focusManager.clearFocus() }, Icons.Default.KeyboardArrowDown, R.string.close)
-                    }
-                    else -> {
-                        Triple({ focusRequester.requestFocus() }, Icons.Default.Search, R.string.search)
+                val searchState by remember {
+                    derivedStateOf {
+                        when {
+                            isFocused && text.isNotEmpty() -> SearchState.SEARCHING
+                            isFocused -> SearchState.OPEN
+                            else -> SearchState.CLOSED
+                        }
                     }
                 }
 
                 Crossfade(
-                    targetState = buttonProps,
+                    targetState = searchState,
                     label = "SearchCrossfade",
-                ) { (clickAction, image, desc) ->
+                ) { state ->
                     IconButton(
-                        onClick = clickAction,
+                        onClick = {
+                            when (state) {
+                                SearchState.CLOSED -> {
+                                    focusRequester.requestFocus()
+                                }
+                                SearchState.OPEN -> {
+                                    focusManager.clearFocus()
+                                }
+                                SearchState.SEARCHING -> {
+                                    onTextChange("")
+                                }
+                            }
+                        },
                     ) {
                         Icon(
-                            imageVector = image,
-                            contentDescription = stringResource(id = desc),
+                            painter = painterResource(state.icon),
+                            contentDescription = stringResource(state.label),
                         )
                     }
                 }
@@ -94,7 +120,7 @@ fun SearchBar(
             trailingIcon = {
                 IconButton(onClick = onScrollToTop) {
                     Icon(
-                        imageVector = Icons.Default.KeyboardArrowUp,
+                        painter = painterResource(R.drawable.keyboard_arrow_up_24px),
                         contentDescription = stringResource(id = R.string.scroll_to_top),
                     )
                 }

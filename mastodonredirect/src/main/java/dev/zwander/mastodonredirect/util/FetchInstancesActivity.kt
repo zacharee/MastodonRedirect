@@ -22,5 +22,13 @@ class FetchInstancesActivity : BaseFetchActivity() {
         "sharkey",
         "wildebeest",
         "bridgyfed",
+        "redmatrix",
+        "socialhome",
+        "writefreely",
+        "plume",
+        "mostr",
+        "loops",
+        "ghost",
+        "foundkey",
     )
 }

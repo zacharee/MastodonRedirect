@@ -8,7 +8,6 @@ query GetInstances($name: String) {
         status
         date_diedoff
         local_posts
-        protocols
         score
     }
 }

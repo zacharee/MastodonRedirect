@@ -140,10 +140,6 @@ abstract class BaseFetchActivity : BaseActivity() {
                 return@mapNotNull null
             }
 
-            if (node.protocols == null || !node.protocols.contains("activitypub")) {
-                return@mapNotNull null
-            }
-
             FetchedInstance(node.domain.lowercase())
         }?.let { instances ->
             list.addAll(instances)

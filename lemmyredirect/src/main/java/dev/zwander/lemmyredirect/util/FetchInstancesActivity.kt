@@ -7,5 +7,6 @@ class FetchInstancesActivity : BaseFetchActivity() {
         "lemmy",
         "kbin",
         "mbin",
+        "piefed",
     )
 }

@@ -3,11 +3,12 @@ import java.util.UUID
 
 plugins {
     alias(libs.plugins.androidApplication)
-    alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.bugsnagAndroid)
     alias(libs.plugins.kotlin.compose)
 }
+
+val javaVersion = JavaVersion.toVersion(rootProject.extra["java.version"].toString().toInt())
 
 android {
     val pkg = "dev.zwander.lemmyredirect"
@@ -27,7 +28,6 @@ android {
             useSupportLibrary = true
         }
 
-        extensions.getByType(BasePluginExtension::class.java).archivesName.set("LemmyRedirect_${versionName}")
         manifestPlaceholders["build_uuid"] = UUID.nameUUIDFromBytes("LemmyRedirect_${versionCode}".toByteArray()).toString()
     }
 
@@ -44,15 +44,9 @@ android {
             isMinifyEnabled = false
         }
     }
-    val javaVersion = JavaVersion.toVersion(rootProject.extra["java.version"].toString().toInt())
     compileOptions {
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
-    }
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.fromTarget(javaVersion.majorVersion))
-        }
     }
     buildFeatures {
         compose = true
@@ -62,6 +56,16 @@ android {
     packaging {
         resources.excludes.add("META-INF/versions/9/previous-compilation-data.bin")
     }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.fromTarget(javaVersion.majorVersion))
+    }
+}
+
+base {
+    archivesName.set("LemmyRedirect_${project.android.defaultConfig.versionName}")
 }
 
 dependencies {

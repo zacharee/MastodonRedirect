@@ -2,11 +2,12 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.androidLibrary)
-    alias(libs.plugins.kotlinAndroid)
     alias(libs.plugins.apollo)
     alias(libs.plugins.kotlin.compose)
     id("kotlin-parcelize")
 }
+
+val javaVersion = JavaVersion.toVersion(rootProject.extra["java.version"].toString().toInt())
 
 android {
     namespace = "dev.zwander.shared"
@@ -35,15 +36,9 @@ android {
             buildConfigField("String", "VERSION_NAME", "\"${rootProject.extra["version.name"]}\"")
         }
     }
-    val javaVersion = JavaVersion.toVersion(rootProject.extra["java.version"].toString().toInt())
     compileOptions {
         sourceCompatibility = javaVersion
         targetCompatibility = javaVersion
-    }
-    kotlin {
-        compilerOptions {
-            jvmTarget.set(JvmTarget.fromTarget(javaVersion.majorVersion))
-        }
     }
     buildFeatures {
         compose = true
@@ -52,6 +47,12 @@ android {
     }
     packaging {
         resources.excludes.add("META-INF/versions/9/previous-compilation-data.bin")
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.fromTarget(javaVersion.majorVersion))
     }
 }
 

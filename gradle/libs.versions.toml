@@ -2,7 +2,7 @@
 agp = "9.2.0"
 apkParser = "2.6.10"
 bugsnagAndroid = "6.26.0"
-bugsnagAndroidGradlePlugin = "8.2.0"
+bugsnag-plugin = "1.1.0"
 datastorePreferences = "1.2.1"
 kotlin = "2.3.21"
 core-ktx = "1.18.0"
@@ -33,7 +33,6 @@ apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime", version.r
 
 # Bugsnag
 bugsnag-android = { module = "com.bugsnag:bugsnag-android", version.ref = "bugsnagAndroid" }
-bugsnag-android-gradle-plugin = { module = "com.bugsnag:bugsnag-android-gradle-plugin", version.ref = "bugsnagAndroidGradlePlugin" }
 
 # Compose
 compose-activity = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
@@ -67,7 +66,7 @@ androidApplication = { id = "com.android.application", version.ref = "agp" }
 kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
-bugsnagAndroid = { id = "com.bugsnag.android.gradle", version.ref = "bugsnagAndroidGradlePlugin" }
+bugsnag = { id = "com.bugsnag.gradle", version.ref = "bugsnag-plugin" }
 apollo = { id = "com.apollographql.apollo", version.ref = "apollo" }
 
 [bundles]

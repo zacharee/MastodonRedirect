@@ -19,3 +19,55 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
+Name		
+zacharee
+zacharee
+ADI registration
+6c9423b
+ · 
+2 weeks ago
+.github
+Set workflow Android build tools to 36 and JDK to 17
+2 months ago
+.idea
+Update dependencies and fix build
+2 months ago
+gradle
+Migrate to new Bugsnag Gradle plugin
+2 months ago
+lemmyredirect
+Migrate to new Bugsnag Gradle plugin
+2 months ago
+mastodonredirect
+Migrate to new Bugsnag Gradle plugin
+2 months ago
+peertuberedirect
+Migrate to new Bugsnag Gradle plugin
+2 months ago
+shared
+ADI registration
+2 weeks ago
+.gitignore
+Update dependencies
+3 years ago
+LICENSE
+Create LICENSE
+3 years ago
+README.md
+Add Tubular to README
+2 years ago
+build.gradle.kts
+Migrate to new Bugsnag Gradle plugin
+2 months ago
+gradle.properties
+Version 1.15.1
+2 months ago
+gradlew
+Initial commit
+3 years ago
+gradlew.bat
+Initial commit
+3 years ago
+settings.gradle.kts
+Update dependencies and migrate to Kotlin 2.0.0
+2 years ago

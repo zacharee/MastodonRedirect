@@ -7,7 +7,6 @@ import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -77,8 +76,6 @@ fun LinkVerifyPreview() {
                         get() = error("Not implemented")
                     override val defaultLaunchStrategy: LaunchStrategy
                         get() = error("Not implemented")
-                    override val fetchActivity: Class<*>
-                        get() = error("Not implemented")
                     override val appName: String
                         get() = "Test Redirect"
                     override val prefs: Prefs
@@ -97,7 +94,6 @@ fun LinkVerifyPreview() {
     }
 }
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun LinkVerifyLayout(
     modifier: Modifier = Modifier,

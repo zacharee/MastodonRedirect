@@ -28,7 +28,6 @@ val Context.appModel: AppModel
 
 abstract class App(
     override val launchStrategyUtils: BaseLaunchStrategyUtils,
-    override val fetchActivity: Class<*>,
     override val defaultLaunchStrategy: LaunchStrategy,
     @StringRes private val appNameRes: Int,
 ) : Application(), AppModel, CoroutineScope by MainScope() {

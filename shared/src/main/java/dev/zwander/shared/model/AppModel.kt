@@ -13,7 +13,6 @@ val LocalAppModel = compositionLocalOf<AppModel> { throw IllegalStateException("
 interface AppModel {
     val launchStrategyUtils: BaseLaunchStrategyUtils
     val defaultLaunchStrategy: LaunchStrategy
-    val fetchActivity: Class<*>
 
     val appName: String
 

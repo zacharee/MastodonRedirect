@@ -18,7 +18,6 @@ hiddenApiBypass = "6.2"
 ktor = "3.6.1"
 kotlinx-serialization = "1.13.0"
 shizuku = "13.1.5"
-apollo = "5.2.0"
 
 [libraries]
 # AndroidX
@@ -27,9 +26,6 @@ androidx-datastore-preferences = { module = "androidx.datastore:datastore-prefer
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 androidx-preferences = { group = "androidx.preference", name = "preference", version.ref = "preferences" }
 androidx-lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "lifecycle-runtime-ktx" }
-
-# Apollo
-apollo-runtime = { module = "com.apollographql.apollo:apollo-runtime", version.ref = "apollo" }
 
 # Bugsnag
 bugsnag-android = { module = "com.bugsnag:bugsnag-android", version.ref = "bugsnagAndroid" }
@@ -67,6 +63,5 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 androidLibrary = { id = "com.android.library", version.ref = "agp" }
 bugsnag = { id = "com.bugsnag.gradle", version.ref = "bugsnag-plugin" }
-apollo = { id = "com.apollographql.apollo", version.ref = "apollo" }
 
 [bundles]

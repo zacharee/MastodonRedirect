@@ -4,35 +4,59 @@
 name: Build for Android
 
 on:
-  release:
-    types:
-      - published
+  workflow_run:
+    workflows: ['Bump version']
+    types: [completed]
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
+  prepare:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      should_build: ${{ steps.version.outputs.should_build }}
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Read version name from gradle.properties
+        id: version
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          version=$(sed -n 's/^version\.name=//p' gradle.properties)
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+
+          # Automatic runs only build versions that haven't been released yet.
+          # Manual runs always build and update the existing release.
+          if [ "${{ github.event_name }}" != "workflow_dispatch" ] && gh release view "$version" >/dev/null 2>&1; then
+            echo "Release ${version} already exists, nothing to build."
+            echo "should_build=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "should_build=true" >> "$GITHUB_OUTPUT"
+          fi
+
   build:
+    needs: prepare
+    if: needs.prepare.outputs.should_build == 'true'
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
 
-      - name: Set up JDK 18
+      - name: Set up JDK 17
         uses: actions/setup-java@v3
         with:
           distribution: 'zulu'
           java-version: '17'
-
-      - name: Get Latest Release
-        id: release
-        uses: pozetroninc/github-action-get-latest-release@v0.8.0
-        with:
-          owner: zacharee
-          repo: MastodonRedirect
-          token: ${{ secrets.GITHUB_TOKEN }}
-          excludes: "prerelease, draft"
 
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
@@ -71,7 +95,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: lemmyredirect_logs
-          path: ${{ github.workspace }}/lemmydirect/build/outputs/logs/
+          path: ${{ github.workspace }}/lemmyredirect/build/outputs/logs/
 
       - name: Upload Mastodon Redirect Logs
         if: ${{ always() }}
@@ -159,9 +183,10 @@ jobs:
           artifacts: ${{ github.workspace }}/${{ steps.sign_lemmy_redirect.outputs.signedReleaseFile }}
           token: ${{ secrets.GITHUB_TOKEN }}
           allowUpdates: true
-          replacesArtifacts: false
+          replacesArtifacts: true
           omitBodyDuringUpdate: true
-          tag: ${{ steps.release.outputs.release }}
+          tag: ${{ needs.prepare.outputs.version }}
+          commit: ${{ github.sha }}
 
       - name: Add Mastodon Redirect to Release
         uses: ncipollo/release-action@v1
@@ -169,9 +194,10 @@ jobs:
           artifacts: ${{ github.workspace }}/${{ steps.sign_mastodon_redirect.outputs.signedReleaseFile }}
           token: ${{ secrets.GITHUB_TOKEN }}
           allowUpdates: true
-          replacesArtifacts: false
+          replacesArtifacts: true
           omitBodyDuringUpdate: true
-          tag: ${{ steps.release.outputs.release }}
+          tag: ${{ needs.prepare.outputs.version }}
+          commit: ${{ github.sha }}
 
       - name: Add PeerTube Redirect to Release
         uses: ncipollo/release-action@v1
@@ -179,6 +205,7 @@ jobs:
           artifacts: ${{ github.workspace }}/${{ steps.sign_peertube_redirect.outputs.signedReleaseFile }}
           token: ${{ secrets.GITHUB_TOKEN }}
           allowUpdates: true
-          replacesArtifacts: false
+          replacesArtifacts: true
           omitBodyDuringUpdate: true
-          tag: ${{ steps.release.outputs.release }}
+          tag: ${{ needs.prepare.outputs.version }}
+          commit: ${{ github.sha }}

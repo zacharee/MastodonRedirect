@@ -1,0 +1,45 @@
+name: Update HTTP filters
+
+on:
+  schedule:
+    # Refresh the domain lists weekly (Mondays at 03:00 UTC).
+    - cron: '0 3 * * 1'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-http-filters
+  cancel-in-progress: true
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the default branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Update HTTP filters
+        run: python3 scripts/update_http_filters.py
+
+      - name: Commit and push changes
+        run: |
+          if git diff --quiet; then
+            echo "HTTP filters are already up to date."
+            exit 0
+          fi
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -u
+          git commit -m "Update HTTP filters"
+          git push

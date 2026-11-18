@@ -1,0 +1,63 @@
+name: Bump version
+
+on:
+  workflow_run:
+    workflows: ['Update HTTP filters']
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: bump-version
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the default branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+          fetch-depth: 0
+
+      - name: Check for unreleased HTTP filter changes
+        id: check
+        run: |
+          # Bump only if any app's manifest changed since the version was last bumped.
+          last_bump=$(git log -1 --format=%H -G '^version\.(code|name)=' -- gradle.properties)
+          if git diff --quiet "$last_bump" HEAD -- '*/src/main/AndroidManifest.xml'; then
+            echo "No manifest changes since the last version bump."
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Bump version code and name
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          code=$(sed -n 's/^version\.code=//p' gradle.properties)
+          name=$(sed -n 's/^version\.name=//p' gradle.properties)
+
+          new_code=$((code + 1))
+          # Increment the patch component of MAJOR.MINOR.PATCH.
+          new_name="${name%.*}.$((${name##*.} + 1))"
+
+          sed -i "s/^version\.code=.*/version.code=${new_code}/" gradle.properties
+          sed -i "s/^version\.name=.*/version.name=${new_name}/" gradle.properties
+
+          echo "Bumped ${name} (${code}) -> ${new_name} (${new_code})"
+          echo "NEW_NAME=${new_name}" >> "$GITHUB_ENV"
+
+      - name: Commit and push changes
+        if: steps.check.outputs.changed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add gradle.properties
+          git commit -m "Version ${NEW_NAME}"
+          git push

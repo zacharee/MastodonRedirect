@@ -70,6 +70,28 @@ data object Summit : LemmyLaunchStrategyRootGroup(R.string.summit) {
             )
         },
     )
+
+    @Keep
+    data object SummitFDroid : LemmyLaunchStrategy(
+        "SUMMIT_FDROID",
+        dev.zwander.shared.R.string.f_droid,
+        "https://f-droid.org/en/packages/com.idunnololz.summit.fdroid/",
+        LaunchIntentCreator.CustomIntentCreator { url ->
+            val intent = LaunchStrategyUtils.createViewIntent(
+                pkg = "com.idunnololz.summit.fdroid",
+                component = "com.idunnololz.summit.main.MainActivity",
+                url = url,
+                newTask = false,
+            )
+
+            // Summit currently doesn't follow deep links on a cold start,
+            // so send the Intent twice.
+            listOf(
+                Intent(intent).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK),
+                Intent(intent),
+            )
+        },
+    )
 }
 
 @Keep

@@ -11,7 +11,7 @@ When you tap a Twitter link in your browser and your phone opens the Twitter app
 
 Fediverse Redirect aims to solve the first two issues and somewhat solve the third.
 
-By using [Fediverse Observer](https://fediverse.observer) as a data source, Fediverse Redirect can maintain an up-to-date list of active domains.
+By using [FediDB](https://fedidb.com/) as a data source, Fediverse Redirect can maintain an up-to-date list of active domains.
 
 Once you download the app, you can choose your client app and then enable all supported domains, so that when you tap a recognized link, it gets passed to the proper Fediverse Redirect variant.
 
@@ -37,9 +37,7 @@ Fediverse Redirect has different variants depending on which social media networ
 [![PeerTube Redirect](https://img.shields.io/endpoint?url=https%3A%2F%2Fapt.izzysoft.de%2Ffdroid%2Fapi%2Fv1%2Fshield%2Fdev.zwander.peertuberedirect&style=for-the-badge&logo=f-droid&label=PeerTube%20Redirect)](https://apt.izzysoft.de/fdroid/index/apk/dev.zwander.peertuberedirect/)
 
 ## Supported Domains
-Currently, most domains on [Fediverse Observer](https://fediverse.observer) are supported.
-
-Fediverse Redirect supports most active and alive instances, but excludes dead instances and instances that haven't had any activity recently. This is to keep the list as short as possible and avoid crashes.
+Currently, most domains on [FediDB](https://fedidb.com/) are supported. Fediverse Redirect downloads the server list weekly, updates the domains, and builds new app versions if needed.
 
 Fediverse Redirect also supports the `web+activity+http`, `web+activity+https`, and `web+ap` URL schemes. The expectation is that the full post or profile URL will follow.
 

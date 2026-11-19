@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlin.compose)
+    alias(libs.plugins.bugsnag)
     id("kotlin-parcelize")
 }
 
@@ -53,6 +54,10 @@ kotlin {
     compilerOptions {
         jvmTarget.set(JvmTarget.fromTarget(javaVersion.majorVersion))
     }
+}
+
+bugsnag {
+    buildUuid = project.android.defaultConfig.manifestPlaceholders["build_uuid"].toString()
 }
 
 dependencies {

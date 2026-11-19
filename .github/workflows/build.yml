@@ -21,7 +21,7 @@ jobs:
       should_build: ${{ steps.version.outputs.should_build }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.event.repository.default_branch }}
 
@@ -48,12 +48,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
         with:
           ref: ${{ github.event.repository.default_branch }}
 
       - name: Set up JDK 17
-        uses: actions/setup-java@v5
+        uses: actions/setup-java@v6
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -62,7 +62,7 @@ jobs:
         run: chmod +x gradlew
 
       - name: Cache
-        uses: actions/cache@v3
+        uses: actions/cache@v6
         with:
           path: |
             ~/.gradle/caches
@@ -92,21 +92,21 @@ jobs:
 
       - name: Upload Lemmy Redirect Logs
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: lemmyredirect_logs
           path: ${{ github.workspace }}/lemmyredirect/build/outputs/logs/
 
       - name: Upload Mastodon Redirect Logs
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: mastodonredirect_logs
           path: ${{ github.workspace }}/mastodonredirect/build/outputs/logs/
 
       - name: Upload PeerTube Redirect Logs
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: peertuberedirect_logs
           path: ${{ github.workspace }}/peertuberedirect/build/outputs/logs/
@@ -158,21 +158,21 @@ jobs:
 
       - name: Upload Lemmy Redirect
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Lemmy Redirect
           path: ${{ steps.sign_lemmy_redirect.outputs.signedReleaseFile }}
 
       - name: Upload Mastodon Redirect
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: Mastodon Redirect
           path: ${{ steps.sign_mastodon_redirect.outputs.signedReleaseFile }}
 
       - name: Upload PeerTube Redirect
         if: ${{ always() }}
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: PeerTube Redirect
           path: ${{ steps.sign_peertube_redirect.outputs.signedReleaseFile }}

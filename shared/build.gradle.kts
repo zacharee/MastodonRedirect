@@ -56,10 +56,6 @@ kotlin {
     }
 }
 
-bugsnag {
-    buildUuid = project.android.defaultConfig.manifestPlaceholders["build_uuid"].toString()
-}
-
 dependencies {
     api(libs.androidx.core.ktx)
     api(libs.androidx.lifecycle.runtime.ktx)

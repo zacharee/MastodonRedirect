@@ -68,6 +68,10 @@ base {
     archivesName.set("PeerTubeRedirect_${project.android.defaultConfig.versionName}")
 }
 
+bugsnag {
+    buildUuid = project.android.defaultConfig.manifestPlaceholders["build_uuid"].toString()
+}
+
 dependencies {
     implementation(project(":shared"))
 }

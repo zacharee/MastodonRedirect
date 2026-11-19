@@ -59,14 +59,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name="${applicationId}.util.FetchInstancesActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-        </activity>
-
         <activity-alias
             android:name="${applicationId}.MainActivity"
             android:targetActivity=".BaseActivity"

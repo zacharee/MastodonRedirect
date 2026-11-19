@@ -86,7 +86,7 @@ Lemmy Redirect currently supports the following clients:
 - [Eternity](https://codeberg.org/Bazsalanszky/Eternity).
 - [Jerboa](https://github.com/dessalines/jerboa).
 - [Liftoff](https://github.com/liftoff-app/liftoff).
-- [Summit](https://lemmy.world/c/summit).
+- [Summit (F-Droid or Play Store)](https://lemmy.world/c/summit).
 - [Sync](https://github.com/laurencedawson/sync-for-lemmy).
 - [Thunder](https://github.com/thunder-app/thunder).
 - [Voyager (1.46.0 and later)](https://github.com/aeharding/voyager).
